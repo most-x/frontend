@@ -1,0 +1,213 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard-dynamic-subset.css");
+
+/* reset */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,textarea,p,blockquote,th,td,input,select,textarea,button {margin:0;padding:0}
+fieldset,img {border:0 none;vertical-align:top;}
+dl,ul,ol,li {list-style:none}
+blockquote, q {quotes: none}
+blockquote:before, blockquote:after,q:before, q:after {content:'';content:none}
+input,select,textarea,button {vertical-align:middle}
+button {border:0 none;background-color:transparent;cursor:pointer}
+body {background:#fff}
+body,th,td,input,select,textarea,button {font-size:12px;line-height:1.5;font-family:Malgun Gothic,"맑은 고딕",AppleGothic,Dotum,"돋움",sans-serif;color:#333} /* color값은 디자인가이드에 맞게사용 */
+a {color:#333;text-decoration:none}
+a:active, a:hover {text-decoration:none;}
+address,caption,cite,code,dfn,em,var {font-style:normal;font-weight:normal}
+html,body{font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;}
+.hidden{display: none; visibility: hidden; font-size: 0; opacity: 0; width: 0; height: 0; margin: 0; padding: 0}
+
+/* set */
+header{background-color: #011E41; color: #fff; text-align: center;}
+header h1{padding: 14px 47px; font-size: 20px; font-weight: 600}
+header .logo{display: block; width: 100px; float: left;}
+header img{width: 100%}
+header .exit{display: block; width: 32px; float: right;}
+nav{background-color: #eee; margin: auto;}
+.nav{display: flex;}
+.nav li a{display: block; padding: 10px; font-weight: 700; min-width: 110px; border-right: 1px solid #ccc}
+.nav li a:hover{opacity: 0.7; background-color: #ddd;}
+.nav .on a{background-color: #313F4F; color: #fff}
+.nav .on a:hover{background-color: #313F4F;opacity: 1}
+
+.sub_title{font-size: 28px; margin-bottom: 20px; color: #011E41; font-weight: 800}
+
+.blue_back{background-color: #011E41; color: #fff}
+.gray_back{background-color: #eee}
+.btn{cursor: pointer; border-radius: 5px;}
+.btn:hover{opacity: 0.7;}
+.center_flex{display: flex;justify-content: center}
+
+/* index */
+.index{display: flex;justify-content: space-evenly;align-items: center; text-align: center;}
+.index>section{width: 50%; height: 100vh; display: flex;align-items: center;justify-content: center}
+.index .logo{min-width: 400px; width: 100%; margin: auto}
+.index .title{color: #011e41; font-size: 36px; font-weight: 800}
+.index .btn{display: block; min-width: 140px; width: 40%; padding: 12px; margin: 20px auto 0; font-size: 18px}
+
+/* dashboard */
+.dashboard{text-align: center; color: #011E41}
+.dashboard .num{width: 80%; min-width: 1630px; justify-content: space-evenly; margin: auto; padding: 55px 0}
+.dashboard .num h3{font-size: 28px}
+.dashboard .num p{font-size: 60px; font-weight: 800}
+.dashboard .num .blank{margin: 0 14px}
+.dashboard .num .list_btm{font-size: 14px}
+.dashboard .num .list_btm strong{margin-left: 5px}
+.dashboard .btm{font-size: 28px; align-items: center; margin-top: 40px}
+.dashboard .btm h3{font-weight: 800; margin-right: 60px}
+.dashboard .btm li{display: flex;}
+.dashboard .btm_num h4{text-align: right; width: 100px; font-weight: 300}
+.dashboard .btm_num p{text-align: right; min-width: 220px; font-weight: 800;}
+.dashboard .btm_txt{margin-top: 40px;opacity: 0.8; font-size: 14px}
+
+/*자산 감가상각 현황*/
+.status{padding: 38px 47px; min-width: 1320px; box-sizing: border-box;position: relative;}
+
+.search_box h3{font-size: 16px; margin-bottom: 10px; color: #313F4F; font-weight: 800}
+.search_box{position: relative; margin-bottom: 40px}
+.search{border: 2px solid #011E41; padding: 14px; border-top: none; background-color: #fefefe}
+.search .label{background-color: #011E41; color: #fff; padding: 10px 0; width: 120px; text-align: center; display: inline-block; margin-right: 3px; font-weight: 500; font-size: 12px}
+.search input, .search select{height: 24px;box-sizing: border-box; cursor: pointer; padding: 0 5px}
+.search .text{display: inline-block;}
+.search .s_text{min-width: 170px}
+.search .s_text{min-width: 140px}
+.search .m_text{min-width: 340px}
+.search .l_text{min-width: 450px}
+.search select{min-width: 140px; margin-right: 6px}
+.search .input_wrap{display: inline-block; line-height: 24px;margin-top: 6px;}
+.search .input_wrap label{margin-right: 10px; cursor: pointer;}
+.search .flex{display: flex; width: 100%}
+.search .search_list{width: 50%;border-top: 1px solid #313F4F;}
+.search .search_list li{border-bottom: 1px solid #313F4F}
+.search .btn{display: block; margin: auto; padding: 12px; width: 400px; margin-top: 16px; font-weight: 800; background-color: #1a1a1a; color: #fff}
+.search_close{background-color: #011E41;color: #fff}
+.search_box details{border-top: 2px solid #011E41;}
+.search_box summary:hover{opacity: 0.7}
+.search_box summary{background-color: #011E41; color: #fff; display: block; text-align: center; margin: auto; cursor: pointer; position: absolute; bottom: -24px; border: 1px solid #011E41; left: 50%; width: 100px; margin-left: -50px; padding: 1px 0; border-radius: 0 0 5px 5px}
+.search_box summary::-webkit-details-marker,.search_box summary::marker {content: ''; display: none; color: #fff}
+.search_box details[open] > summary::marker {content: ''; display: none;}
+.search_box summary::after{content: "\e941";font-family : xeicon; font-size: 15px; color: #fff;}
+.search_box details[open] summary:after{content: "\e944";font-family : xeicon; font-size: 15px; color: #fff;}
+
+.table_top{display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; margin-bottom: 10px; color: #011E41}
+.table{width: 100%;border-collapse:collapse;}
+.table a{text-decoration: underline;}
+.table a:hover{opacity: 0.7}
+.table th{background-color: #011E41; color: #fff}
+.table td{color: #333}
+.table th,.table td{border: 1px solid #313F4F; padding: 5px; text-align: center;}
+.table tr:has(>td input:checked),.table tr:has(>td input:checked:hover){background-color: #D0DAE5}
+.table tr:has(>td input:hover){background-color: #eee}
+.table input{cursor: pointer;}
+
+.page{margin-top: 24px}
+.page a{font-size: 13px; margin: 0 12px; cursor: pointer;}
+.page a:hover{opacity: 0.7}
+.page .on{font-weight: 900}
+
+/*자산 등록*/
+.input_box h3{font-size: 16px; margin-bottom: 10px; color: #313F4F; font-weight: 800}
+.input_box .search{border-top:2px solid #011E41;}
+.input_list{width: 100%;border-top: 1px solid #313F4F;}
+.input_list li{border-bottom: 1px solid #313F4F}
+.up_btn{display: block; width: 200px; height: 35px; float: right; margin-top: -10px}
+ 
+/*자산 처분*/
+.blank{height: 38px}
+.table_select{margin-left: 10px;}
+.table_select select{padding: 0 5px;cursor: pointer; box-sizing: border-box; height: 24px; min-width: 150px;margin-top: -2px}
+.select_btn{display: inline-block; width: 100px; height: 24px;margin-top: -2px}
+
+/*팝업*/
+.popup{display: none; width: 1000px; height: 800px; border:1px solid #011E41; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);padding: 30px 50px; box-sizing: border-box; position: fixed; left: 50%; top: 50%; margin-top: -400px; margin-left: -500px; background-color: #fff}
+.popup.on{display: block;}
+.popup .search{max-height: 600px; overflow-y: auto;}
+.popup .input_list{margin-bottom: 20px}
+.popup .m_title{font-size: 14px; color: #011E41; margin-bottom: 5px; margin-top: 5px}
+
+.popup_close,.sel_popup_close{position: absolute; right: 20px; top: 20px}
+.popup_close::after,.sel_popup_close::after{display: block; content: "\e921";font-family : xeicon; font-size: 22px; color: #011E41;}
+.popup_save{display: block; width: 220px; height: 35px; margin: 20px auto 0;}
+.popup_on{text-decoration: underline;}
+.popup_on:hover{opacity: 0.7}
+
+/*건별 자산 조회*/
+.search_list_full{width: 100%;border-top: 1px solid #313F4F;}
+.search_list_full li{border-bottom: 1px solid #313F4F}
+.search_mid{padding: 0; border: none; padding-top: 20px}
+.search_mid .flex{border: 1px solid #011E41; border-right: 2px solid #011E41; box-sizing: border-box;}
+
+.sel_popup{display: none; width: 1000px; height: fit-content; border:1px solid #011E41; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);padding: 30px 50px; box-sizing: border-box; position: absolute; left: 50%; top: 150px; margin-left: -500px; background-color: #fff}
+.sel_popup.on{display: block;}
+.sel_popup td{cursor: pointer;}
+.sel_popup tr:hover{background-color: #D0DAE5}
+
+/*스크립트 통합 검색*/
+.card_btn{display: block; float: right; background-color: #313F4F; color: #fff; padding: 10px 20px; border-radius: 5px; font-size: 13px; font-weight: 400}
+.card_btn:hover{opacity: 0.7}
+.h3{font-size: 16px; margin-bottom: 10px; color: #313F4F; font-weight: 800}
+.t_search_box{display: flex; align-items: center; justify-content: center; margin-bottom: 40px}
+.t_search{display: block; height: 48px;box-sizing: border-box; padding: 0 10px; min-width: 850px}
+.t_search_btn{display: block; height: 48px; background-color: #011E41; color: #fff; padding: 0 50px; margin-left: 10px}
+.t_search_btn:hover{opacity: 0.7}
+.brand_link_wrap{display: flex;justify-content: center; padding: 20px 0; margin-bottom: 40px; border: 1px solid #ddd;
+flex-wrap: wrap}
+.brand_link_wrap li{margin: 20px}
+.brand_link{display: flex; border-radius: 100%; width: 150px; height: 150px; text-align: center; background-color: #313F4F; align-items: center;justify-content: center; font-size: 16px; word-break: keep-all; color: #fff; padding: 20px; box-sizing: border-box; line-height: 1.2em}
+.brand_link:hover{opacity: 0.7}
+.pr_li{margin-bottom: 20px}
+.pr_li>a{display: block;padding: 20px;background-color: #eee; border-radius: 5px; box-sizing: border-box; font-size: 13px;}
+.pr_li>a:hover{opacity: 0.7}
+.pr_img{display: block; width: 130px; height: 130px; border: 1px solid #ddd; margin-right: 20px}
+.pr_top{font-weight: 500}
+.pr_top h4{font-size: 15px; font-weight: 900; margin-bottom: 6px}
+.script_btn{display: block; float: right; background-color: #011E41; color: #fff; padding: 10px 20px; border-radius: 5px}
+.script_btn:hover{opacity: 0.7}
+.pr_flex{display: flex;}
+.pr_left{margin-right: 30px; padding-right: 30px; border-right: 1px solid #ccc}
+
+/*스크립트 상품 등록*/
+.script_input{border: 2px solid #011E41; padding: 14px; background-color: #fefefe;}
+.script_input .radio_wrap{display: flex;align-items: center}
+.radio_wrap .radio_btn{cursor: pointer; display: none;}
+.radio_wrap label{cursor: pointer; font-weight: 500; font-size: 12px; text-align: center; width: 100px; border: 1px solid #011E41; color: #011E41; padding: 5px; box-sizing: border-box;}
+.radio_wrap label:hover{opacity: 0.7}
+.radio_wrap .radio_btn:checked+label{background-color: #011E41; color: #fff}
+.radio_wrap .m_text{margin-left: 10px}
+.script_input .script_input_list{display: table;border-top: 1px solid #313F4F; width: 100%}
+.script_input .tr{display: table-row;}
+.script_input .td{display: table-cell; border-bottom: 1px solid #313F4F;padding: 5px; vertical-align: middle}
+.script_input .td:first-child{background-color: #011E41;width: 140px;}
+.script_input .label{color: #fff; width: 140px; text-align: center; display: inline-block; font-weight: 500; font-size: 12px;}
+.script_input input,.script_input textarea{box-sizing: border-box; padding: 5px;}
+textarea{resize: none;}
+.script_input .text{display: inline-block;box-sizing: border-box; padding: 5px;}
+.editor{min-width: 850px; box-sizing: border-box;}
+.script_input .s_text{min-width: 200px}
+.script_input .m_text{min-width: 340px}
+.script_input .l_text{min-width: 850px}
+.script_input .unit{margin-left: 5px; font-size: 13px; font-weight: 500}
+
+.script_input .btn{display: block; margin: auto; padding: 12px; width: 400px; margin-top: 16px; font-weight: 800; background-color: #1a1a1a; color: #fff}
+.script_input select{padding: 5px; margin-right: 5px; min-width: 250px; cursor: pointer;}
+
+.script_input_btm{margin-top: 20px}
+.v_title{margin-bottom: 10px}
+.v_wrap{padding: 10px; background-color: #011E41}
+.v_info{margin-left: 10px; font-size: 12px; font-weight: 500}
+.option_btn,.add_btn{background-color: #313F4F; color: #fff; border-radius: 5px; padding: 8px 10px; font-size: 11px; text-decoration: none; cursor: pointer;}
+.option_btn:hover,.add_btn:hover{opacity: 0.7}
+.add_btn{margin: 5px 0 0 5px}
+.add_td li{margin-top: 5px}
+.add_td li:first-child{margin-top: 0}
+.m_text.off{display: none;}
+
+/*스크립트 팝업*/
+.new_add{display: flex; align-items: center;background-color: #eee; width: 100%}
+.new_add_input{margin: 0 3px}
+.new_add_btn{background-color: #011E41; color: #fff; border-radius: 5px; padding: 8px 0; font-size: 10px; text-decoration: none; cursor: pointer; text-align: center; width: 100px; margin-left: px}
+.new_add_btn:hover{opacity: 0.7}
+.brand_list{padding-top: 5px;}
+.brand_list li{margin: 0 3px; border: none; display: flex; padding-bottom: 5px;}
+.new_add .new_add_text,.brand_list li input{height: 30px}
+.brand_list .radio_wrap{display: flex;align-items: center;margin-left: 5px}
+.brand_list .radio_wrap label{width: 50px}
