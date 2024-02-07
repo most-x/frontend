@@ -74,7 +74,8 @@ function homeShopping() {
 
   const [modalCateNm,setModalCateNm] = useState("")
   //const productCountAPIUrl = `http://31.152.254.254:3000/home-shopping/dashboard`;
-  const productCountAPIUrl = `http://43.202.91.211:3000/home-shopping/dashboard`;
+  //const productCountAPIUrl = `http://43.202.91.211:3000/home-shopping/dashboard`;
+  const productCountAPIUrl = `http://test.ilsang.co.kr/home-shopping/dashboard`;
 
   const handleChannelChange = (event: any) => {
     const { id, checked } = event.target;
