@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Modal from "react-modal";
 import ProductList from "../modal/ProductList";
+import axios from 'axios'
 
 type ProductCountInfo = Record<string, number>;
 type ProdcutPercentInfo = Record<string | number, number>;
@@ -15,12 +16,10 @@ import StaticData from "../testdata/res1.json";
 
 const customStyles = {
   content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto'
   },
 };
 
@@ -83,62 +82,76 @@ function homeShopping() {
 
   const [modalOn, setModalOn] = useState(false);
 
-  //   useEffect(() => {
-  //     const productCountAPIUrl = `http://31.152.254.254:3000/home-shopping/dashboard`;
+  const [shopCds, setShopCds] = useState<string[]>([]);
+  const [selectedChannels, setSelectedChannels] = useState<string[]>([]);
+  const [prodName, setProdName] = useState("");
+  const [selectedDate, setSelectedDate] = useState("오늘");
+  const [goodsType,setGoodsType] = useState("")
+  const [standardTime,setStandardTime] = useState("")
 
-  //     const fetchData = async () => {
-  //       try {
-  //         const params = {
-  //           // 필요한 query params를 {} 형태에 담아준다.
-  //           fromDate: startDate,
-  //           toDate: endDate,
-  //         };
+  const [modalCateNm,setModalCateNm] = useState("")
+  const productCountAPIUrl = `http://31.152.254.254:3000/home-shopping/dashboard`;
 
-  //         const queryString = new URLSearchParams(params).toString(); // url에 쓰기 적합한 querySting으로 return 해준다.
-  //         const requrl = `${productCountAPIUrl}?${queryString}`; // 완성된 요청 url.
-  //         const response = await fetch(requrl);
-  //         const { recentData, percentData, searchData } = await response.json();
-
-  //         const allCate = [];
-  //         const catePercent = Object.entries(percentData.catePercent);
-  //         const cateCount = Object.entries(searchData.category);
-
-  //         for (let i = 0; i < catePercent.length; i++) {
-  //           const nData = {
-  //             kind: catePercent[i][0],
-  //             percent: catePercent[i][1],
-  //             cnt: cateCount[i][1],
-  //           };
-  //           allCate.push(nData);
-  //         }
-
-  //         console.log("allCate=", allCate);
-
-  //         setCategorys(allCate);
-
-  //         setPercentDataA(percentData);
-  //         setProductCountInfo(recentData);
-  //         // TODO: 테스트를 위해 샘플 데이터를 사용했음. 추후 API 데이터로 변경 필요
-  //         setProductPercentInfo(SAMPLE_PRODUCT_PERCENT_INFO);
-  //       } catch (error) {
-  //         console.log("error", error);
-  //       }
-  //     };
-  //     fetchData();
-  //   }, [startDate, endDate]);
-
+  const handleChannelChange = (event: any) => {
+    const { id, checked } = event.target;
+    if (id === "channelall") {
+      if (checked) {
+        setSelectedChannels(channels.map((channel) => channel.id));
+      } else {
+        setSelectedChannels([]);
+      }
+    } else {
+      if (checked) {
+        setSelectedChannels((prevSelectedChannels) => [
+          ...prevSelectedChannels,
+          id,
+        ]);
+      } else {
+        setSelectedChannels((prevSelectedChannels) =>
+          prevSelectedChannels.filter((channel) => channel !== id)
+        );
+      }
+    }
+  };
+  const handleShopCdChange = (event: any) => {
+    const { id, checked } = event.target;
+    if (id === "전체") {
+      if (checked) {
+        setShopCds(categories.map((category) => category.id));
+      } else {
+        setShopCds([]);
+      }
+    } else {
+      if (checked) {
+        setShopCds((prevShopCds) => [...prevShopCds, id]);
+      } else {
+        setShopCds((prevShopCds) =>
+          prevShopCds.filter((shopCd) => shopCd !== id)
+        );
+      }
+    }
+  };
   const fetchData = async () => {
     try {
+      console.log('asdasd',shopCds);
+      
       const params = {
         // 필요한 query params를 {} 형태에 담아준다.
         fromDate: startDate,
         toDate: endDate,
+        shopCd:selectedChannels,
+        goodsNm:prodName,
+        cateNm:shopCds
+
       };
+      console.log('params=',params);
+      
+  
+          // const queryString = new URLSearchParams(params).toString(); // url에 쓰기 적합한 querySting으로 return 해준다.
+          // const requrl = `${productCountAPIUrl}?${queryString}`; // 완성된 요청 url.
+    axios.get(productCountAPIUrl,{params}).then((res)=>{
+      const { recentData, percentData, searchData } =  res.data;
 
-      const { recentData, percentData, searchData } = await StaticData;
-      console.log("StaticData=", StaticData);
-
-      console.log("rr==", recentData);
 
       const allCate = [];
       const catePercent = Object.entries(percentData.catePercent);
@@ -168,6 +181,7 @@ function homeShopping() {
         };
         allCate.push(nData);
       }
+      
       for (let i = 0; i < shopPercent.length; i++) {
         const nData = {
           kind: shopPercent[i][0],
@@ -208,7 +222,12 @@ function homeShopping() {
       setPercentDataA(percentData);
       setProductCountInfo(recentData);
       // TODO: 테스트를 위해 샘플 데이터를 사용했음. 추후 API 데이터로 변경 필요
-      setProductPercentInfo(SAMPLE_PRODUCT_PERCENT_INFO);
+      setProductPercentInfo(percentData.recentPercent);
+    })
+        //     const productCountAPIUrl = `http://31.152.254.254:3000/home-shopping/dashboard`;
+
+        
+      
 
       // setKindProds(kindsProduct);
     } catch (error) {
@@ -251,7 +270,62 @@ function homeShopping() {
     { name: "CJ&스타일", percent: 5 },
     { name: "CJ&스타일", percent: 5 },
   ];
+  const categories = [
+    { id: "전체", label: "전체" },
+    { id: "가전·디지털", label: "가전·디지털" },
+    { id: "보험", label: "보험" },
+    { id: "생활·주방", label: "생활·주방" },
+    { id: "식품·건강", label: "식품·건강" },
+    { id: "유아·아동", label: "유아·아동" },
+    { id: "패션·잡화", label: "패션·잡화" },
+    { id: "화장품·미용", label: "화장품·미용" },
+    { id: "기타", label: "기타" },
+  ];
+  const shopName = {
+    homeshopping: '홈쇼핑',
+    tcommerce2: 'T커머스',
+    hnsmall: '홈&쇼핑',
+    cjmall: 'CJ&스타일',
+    lottemall: '롯데홈쇼핑',
+    gsshop: 'GS SHOP',
+    immall: '공영쇼핑',
+    nsmall: 'NS홈쇼핑',
+    cjmallplus: 'CJ온스타일+',
+    lotteonetv: 'LOTTE ONE TV',
+    gsmyshop: 'GS MY SHOP',
+    ssgshop: 'SHINSEGAE SHOPPING',
+    hmallplus: '현대홈쇼핑 PLUSE#',
+    kshop: 'KT알파 쇼핑',
+    shopnt: '쇼핑엔티',
+    wshop: '더블유쇼핑',
+    nsmallplus: 'NS Shop+',
+    kshopplus: 'KT알파 쇼핑 TV플러스',
+    hmall: '현대홈쇼핑',
+    bshop: 'SK스토아',
+  };
+  
+  const channels = Object.entries(shopName).map(([id, label]) => ({ id, label }));
+  
+  useEffect(()=>{
 
+    console.log("startDate==",startDate);
+    
+  },[startDate])
+  
+  const dates = [
+    { id: "오늘", label: "오늘" },
+    { id: "1주일", label: "1주일" },
+    { id: "1개월", label: "1개월" },
+    { id: "2024년", label: "2024년" },
+  ];
+  const search = () => {
+  
+
+    fetchData();
+
+        // const queryString = new URLSearchParams(params).toString(); // url에 쓰기 적합한 querySting으로 return 해준다.
+        // const requrl = `${productCountAPIUrl}?${queryString}`; // 완성된 요청 url.
+  };
   const buildProductCountList = (
     productCountInfo: ProductCountInfo,
     productPercentInfo: ProdcutPercentInfo
@@ -267,9 +341,80 @@ function homeShopping() {
       </li>
     ));
   };
+  const handleDateChange = (event: any) => {
+    setSelectedDate(event.target.id);
 
+    console.log('id==',event.target.value)
+    if(event.target.id=='1주일'){
+      
+      const oneWeekAgo = new Date();
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+      // Date 객체를 'yyyy-MM-dd' 형식의 문자열로 변환
+      const formattedDate = oneWeekAgo.toISOString().split('T')[0];
+      
+      console.log('formattedDate==',formattedDate);
+      
+      // 변경된 날짜를 startDate에 설정
+      setStartDate(formattedDate);
+    }else if(event.target.id=='오늘'){
+      
+      const oneWeekAgo = new Date();
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 0);
+
+      // Date 객체를 'yyyy-MM-dd' 형식의 문자열로 변환
+      const formattedDate = oneWeekAgo.toISOString().split('T')[0];
+      
+      console.log('formattedDate==',formattedDate);
+      
+      // 변경된 날짜를 startDate에 설정
+      setStartDate(formattedDate);
+    }else if(event.target.id=='1개월'){
+      
+      const oneWeekAgo = new Date();
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 30);
+
+      // Date 객체를 'yyyy-MM-dd' 형식의 문자열로 변환
+      const formattedDate = oneWeekAgo.toISOString().split('T')[0];
+      
+      console.log('formattedDate==',formattedDate);
+      
+      // 변경된 날짜를 startDate에 설정
+      setStartDate(formattedDate);
+    }else if(event.target.id=='2024년'){
+      
+      const oneWeekAgo = new Date();
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 30);
+
+      // Date 객체를 'yyyy-MM-dd' 형식의 문자열로 변환
+      const formattedDate = oneWeekAgo.toISOString().split('T')[0];
+      
+      console.log('formattedDate==',formattedDate);
+      
+      // 변경된 날짜를 startDate에 설정
+      setStartDate('2024-01-01');
+    }
+  };
+  const cateOpen = (e:any,kind:string) =>{
+    e.preventDefault()
+    setModalOn(true)
+    setGoodsType(kind)
+  }
+  const shopOpen = (e:any,kind:string) =>{
+    e.preventDefault()
+    setModalOn(true)
+    const res = channels.find((i)=>i.label===kind)
+    setModalCateNm(String(res?.id))
+  }
+  const timeOpen = (e:any,kind:string) =>{
+    e.preventDefault()
+    setModalOn(true)
+    // const res = channels.find((i)=>i.label===kind)
+    setStandardTime(kind)
+  }
   return (
-    <article className="status hsp">
+    <div>
+      <article className="status hsp">
       <h2 className="sub_title">
         홈쇼핑 방송 정보
         <p className="update_txt">
@@ -287,7 +432,7 @@ function homeShopping() {
       <section className="search_box">
         <h3>상품 검색</h3>
         <details open>
-          <form action="" className="search">
+          <div className="search">
             <ul className="search_list_full">
               <li>
                 <label className="label" htmlFor="">
@@ -297,6 +442,8 @@ function homeShopping() {
                   type="text"
                   id=""
                   className="l_text"
+                  onChange={(e) => setProdName(e.target.value)}
+                  value={prodName}
                   placeholder="상품명을 입력해주세요"
                 />
               </li>
@@ -305,24 +452,18 @@ function homeShopping() {
                   카테고리
                 </label>
                 <fieldset className="date_radio checkbox">
-                  <input type="checkbox" id="cateall" defaultChecked={true} />
-                  <label htmlFor="cateall">전체</label>
-                  <input type="checkbox" id="cate01" />
-                  <label htmlFor="cate01">가전·디지털</label>
-                  <input type="checkbox" id="cate02" />
-                  <label htmlFor="cate02">보험</label>
-                  <input type="checkbox" id="cate03" />
-                  <label htmlFor="cate03">생활·주방</label>
-                  <input type="checkbox" id="cate04" />
-                  <label htmlFor="cate04">식품·건강</label>
-                  <input type="checkbox" id="cate05" />
-                  <label htmlFor="cate05">유아·아동</label>
-                  <input type="checkbox" id="cate06" />
-                  <label htmlFor="cate06">패션·잡화</label>
-                  <input type="checkbox" id="cate07" />
-                  <label htmlFor="cate07">화장품·미용</label>
-                  <input type="checkbox" id="cate08" />
-                  <label htmlFor="cate08">기타</label>
+                  {categories.map((category) => (
+                    <span key={category.id}>
+                      <input
+                        type="checkbox"
+                        id={category.id}
+                        // onClick={handleShopCdChange}
+                        onChange={handleShopCdChange}
+                        checked={shopCds.includes(category.id)}
+                      />
+                      <label htmlFor={category.id}>{category.label}</label>
+                    </span>
+                  ))}
                 </fieldset>
               </li>
               <li className="checkbox_wrap">
@@ -333,49 +474,21 @@ function homeShopping() {
                   <input
                     type="checkbox"
                     id="channelall"
-                    defaultChecked={true}
+                    onChange={handleChannelChange}
                   />
-                  <label htmlFor="channelall">전체보기</label>
-                  <input type="checkbox" id="cjmall" />
-                  <label htmlFor="cjmall">CJ&스타일</label>
-                  <input type="checkbox" id="cjmallplus" />
-                  <label htmlFor="cjmallplus">CJ온스타일+</label>
-                  <input type="checkbox" id="gsmyshop" />
-                  <label htmlFor="gsmyshop">GS MY SHOP</label>
-                  <input type="checkbox" id="gsshop" />
-                  <label htmlFor="gsshop">GS SHOP</label>
-                  <input type="checkbox" id="kshop" />
-                  <label htmlFor="kshop">KT알파 쇼핑</label>
-                  <input type="checkbox" id="kshopplus" />
-                  <label htmlFor="kshopplus">KT알파 쇼핑 TV플러스</label>
-                  <input type="checkbox" id="lotteonetv" />
-                  <label htmlFor="lotteonetv">LOTTE ONE TV</label>
-                  <input type="checkbox" id="nsmallplus" />
-                  <label htmlFor="nsmallplus">NS Shop+</label>
-                  <input type="checkbox" id="nsmall" />
-                  <label htmlFor="nsmall">NS홈쇼핑</label>
-                  <input type="checkbox" id="ssgshop" />
-                  <label htmlFor="ssgshop">SHINSEGAE SHOPPING</label>
-                  <input type="checkbox" id="skstoa" />
-                  <label htmlFor="skstoa">SK 스토아</label>
-                  <input type="checkbox" id="tcommerce2" />
-                  <label htmlFor="tcommerce2">T커머스</label>
-                  <input type="checkbox" id="immall" />
-                  <label htmlFor="immall">공영쇼핑</label>
-                  <input type="checkbox" id="wshop" />
-                  <label htmlFor="wshop">더블유쇼핑</label>
-                  <input type="checkbox" id="lottemall" />
-                  <label htmlFor="lottemall">롯데홈쇼핑</label>
-                  <input type="checkbox" id="shopnt" />
-                  <label htmlFor="shopnt">쇼핑엔티</label>
-                  <input type="checkbox" id="hmall" />
-                  <label htmlFor="hmall">현대홈쇼핑</label>
-                  <input type="checkbox" id="hmallplus" />
-                  <label htmlFor="hmallplus">현대홈쇼핑 PLUSE#</label>
-                  <input type="checkbox" id="hnsmall" />
-                  <label htmlFor="hnsmall">홈&쇼핑</label>
-                  <input type="checkbox" id="homeshopping" />
-                  <label htmlFor="homeshopping">홈쇼핑</label>
+                  <label htmlFor="channelall">전체</label>
+                  <input type="checkbox" id="channelall" />
+                  {channels.map((channel) => (
+                    <span key={channel.id}>
+                      <input
+                        type="checkbox"
+                        id={channel.id}
+                        checked={selectedChannels.includes(channel.id)}
+                        onChange={handleChannelChange}
+                      />
+                      <label htmlFor={channel.id}>{channel.label}</label>
+                    </span>
+                  ))}
                 </fieldset>
               </li>
               <li>
@@ -398,7 +511,20 @@ function homeShopping() {
                     value={endDate}
                     className="s_text"
                   />
-                  <fieldset className="date_radio">
+                  {dates.map((date) => (
+                    <div key={date.id}>
+                      <input
+                        type="radio"
+                        id={date.id}
+                        name="date_radio"
+                        checked={selectedDate === date.id}
+                        onChange={handleDateChange}
+                        value={date.id}
+                      />
+                      <label htmlFor={date.id}>{date.label}</label>
+                    </div>
+                  ))}
+                  {/* <fieldset className="date_radio">
                     <input
                       type="radio"
                       id="radio_today"
@@ -410,24 +536,22 @@ function homeShopping() {
                     <label htmlFor="radio_week">1주일</label>
                     <input type="radio" id="radio_month" name="date_radio" />
                     <label htmlFor="radio_month">1개월</label>
-                    {/* <input type="radio" id="radio_2023" name="date_radio" />
-							<label htmlFor="radio_2023">2023년</label> */}
                     <input type="radio" id="radio_2024" name="date_radio" />
                     <label htmlFor="radio_2024">2024년</label>
-                  </fieldset>
+                  </fieldset> */}
                 </div>
               </li>
             </ul>
             <div className="flex">
-              <button className="btn" type="submit">
+              <button className="btn" onClick={() => search()}>
                 조회하기
               </button>
             </div>
-          </form>
+          </div>
           <summary></summary>
         </details>
       </section>
-      <div onClick={() => setModalOn(!modalOn)}>모달열기</div>
+      {/* <div onClick={() => setModalOn(!modalOn)}>모달열기</div> */}
 
       <div className="btm_chart">
         <section className="btm_chart_box">
@@ -435,7 +559,7 @@ function homeShopping() {
           <ul className="chart_box_h">
             {categorys &&
               categorys.map((category: any, idx: number) => (
-                <li key={idx}>
+                <li onClick={(e)=>cateOpen(e,category.kind)} key={idx}>
                   <h4>{category.kind}</h4>
                   <div className="chart">
                     <a href="">
@@ -452,7 +576,7 @@ function homeShopping() {
           <h3>홈쇼핑 채널 별 상품수</h3>
           <ul className="chart_box_h">
             {shopCategory.map((shopCate, idx) => (
-              <li key={idx}>
+              <li onClick={(e)=>shopOpen(e,shopCate.kind)} key={idx}>
                 <h4>{shopCate.kind}</h4>
                 <div className="chart">
                   <a href="">
@@ -469,7 +593,7 @@ function homeShopping() {
           <h3>시간대 별 상품수</h3>
           <ul className="chart_box_h">
             {standardCategorys.map((standardCategory, idx) => (
-              <li key={idx}>
+              <li onClick={(e)=>timeOpen(e,standardCategory.kind)} key={idx}>
                 <h4>{standardCategory.kind}</h4>
                 <div className="chart">
                   <a href="">
@@ -514,10 +638,11 @@ function homeShopping() {
 
       {/* 팝업 */}
       {/*  */}
-      <Modal isOpen={modalOn}>
-        <ProductList />
+     </article>     <Modal style={customStyles} isOpen={modalOn} onRequestClose={()=>setModalOn(false)}>
+        <ProductList goodsType={goodsType} fromDate={startDate} toDate={endDate } shopCds={shopCds} cateNm={selectedChannels} modalCateNm={modalCateNm} standardTime={standardTime} />
       </Modal>
-    </article>
+    </div>
+
   );
 }
 

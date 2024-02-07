@@ -1,20 +1,36 @@
-import { Router } from "next/router";
-import { ReactNode, useEffect, useState } from "react";
-import { Link, Route } from "react-router-dom";
-import { NextResponse } from "next/server";
+"use client";
 
-const brandList = {}
+import { useEffect, useState } from 'react';
+import Link from 'next/link'
+import Image from 'next/image'
+
+type BrandInfo = Record<number, string>;
 
 export default function ScriptPage() {
+	
+	const today = new Date();
 
-	// const [page, setPage] = useState(1);
-	// const { data } = useQuery(
-	// 	"characters",
-	// 	async() =>
-	// 		await fetch(
-	// 			``
-	// 		)
-	// )
+	console.log(today);
+
+	const [brandInfo, setBrandInfo] = useState<BrandInfo | undefined>();
+
+	useEffect(() => {
+		const brandInfoListUrl = `http://31.152.254.254:3000/scripts/brand/list`
+
+		const fetchData = async () => {
+			try {
+
+				const response = await fetch(brandInfoListUrl);
+				const brandData = await response.json();
+
+				console.log("data::::", brandData);
+
+			} catch (error) {
+				console.log("error", error);
+			}
+		};
+		fetchData();
+	})
 
 	return (
 	<article className="status">
@@ -30,13 +46,13 @@ export default function ScriptPage() {
 		<h3 className="h3">브랜드</h3>
 		<ul className="brand_link_wrap">
 			<li><a href="" className="brand_link">루킨스<br/>프리미엄</a></li>
-			<li><a href="" className="brand_link">삼성전자<br/>대형 · 소형 · 계절 가전</a></li>
+			{/* <li><a href="" className="brand_link">삼성전자<br/>대형 · 소형 · 계절 가전</a></li>
 			<li><a href="" className="brand_link">스카닉 · 에코로 · 엑스트랙 전기자전거</a></li>
 			<li><a href="" className="brand_link">에셜론 · <br/>툰투리 · 고고런5 · 노르딕트랙 · 싸이벡스 피트니스 머신</a></li>
 			<li><a href="" className="brand_link">아베크<br/>펫드라이룸</a></li>
 			<li><a href="" className="brand_link">삼성물산<br/>스마트 가든월</a></li>
 			<li><a href="" className="brand_link">레이저<br/>통증 조사기<br/>Pain TB ·<br/>Pain TJ</a></li>
-			<li><a href="" className="brand_link">에코체 · <br/>싱크리더 · 에어백신 · <br/>안지오 전기자전거</a></li>
+			<li><a href="" className="brand_link">에코체 · <br/>싱크리더 · 에어백신 · <br/>안지오 전기자전거</a></li> */}
 		</ul>
 	</section>
 	<section>

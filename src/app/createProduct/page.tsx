@@ -4,22 +4,9 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link'
 import Image from 'next/image'
 
+
 function createProduct() {
 
-	const selectList = 'http://31.152.254.254:3000/scripts/tag/list'
-	const [selected, setSelected] = useState("선택");
-
-	const handleSelect = (e) => {
-		setSelected(e.target.value);
-	};
-
-	const add_inputbox = () => {
-		const box = document.getElementById("box");
-		const newP = document.createElement("p");
-		newP.innerHTML = "<li><input type='text' className='m_text' /><a className='add_btn'>추가</a></li>"
-		box?.appendChild(newP);
-	}
- 
     return(
         <article className="status">
 		<h2 className="sub_title">상품 등록</h2>
@@ -70,11 +57,6 @@ function createProduct() {
 						<div className="td"><label className="label" htmlFor="">품목 카테고리</label></div>
 						{/* <div className="td"><select><option>선택</option><option>냉장고</option><option>자전거</option></select><a className="option_btn" onClick="popup('cate');return false;">카테고리 관리</a></div> */}
 						<div className="td">
-							<select  onChange={handleSelect} defaultValue={selected}>
-								{selectList.localeCompare((item) => {
-								<option key={item.value}>{item.tagName}</option>
-								})}
-						</select>
 						<a className="option_btn">카테고리 관리</a></div>
 					</li>
 					<li className="tr">
