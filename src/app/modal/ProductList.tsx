@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import SampleData from "../testdata/res2.json";
 import axios from 'axios'
 
 interface Props {
