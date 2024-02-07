@@ -12,8 +12,6 @@ type ProductCountInfo = Record<string, number>;
 type ProdcutPercentInfo = Record<string | number, number>;
 type CategoryCount = Record<string, number>;
 
-import StaticData from "../testdata/res1.json";
-
 const customStyles = {
   content: {
     top: '50%',
@@ -21,21 +19,6 @@ const customStyles = {
     right: 'auto',
     bottom: 'auto'
   },
-};
-
-// TODO: 테스트를 위해 샘플 데이터를 사용했음. 추후 API 데이터로 변경되면 삭제
-const SAMPLE_PRODUCT_PERCENT_INFO: ProdcutPercentInfo = {
-  "2024.01.27(토)": 77.1,
-  "2024.01.28(일)": 73.7,
-  "2024.01.29(월)": 81.3,
-  "2024.01.30(화)": 79,
-  "2024.01.31(수)": 70.9,
-  "2024.02.01(목)": 67.7,
-  "2024.02.02(금)": 100,
-  "2024.02.03(토)": 61,
-  "2024.02.04(일)": 76.5,
-  "2024.02.05(월)": 64.7,
-  "2024.02.06(화)": 8.4,
 };
 
 function homeShopping() {
@@ -90,7 +73,8 @@ function homeShopping() {
   const [standardTime,setStandardTime] = useState("")
 
   const [modalCateNm,setModalCateNm] = useState("")
-  const productCountAPIUrl = `http://31.152.254.254:3000/home-shopping/dashboard`;
+  //const productCountAPIUrl = `http://31.152.254.254:3000/home-shopping/dashboard`;
+  const productCountAPIUrl = `http://43.202.91.211:3000/home-shopping/dashboard`;
 
   const handleChannelChange = (event: any) => {
     const { id, checked } = event.target;
@@ -224,10 +208,6 @@ function homeShopping() {
       // TODO: 테스트를 위해 샘플 데이터를 사용했음. 추후 API 데이터로 변경 필요
       setProductPercentInfo(percentData.recentPercent);
     })
-        //     const productCountAPIUrl = `http://31.152.254.254:3000/home-shopping/dashboard`;
-
-        
-      
 
       // setKindProds(kindsProduct);
     } catch (error) {
@@ -235,10 +215,9 @@ function homeShopping() {
     }
   };
   useEffect(() => {
-    // const productCountAPIUrl = `http://31.152.254.254:3000/home-shopping/dashboard`;
-
-    fetchData();
-  }, [startDate, endDate]);
+      fetchData();
+  
+    }, [startDate, endDate]);
 
   /* 요일 구하기 */
   const week = new Array("일", "월", "화", "수", "목", "금", "토");
@@ -249,27 +228,6 @@ function homeShopping() {
     today.getMonth() + 1
   }. ${today.getDate()}(${todayLabel}) 00:00:00`;
 
-  /* 카테고리 구하기 */
-  const categoryList = [
-    { key: 0, value: "전체", checked: false },
-    { key: 1, value: "가전·디지털", checked: false },
-    { key: 2, value: "보험", checked: false },
-    { key: 3, value: "생활·주방", checked: false },
-    { key: 4, value: "식품·건강", checked: false },
-    { key: 5, value: "패션·잡화", checked: false },
-    { key: 6, value: "화장품·미용", checked: false },
-    { key: 6, value: "기타", checked: false },
-  ];
-
-  const hChannels = [
-    { name: "CJ&스타일", percent: 5 },
-    { name: "CJ&스타일", percent: 5 },
-    { name: "CJ&스타일", percent: 5 },
-    { name: "CJ&스타일", percent: 5 },
-    { name: "CJ&스타일", percent: 5 },
-    { name: "CJ&스타일", percent: 5 },
-    { name: "CJ&스타일", percent: 5 },
-  ];
   const categories = [
     { id: "전체", label: "전체" },
     { id: "가전·디지털", label: "가전·디지털" },
@@ -281,6 +239,7 @@ function homeShopping() {
     { id: "화장품·미용", label: "화장품·미용" },
     { id: "기타", label: "기타" },
   ];
+  
   const shopName = {
     homeshopping: '홈쇼핑',
     tcommerce2: 'T커머스',
@@ -512,7 +471,7 @@ function homeShopping() {
                     className="s_text"
                   />
                   {dates.map((date) => (
-                    <div key={date.id}>
+                    <div className="flex_center" key={date.id}>
                       <input
                         type="radio"
                         id={date.id}
