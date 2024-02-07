@@ -2,10 +2,6 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
-const Button = () => {
-
-}
-
 function Home() {
   return(
     <article className="index">

@@ -231,9 +231,9 @@ function homeShopping() {
   const label = today.getDay();
   const todayLabel = week[label];
 
-  const formattedDate = `${today.getFullYear()}. ${
+  const formattedDate = `${today.getFullYear()}. 0${
     today.getMonth() + 1
-  }. ${today.getDate()}(${todayLabel}) 00:00:00`;
+  }. 0${today.getDate()}(${todayLabel}) 00:00:00`;
 
   const categories = [
     { id: "전체", label: "전체" },
@@ -285,8 +285,6 @@ function homeShopping() {
     { id: "2024년", label: "2024년" },
   ];
   const search = () => {
-  
-
     fetchData();
 
         // const queryString = new URLSearchParams(params).toString(); // url에 쓰기 적합한 querySting으로 return 해준다.
@@ -378,13 +376,22 @@ function homeShopping() {
     // const res = channels.find((i)=>i.label===kind)
     setStandardTime(kind)
   }
+
+  const typeOpen = (e:any,kind:string) => {
+    e.preventDefault()
+    setModalOn(true)
+    setGoodsType(kind)
+  }
   return (
+    //  <div className="header">
+    //     <h1><a href="" className="logo"><img src="img/logo_w.svg" alt="모스트엑스 로고" ></a>홈쇼핑 방송 정보<a href="" className="exit"><img src="img/exit.svg" alt="모스트엑스 로고"></a></h1>
+    //  </div>
     <div>
       <article className="status hsp">
       <h2 className="sub_title">
         홈쇼핑 방송 정보
         <p className="update_txt">
-          <strong>업데이트</strong> {formattedDate}{" "}
+          <strong>업데이트</strong> {formattedDate}
         </p>
       </h2>
       <section className="search_box">
@@ -423,7 +430,7 @@ function homeShopping() {
                       <input
                         type="checkbox"
                         id={category.id}
-                        // onClick={handleShopCdChange}
+                        //onClick={handleShopCdChange}
                         onChange={handleShopCdChange}
                         checked={shopCds.includes(category.id)}
                       />
@@ -517,7 +524,6 @@ function homeShopping() {
           <summary></summary>
         </details>
       </section>
-      {/* <div onClick={() => setModalOn(!modalOn)}>모달열기</div> */}
 
       <div className="btm_chart">
         <section className="btm_chart_box">
@@ -577,6 +583,7 @@ function homeShopping() {
           <ul className="chart_box_donut">
             <li className="chart_donut_wrap">
               {kindProds.map((kind, idx) => (
+                <li onClick={(e) => typeOpen(e, kind)} key={idx}>
                 <h4 key={idx}>
                   <a href="">
                     {/* kind === '일반'?   */}
@@ -588,6 +595,7 @@ function homeShopping() {
                     <strong>렌탈상담상품</strong> */}
                   </a>
                 </h4>
+              </li>
               ))}
               {/* <h4>
                 <a href="">

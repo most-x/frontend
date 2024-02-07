@@ -76,7 +76,9 @@ const ProductList = ({ goodsType, fromDate, toDate, shopCds, cateNm,modalCateNm,
   const endPage = Math.min(totalPages, startPage + pageLimit - 1);
 
   const [modalOpen, setModalOpen] = useState(true);
+
   const modalClose = () => {
+    console.log("aaaaa=,")
     setModalOpen(!modalOpen);
   };
 
