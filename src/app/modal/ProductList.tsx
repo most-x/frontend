@@ -19,7 +19,7 @@ const ProductList = ({ goodsType, fromDate, toDate, shopCds, cateNm,modalCateNm,
   const [addGoodsNm, setAddGoodsNm] = useState("");
   //const productCountAPIUrl = `http://31.152.254.254:3000/home-shopping/list`;
   //const productCountAPIUrl = `http://43.202.91.211:3000/home-shopping/list`;
-  const productCountAPIUrl = `http://test.ilsang.co.kr/home-shopping/list`;
+  const productCountAPIUrl = `https://test.ilsang.co.kr/home-shopping/list`;
 
   // const limit = 10; // 한 페이지에 보여질 아이템 수
   const [limit,setLimit] = useState(10)
