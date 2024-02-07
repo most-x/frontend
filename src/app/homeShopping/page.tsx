@@ -155,14 +155,14 @@ function homeShopping() {
       const rencentData = Object.entries(recentData);
 
       const kindsProduct = [];
-      const kindsPercent = Object.entries(percentData.shopPercent);
-      const kindsCnt = Object.entries(searchData.goodsType);
+      const kindsPercent = Object.entries(percentData.goodsPercent);
+      const goodsType = Object.entries(searchData.goodsType);
 
       for (let i = 0; i < catePercent.length; i++) {
         const nData = {
           kind: catePercent[i][0],
           percent: catePercent[i][1],
-          cnt: cateCount[i][1],
+          cnt: cateCount[i][1]
         };
         allCate.push(nData);
       }
@@ -171,7 +171,7 @@ function homeShopping() {
         const nData = {
           kind: shopPercent[i][0],
           percent: shopPercent[i][1],
-          cnt: shopCd[i][1],
+          cnt: shopCd[i][1]
         };
         shopCate.push(nData);
       }
@@ -179,7 +179,7 @@ function homeShopping() {
         const nData = {
           kind: standardPercent[i][0],
           percent: standardPercent[i][1],
-          cnt: standardTime[i][1],
+          cnt: standardTime[i][1]
         };
         standardCate.push(nData);
       }
@@ -187,18 +187,23 @@ function homeShopping() {
         const nData = {
           kind: recentPercent[i][0],
           percent: recentPercent[i][1],
-          cnt: rencentData[i][1],
+          cnt: rencentData[i][1]
         };
         recentCate.push(nData);
       }
-      // for (let i = 0; i < kindsPercent.length; i++) {
-      //   const nData = {
-      //     kind: kindsPercent[i][0],
-      //     percent: kindsPercent[i][1],
-      //     cnt: kindsCnt[i][1],
-      //   };
-      //   kindsProduct.push(nData);
-      // }
+
+
+      for (let i = 0; i < kindsPercent.length; i++) {
+        const nData = {
+          kind: kindsPercent[i][0],
+          percent: kindsPercent[i][1],
+          cnt: goodsType[i][1]
+        };
+        kindsProduct.push(nData);
+      }
+
+      console.log(kindsProduct);
+
 
       setCategorys(allCate);
       setShopCategory(shopCate);
@@ -208,9 +213,10 @@ function homeShopping() {
       setProductCountInfo(recentData);
       // TODO: 테스트를 위해 샘플 데이터를 사용했음. 추후 API 데이터로 변경 필요
       setProductPercentInfo(percentData.recentPercent);
-    })
+      
+      setKindProds(kindsProduct);
 
-      // setKindProds(kindsProduct);
+    })
     } catch (error) {
       console.log("error", error);
     }
@@ -573,18 +579,22 @@ function homeShopping() {
               {kindProds.map((kind, idx) => (
                 <h4 key={idx}>
                   <a href="">
+                    {/* kind === '일반'?   */}
                     <span style={{ color: "#ddd" }}>■ </span>
-                    <strong>{kind.kind}</strong> 28개
+                    <strong>{kind.kind}</strong>{kind.cnt}개
+                  {/* :
+                    kind === '렌탈/상담'
+                    <span style={{ color: "#011E41" }}>■ </span>
+                    <strong>렌탈상담상품</strong> */}
                   </a>
                 </h4>
               ))}
-
-              <h4>
+              {/* <h4>
                 <a href="">
                   <span style={{ color: "#011E41" }}>■ </span>
-                  <strong>렌탈상담상품</strong> 72개
+                  <strong>렌탈상담상품</strong>
                 </a>
-              </h4>
+              </h4> */}
               <div
                 className="chart_donut"
                 style={{
@@ -598,7 +608,8 @@ function homeShopping() {
 
       {/* 팝업 */}
       {/*  */}
-     </article>     <Modal style={customStyles} isOpen={modalOn} onRequestClose={()=>setModalOn(false)}>
+     </article>
+        <Modal style={customStyles} isOpen={modalOn} onRequestClose={()=>setModalOn(false)}>
         <ProductList goodsType={goodsType} fromDate={startDate} toDate={endDate } shopCds={shopCds} cateNm={selectedChannels} modalCateNm={modalCateNm} standardTime={standardTime} />
       </Modal>
     </div>

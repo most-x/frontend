@@ -75,14 +75,18 @@ const ProductList = ({ goodsType, fromDate, toDate, shopCds, cateNm,modalCateNm,
   const startPage = Math.max(1, currentPage - Math.floor(pageLimit / 2));
   const endPage = Math.min(totalPages, startPage + pageLimit - 1);
 
+  const [modalOpen, setModalOpen] = useState(true);
+  const modalClose = () => {
+    setModalOpen(!modalOpen);
+  };
 
   return (
     <div>
     {
       <section className="popup input_box hsp_popup on">
         <h3>
-          상품 정보&nbsp;&nbsp;|&nbsp;&nbsp;{fromDate}
-          <button type="button" className="popup_close"></button>
+          상품 정보&nbsp;&nbsp;|&nbsp;&nbsp;{fromDate} ~ {toDate}
+          <button type="button" onClick={modalClose} className="popup_close"></button>
         </h3>
         <div className="table_top">
           <div className="sb_flex">
@@ -181,9 +185,8 @@ const ProductList = ({ goodsType, fromDate, toDate, shopCds, cateNm,modalCateNm,
           </table>
         </div>
         <div className="center_flex page">
-        {/* <a href="">처음</a>
-        <a href="">&nbsp;〈&nbsp;&nbsp;&nbsp;</a> */}
-
+        <a href="">처음</a>
+        <a href="">&nbsp;〈&nbsp;&nbsp;&nbsp;</a>
         {/* 페이지 번호 표시 */}
         {Array.from({ length: (endPage - startPage) + 1 }, (_, i) => i + startPage).map((page) => (
           <a key={page} href="#" className={page === currentPage ? "on" : ""} onClick={() => handlePageClick(page)}>
@@ -191,8 +194,8 @@ const ProductList = ({ goodsType, fromDate, toDate, shopCds, cateNm,modalCateNm,
           </a>
         ))}
 
-        {/* <a href="">&nbsp;&nbsp;&nbsp;〉&nbsp;</a>
-        <a href="">끝</a> */}
+        <a href="">&nbsp;&nbsp;&nbsp;〉&nbsp;</a>
+        <a href="">끝</a>
       </div>
       </section>
     }

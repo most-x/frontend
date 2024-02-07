@@ -14,9 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html>
-      <head>
-        {/* <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css" /> */}
-      </head>
+      <head />
       <body>{children}</body>
     </html>
   )
