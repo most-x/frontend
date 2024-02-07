@@ -106,12 +106,12 @@ const ProductList = ({ goodsType, fromDate, toDate, shopCds, cateNm,modalCateNm,
               </form>
             </div>
             <form action="" className="table_select">
-              <button
+              {/* <button
                 type="submit"
                 className="btn blue_back select_btn excel"
               >
                 <span className="down">&nbsp;</span>엑셀 다운로드
-              </button>
+              </button> */}
               <select onChange={(e)=>{setLimit(Number(e.target.value))}} name="" id="">
                 <option value={10} >10건씩 조회</option>
                 <option value={30} >30건씩 조회</option>
