@@ -286,12 +286,11 @@ function homeShopping() {
     { id: "2023년", label: "2023년" },
     { id: "2024년", label: "2024년" },
   ];
+
   const search = () => {
     fetchData();
-
-        // const queryString = new URLSearchParams(params).toString(); // url에 쓰기 적합한 querySting으로 return 해준다.
-        // const requrl = `${productCountAPIUrl}?${queryString}`; // 완성된 요청 url.
   };
+
   const buildProductCountList = (
     productCountInfo: ProductCountInfo,
     productPercentInfo: ProdcutPercentInfo
@@ -299,7 +298,6 @@ function homeShopping() {
     return Object.entries(productCountInfo).map(([date, count]) => (
       <li key={date}>
         <div className="chart">
-          {/* productPercontInfo 객체에 일자(date) 키와 값이 있어야 정상적으로 표시됨 */}
           <div style={{ height: `${productPercentInfo[date]}%` }}></div>
         </div>
         <h4 className="date">{date}</h4>
@@ -364,21 +362,29 @@ function homeShopping() {
       const oneWeekAgo = new Date();
       oneWeekAgo.setDate(oneWeekAgo.getDate() - 30);
 
+      // Date 객체를 'yyyy-MM-dd' 형식의 문자열로 변환
+      const formattedDate = oneWeekAgo.toISOString().split('T')[0];
+
+      console.log('formattedDate==',formattedDate);
+
       setStartDate('2023-01-01');
       setEndDate('2023-12-31');
     }
   };
+
   const cateOpen = (e:any,kind:string) =>{
     e.preventDefault()
     setModalOn(true)
     setGoodsType(kind)
   }
+
   const shopOpen = (e:any,kind:string) =>{
     e.preventDefault()
     setModalOn(true)
     const res = channels.find((i)=>i.label===kind)
     setModalCateNm(String(res?.id))
   }
+
   const timeOpen = (e:any,kind:string) =>{
     e.preventDefault()
     setModalOn(true)
@@ -386,11 +392,6 @@ function homeShopping() {
     setStandardTime(kind)
   }
 
-  const typeOpen = (e:any,kind:string) => {
-    e.preventDefault()
-    setModalOn(true)
-    setGoodsType(kind)
-  }
   return (
     <div>
       <Header />
@@ -529,7 +530,7 @@ function homeShopping() {
                   <h4>{category.kind}</h4>
                   <div className="chart">
                     <a href="">
-                      <div style={{ width: category.percent }}>
+                      <div style={{ width: `${category.percent}%` }}>
                         {category.cnt}
                       </div>
                     </a>
@@ -546,7 +547,7 @@ function homeShopping() {
                 <h4>{shopCate.kind}</h4>
                 <div className="chart">
                   <a href="">
-                    <div style={{ width: shopCate.percent }}>
+                    <div style={{ width: `${shopCate.percent}%` }}>
                       {shopCate.cnt}
                     </div>
                   </a>
@@ -555,6 +556,7 @@ function homeShopping() {
             ))}
           </ul>
         </section>
+        
         <section className="search_box">
           <h3>시간대 별 상품수</h3>
           <ul className="chart_box_h">
@@ -563,7 +565,7 @@ function homeShopping() {
                 <h4>{standardCategory.kind}</h4>
                 <div className="chart">
                   <a href="">
-                    <div style={{ width: standardCategory.percent }}>
+                    <div style={{ width: `${standardCategory.percent}%` }}>
                       {standardCategory.cnt}
                     </div>
                   </a>
@@ -594,7 +596,7 @@ function homeShopping() {
 			<ul className="chart_box_donut">
 				<li className="chart_donut_wrap">
           {kindProds.map((kind, idx) => (
-            <li onClick={(e) => typeOpen(e, kind)} key={idx}>
+            <li key={idx}>
 					<h4 key ={idx}>
             <a href="">
               <span style= {{color: '#ddd'}}>■ </span>
