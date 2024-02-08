@@ -325,7 +325,7 @@ textarea{resize: none;}
 .chart_box_h .chart{width: 100%; overflow: visible;  font-size: 12px;}
 .chart_box_h .chart div{background-color: #ddd; height: 28px; line-height: 28px; overflow: visible; text-align: left; color: #777; text-wrap:nowrap; font-weight: 700; text-indent: 10px}
 .chart_box_h .chart a{cursor: pointer; display: block;}
-.chart_box_h .chart a:hover div{background-color: #011E41; color: #fff;}
+.chart_box_h .chart a:hover div{background-color: #011E41; color: #ccc;}
 
 .flex_center{display: flex; align-items: center;}
 .flex_center .label{margin-right: 6px}

@@ -70,13 +70,23 @@ function homeShopping() {
   const [selectedChannels, setSelectedChannels] = useState<string[]>([]);
   const [prodName, setProdName] = useState("");
   const [selectedDate, setSelectedDate] = useState("오늘");
-  const [goodsType,setGoodsType] = useState("")
-  const [standardTime,setStandardTime] = useState("")
-
-  const [modalCateNm,setModalCateNm] = useState("")
+  const [goodsType,setGoodsType] = useState("");
+  const [standardTime,setStandardTime] = useState("");
+  const [timer, setTimer] = useState('0');
+  
+  const [modalCateNm,setModalCateNm] = useState("");
+  
   //const productCountAPIUrl = `http://31.152.254.254:3000/home-shopping/dashboard`;
   //const productCountAPIUrl = `http://43.202.91.211:3000/home-shopping/dashboard`;
   const productCountAPIUrl = `https://test.ilsang.co.kr/home-shopping/dashboard`;
+
+
+  const currentTimer = () => {
+    const date = new Date();
+    const hours = String(date.getHours()).padStart(2, "0");
+
+    console.log("hours=====", hours);
+  }
 
   const handleChannelChange = (event: any) => {
     const { id, checked } = event.target;
@@ -249,8 +259,8 @@ function homeShopping() {
   ];
   
   const shopName = {
-    homeshopping: '홈쇼핑',
-    tcommerce2: 'T커머스',
+    //homeshopping: '홈쇼핑',
+    //tcommerce2: 'T커머스',
     hnsmall: '홈&쇼핑',
     cjmall: 'CJ&스타일',
     lottemall: '롯데홈쇼핑',
@@ -305,6 +315,7 @@ function homeShopping() {
       </li>
     ));
   };
+
   const handleDateChange = (event: any) => {
     setSelectedDate(event.target.id);
 
@@ -556,7 +567,6 @@ function homeShopping() {
             ))}
           </ul>
         </section>
-        
         <section className="search_box">
           <h3>시간대 별 상품수</h3>
           <ul className="chart_box_h">
@@ -574,39 +584,40 @@ function homeShopping() {
             ))}
           </ul>
         </section>
-        {/* <section className="search_box">
+        <section className="search_box">
           <h3>유형 별 상품수</h3>
           <ul className="chart_box_donut">
             <li className="chart_donut_wrap">
               {kindProds.map((kind, idx) => (
-                <li onClick={(e) => typeOpen(e, kind)} key={idx}>
                 <h4 key={idx}>
                   <a href="">
                     <span style={kind ==='일반'? { color: '#ddd' }: { color: '#011E41' }}></span>
                     <strong>{kind.kind}</strong>{kind.cnt}개
                   </a>
                 </h4>
-              </li>
               ))}
+              <div className="chart_donut" 
+                style={{ background: "conic-gradient(#011E41 0% 72%, #ddd 72% 100%)" }}>
+              </div>
            </li>
 			</ul>
-		</section> */}
-		<section className="search_box">
-			<h3>유형 별 상품수</h3>
-			<ul className="chart_box_donut">
-				<li className="chart_donut_wrap">
-          {kindProds.map((kind, idx) => (
-            <li key={idx}>
-					<h4 key ={idx}>
-            <a href="">
-              <span style= {{color: '#ddd'}}>■ </span>
-              <strong>구매상품</strong> {kind.cnt}개</a></h4>
-					<h4 key={idx}>
-            <a href="">
-              <span style= {{color: '#011E41'}}>■ </span>
-              <strong>렌탈상담상품</strong> {kind.cnt}개</a></h4>			
-          </li>
-        ))}
+		</section>
+      {/* <section className="search_box">
+        <h3>유형 별 상품수</h3>
+        <ul className="chart_box_donut">
+          <li className="chart_donut_wrap">
+            {kindProds.map((kind, idx) => (
+              <li key={idx}>
+            <h4 key ={idx}>
+              <a href="">
+                <span style= {{color: '#ddd'}}>■ </span>
+                <strong>구매상품</strong> {kind.cnt}개</a></h4>
+            <h4 key={idx}>
+              <a href="">
+                <span style= {{color: '#011E41'}}>■ </span>
+                <strong>렌탈상담상품</strong> {kind.cnt}개</a></h4>			
+            </li>
+          ))}
 
               <div
                 className="chart_donut"
@@ -616,7 +627,27 @@ function homeShopping() {
               ></div>
             </li>
           </ul>
-        </section>
+        </section> */}
+       {/*  <section className="search_box">
+          <h3>유형 별 상품수</h3>
+            <ul className="chart_box_donut">
+            <li className="chart_donut_wrap">
+            {kindProds.map((kind, idx) => (
+              <h4 key ={idx}>
+                <a href="">
+                <span style= {{color: '#ddd'}}>■ </span>
+                <strong>구매상품</strong> {kind.cnt}개</a></h4>
+                <h4 key={idx}>
+                <a href="">
+                <span style= {{color: '#011E41'}}>■ </span>
+                <strong>렌탈상담상품</strong> {kind.cnt}개</a></h4>			
+             ))} 
+                <div className="chart_donut" 
+                style={{ background: "conic-gradient(#011E41 0% 72%, #ddd 72% 100%)" }}>
+                </div>
+              </li>
+            </ul>
+        </section>*/}
       </div>
 
       {/* 팝업 */}

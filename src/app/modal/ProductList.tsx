@@ -17,6 +17,8 @@ const ProductList = ({ goodsType, fromDate, toDate, shopCds, cateNm,modalCateNm,
   const [currentPage, setCurrentPage] = useState(1);
   const [goodsNm, setGoodsNm] = useState("");
   const [addGoodsNm, setAddGoodsNm] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+
   //const productCountAPIUrl = `http://31.152.254.254:3000/home-shopping/list`;
   //const productCountAPIUrl = `http://43.202.91.211:3000/home-shopping/list`;
   const productCountAPIUrl = `https://test.ilsang.co.kr/home-shopping/list`;
