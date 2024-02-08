@@ -359,6 +359,13 @@ function homeShopping() {
       
       // 변경된 날짜를 startDate에 설정
       setStartDate('2024-01-01');
+    }else if(event.target.id=='2023년') {
+
+      const oneWeekAgo = new Date();
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 30);
+
+      setStartDate('2023-01-01');
+      setEndDate('2023-12-31');
     }
   };
   const cateOpen = (e:any,kind:string) =>{
@@ -484,34 +491,21 @@ function homeShopping() {
                     value={endDate}
                     className="s_text"
                   />
-                  {dates.map((date) => (
-                    <div className="flex_center" key={date.id}>
-                      <input
-                        type="radio"
-                        id={date.id}
-                        name="date_radio"
-                        checked={selectedDate === date.id}
-                        onChange={handleDateChange}
-                        value={date.id}
-                      />
-                      <label htmlFor={date.id}>{date.label}</label>
-                    </div>
+                  <fieldset className="date_radio">
+                    {dates.map((date) => (
+                      <div className="flex_center" key={date.id}>
+                        <input
+                          type="radio"
+                          id={date.id}
+                          name="date_radio"
+                          checked={selectedDate === date.id}
+                          onChange={handleDateChange}
+                          value={date.id}
+                        />
+                        <label htmlFor={date.id}>{date.label}</label>
+                      </div>
                   ))}
-                  {/* <fieldset className="date_radio">
-                    <input
-                      type="radio"
-                      id="radio_today"
-                      name="date_radio"
-                      defaultChecked={true}
-                    />
-                    <label htmlFor="radio_today">오늘</label>
-                    <input type="radio" id="radio_week" name="date_radio" />
-                    <label htmlFor="radio_week">1주일</label>
-                    <input type="radio" id="radio_month" name="date_radio" />
-                    <label htmlFor="radio_month">1개월</label>
-                    <input type="radio" id="radio_2024" name="date_radio" />
-                    <label htmlFor="radio_2024">2024년</label>
-                  </fieldset> */}
+                  </fieldset>
                 </div>
               </li>
             </ul>
