@@ -36,6 +36,7 @@ const ProductList = ({ goodsType, fromDate, toDate, shopCds, cateNm,modalCateNm,
       limit: limit,
       
     };
+
     if(modalCateNm){
       params.shopCd = [modalCateNm]
     }
@@ -75,20 +76,13 @@ const ProductList = ({ goodsType, fromDate, toDate, shopCds, cateNm,modalCateNm,
   const startPage = Math.max(1, currentPage - Math.floor(pageLimit / 2));
   const endPage = Math.min(totalPages, startPage + pageLimit - 1);
 
-  const [modalOpen, setModalOpen] = useState(true);
-
-  const modalClose = () => {
-    console.log("aaaaa=,")
-    setModalOpen(!modalOpen);
-  };
-
   return (
     <div>
     {
       <section className="popup input_box hsp_popup on">
         <h3>
           상품 정보&nbsp;&nbsp;|&nbsp;&nbsp;{fromDate} ~ {toDate}
-          <button type="button" onClick={modalClose} className="popup_close"></button>
+          <button type="button" className="popup_close"></button>
         </h3>
         <div className="table_top">
           <div className="sb_flex">
@@ -132,38 +126,47 @@ const ProductList = ({ goodsType, fromDate, toDate, shopCds, cateNm,modalCateNm,
             <thead>
               <tr>
                 <th>
-                  순번 <button className="align_down">&nbsp;</button>
+                  순번 
+                  {/* <button className="align_down">&nbsp;</button> */}
                 </th>
                 <th>
-                  방송일자 <button className="align_down">&nbsp;</button>
+                  방송일자 
+                  {/* <button className="align_down">&nbsp;</button> */}
                 </th>
                 <th>
-                  방송시간대 <button className="align_down">&nbsp;</button>
+                  방송시간대 
+                  {/* <button className="align_down">&nbsp;</button> */}
                 </th>
                 <th>
-                  방송시간 <button className="align_up">&nbsp;</button>
+                  방송시간 
+                  {/* <button className="align_up">&nbsp;</button> */}
                 </th>
                 <th>
-                  쇼핑몰명 <button className="align_up">&nbsp;</button>
+                  쇼핑몰명 
+                  {/* <button className="align_up">&nbsp;</button> */}
                 </th>
                 <th>
-                  카테고리 <button className="align_up">&nbsp;</button>
+                  카테고리 
+                  {/* <button className="align_up">&nbsp;</button> */}
                 </th>
                 <th>
-                  상품명 <button className="align_up">&nbsp;</button>
+                  상품명 
+                  {/* <button className="align_up">&nbsp;</button> */}
                 </th>
                 <th>
-                  상품유형 <button className="align_up">&nbsp;</button>
+                  상품유형 
+                  {/* <button className="align_up">&nbsp;</button> */}
                 </th>
                 <th>
-                  판매가(원) <button className="align_up">&nbsp;</button>
+                  판매가(원) 
+                  {/* <button className="align_up">&nbsp;</button> */}
                 </th>
               </tr>
             </thead>
             <tbody>
               {products && products.map((prod: any, idx: number) => (
                 <tr key={idx}>
-                  <td>{prod.mno}</td>
+                  <td>{prod.no}</td>
                   <td>{prod.broadDate}</td>
                   <td>{prod.standardTime}</td>
                   <td>{prod.broadTime}</td>

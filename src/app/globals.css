@@ -3,15 +3,15 @@
 @charset "utf-8";
 
 /* reset */
-body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,textarea,p,blockquote,th,td,input,select,textarea,button {margin:0;padding:0}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,textarea,p,blockquote,th,td,input,select,textarea,button,pre {margin:0;padding:0}
 fieldset,img {border:0 none;vertical-align:top;}
 dl,ul,ol,li {list-style:none}
 blockquote, q {quotes: none}
 blockquote:before, blockquote:after,q:before, q:after {content:'';content:none}
 input,select,textarea,button {vertical-align:middle}
 button {border:0 none;background-color:transparent;cursor:pointer}
-body {background:hsl(0, 0%, 100%)}
-body,th,td,input,select,textarea,button {font-size:12px;line-height:1.5;font-family:Malgun Gothic,"맑은 고딕",AppleGothic,Dotum,"돋움",sans-serif;color:#333} /* color값은 디자인가이드에 맞게사용 */
+body {background:#fff}
+body,th,td,input,select,textarea,button,pre{font-size:12px;line-height:1.5;font-family:"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;color:#333} /* color값은 디자인가이드에 맞게사용 */
 a {color:#333;text-decoration:none}
 a:active, a:hover {text-decoration:none;}
 address,caption,cite,code,dfn,em,var {font-style:normal;font-weight:normal}
@@ -26,10 +26,17 @@ header img{width: 100%}
 header .exit{display: block; width: 32px; float: right;}
 nav{background-color: #eee; margin: auto;}
 .nav{display: flex;}
-.nav li a{display: block; padding: 10px; font-weight: 700; min-width: 110px; border-right: 1px solid #ccc}
-.nav li a:hover{opacity: 0.7; background-color: #ddd;}
-.nav .on a{background-color: #313F4F; color: #fff}
-.nav .on a:hover{background-color: #313F4F;opacity: 1}
+.nav .link{display: block; padding: 10px; font-weight: 700; min-width: 110px; border-right: 1px solid #ccc}
+.nav .link:hover{opacity: 0.7; background-color: #ddd;}
+.nav .on .link{background-color: #313F4F; color: #fff}
+.nav .on .link:hover{background-color: #313F4F;opacity: 1}
+.menu_wrap{display: block; position: relative; color: #333; cursor: pointer;}
+.brand_menu_wrap{position: absolute;display: none; z-index: 9999;left:-1px; min-width: 132px; top: 38px;}
+.menu_wrap:hover .brand_menu_wrap,.brand_menu_wrap:hover{display: block; box-sizing: border-box;}
+.brand_menu_wrap li{border-bottom: 1px solid #ccc}
+.brand_menu_wrap li:last-child{border: none}
+.brand_menu{display: block; padding: 10px 5px;background-color: #ddd; font-weight: 500}
+.brand_menu:hover{background-color: #888;color: #fff}
 
 .sub_title{font-size: 28px; margin-bottom: 20px; color: #011E41; font-weight: 800}
 
@@ -62,12 +69,12 @@ nav{background-color: #eee; margin: auto;}
 .dashboard .btm_txt{margin-top: 40px;opacity: 0.8; font-size: 14px}
 
 /*자산 감가상각 현황*/
-.status{padding: 38px 47px; min-width: 1320px; box-sizing: border-box;position: relative;}
+.status{padding: 38px 47px; min-width: 1320px; box-sizing: border-box;position: relative; margin: auto;}
 
 .search_box h3{font-size: 16px; margin-bottom: 10px; color: #313F4F; font-weight: 800}
 .search_box{position: relative; margin-bottom: 40px}
 .search{border: 2px solid #011E41; padding: 14px; border-top: none; background-color: #fefefe}
-.search .label{background-color: #011E41; color: #fff; padding: 10px 0; width: 120px; text-align: center; display: inline-block; margin-right: 3px; font-weight: 500; font-size: 12px}
+.search .label{background-color: #011E41; color: #fff; padding: 10px 0; width: 120px; text-align: center; display: inline-block; margin-right: 6px; font-weight: 500; font-size: 12px}
 .search input, .search select{height: 24px;box-sizing: border-box; cursor: pointer; padding: 0 5px}
 .search .text{display: inline-block;}
 .search .s_text{min-width: 170px}
@@ -143,7 +150,14 @@ nav{background-color: #eee; margin: auto;}
 .sel_popup td{cursor: pointer;}
 .sel_popup tr:hover{background-color: #D0DAE5}
 
-/*스크립트 통합 검색*/
+
+/*상품 스크립트 메뉴*/
+.sub_menu{position: relative; cursor: pointer;}
+.menu_link_wrap{display: none;}
+.sub_menu:hover .menu_link_wrap,.menu_link_wrap:hover{display: flex;position: absolute;}
+.menu_link_wrap li:hover{display: block;}
+
+/*상품 스크립트 통합 검색*/
 .card_btn{display: block; float: right; background-color: #313F4F; color: #fff; padding: 10px 20px; border-radius: 5px; font-size: 13px; font-weight: 400}
 .card_btn:hover{opacity: 0.7}
 .h3{font-size: 16px; margin-bottom: 10px; color: #313F4F; font-weight: 800}
@@ -154,7 +168,7 @@ nav{background-color: #eee; margin: auto;}
 .brand_link_wrap{display: flex;justify-content: center; padding: 20px 0; margin-bottom: 40px; border: 1px solid #ddd;
 flex-wrap: wrap}
 .brand_link_wrap li{margin: 20px}
-.brand_link{display: flex; border-radius: 100%; width: 150px; height: 150px; text-align: center; background-color: #313F4F; align-items: center;justify-content: center; font-size: 16px; word-break: keep-all; color: #fff; padding: 20px; box-sizing: border-box; line-height: 1.2em}
+.brand_link{display: flex; border-radius: 100%; width: 150px; height: 150px; text-align: center; background-size: cover; background-position: center; background-color: #313F4F; align-items: center;justify-content: center; font-size: 18px; word-break: keep-all; color: #fff; padding: 20px; box-sizing: border-box; line-height: 1.2em}
 .brand_link:hover{opacity: 0.7}
 .pr_li{margin-bottom: 20px}
 .pr_li>a{display: block;padding: 20px;background-color: #eee; border-radius: 5px; box-sizing: border-box; font-size: 13px;}
@@ -166,8 +180,14 @@ flex-wrap: wrap}
 .script_btn:hover{opacity: 0.7}
 .pr_flex{display: flex;}
 .pr_left{margin-right: 30px; padding-right: 30px; border-right: 1px solid #ccc}
+.pr_stat{padding: 4px 5px; border-radius: 5px;font-size: 10px; color: #fff; font-weight: 500; margin-right: 5px; box-sizing: border-box;}
+.pr_on .pr_stat{content: '';background-color: #22B14C;}
+.pr_on .pr_stat::after{content: '주문가능'}
+.pr_off{opacity: 0.6}
+.pr_off .pr_stat{content: '';background-color:#333}
+.pr_off .pr_stat::after{content: '주문불가'}
 
-/*스크립트 상품 등록*/
+/*상품 스크립트 상품 등록*/
 .script_input{border: 2px solid #011E41; padding: 14px; background-color: #fefefe;}
 .script_input .radio_wrap{display: flex;align-items: center}
 .radio_wrap .radio_btn{cursor: pointer; display: none;}
@@ -196,14 +216,15 @@ textarea{resize: none;}
 .v_title{margin-bottom: 10px}
 .v_wrap{padding: 10px; background-color: #011E41}
 .v_info{margin-left: 10px; font-size: 12px; font-weight: 500}
-.option_btn,.add_btn{background-color: #313F4F; color: #fff; border-radius: 5px; padding: 8px 10px; font-size: 11px; text-decoration: none; cursor: pointer;}
-.option_btn:hover,.add_btn:hover{opacity: 0.7}
-.add_btn{margin: 5px 0 0 5px}
+.option_btn,.add_btn,.del_btn{background-color: #313F4F; color: #fff; border-radius: 5px; padding: 8px 10px; font-size: 11px; text-decoration: none; cursor: pointer;}
+.del_btn{background-color: #B00000}
+.option_btn:hover,.add_btn:hover,.del_btn:hover{opacity: 0.7}
+.del_btn,.add_btn{margin: 5px 0 0 5px}
 .add_td li{margin-top: 5px}
 .add_td li:first-child{margin-top: 0}
 .m_text.off{display: none;}
 
-/*스크립트 팝업*/
+/*상품 스크립트 팝업*/
 .new_add{display: flex; align-items: center;background-color: #eee; width: 100%}
 .new_add_input{margin: 0 3px}
 .new_add_btn{background-color: #011E41; color: #fff; border-radius: 5px; padding: 8px 0; font-size: 10px; text-decoration: none; cursor: pointer; text-align: center; width: 100px; margin-left: px}
@@ -246,6 +267,20 @@ textarea{resize: none;}
 /*상담 스크립트 관리*/
 .sd_td_title a{text-overflow: ellipsis;text-wrap: nowrap; overflow: hidden; display: inline-block; max-width: 250px}
 .sb_flex{display: flex; width: 100%; justify-content: space-between;}
+
+.list_table{border-collapse:collapse; width: 100%; margin: 20px 0}
+.list_table th{background-color: #011E41; color: #fff;}
+.list_table th, .list_table td{border: 1px solid #313F4F; padding: 5px; text-align: center;}
+.list_table td.sub{background-color: #ddd}
+.list_table td.long input{min-width: 350px}
+.s_btn{display: inline-block; margin: auto; width: auto; padding: 0 10px; background-color: #1a1a1a; color: #fff; border-radius: 5px; font-size: 11px; font-weight: 400; height: 29px; line-height: 29px}
+.s_btn:hover{opacity: 0.7}
+.s_btn.first{background-color: #313F4F}
+.s_btn.del{width: 50px; background-color: #B00000}
+.btm_btn_wrap{display: flex;align-items: center;justify-content: center;}
+.btm_btn_wrap .btn{margin: 16px 0}
+.btm_btn_wrap .btn.list_btn{background-color: #999; width: 100px; margin-right: 20px}
+.btm_btn_wrap .btn.save{width: 400px}
 /*상담 스크립트 관리 끝*/
 
 
@@ -266,7 +301,7 @@ textarea{resize: none;}
 .checkbox_wrap .label{display: table-cell; vertical-align: middle;border-bottom: 1px solid #313F4F; box-sizing: border-box; min-height: 38px}
 .checkbox_wrap .checkbox{display: table-cell; padding: 3px 6px; vertical-align: middle; border-bottom: 1px solid #313F4F; box-sizing: border-box; min-height: 38px}
 .checkbox{margin-left: 0; max-width: 1580px}
-.checkbox label{margin: 3px 2px 3px 0; display: inline-block;}
+.checkbox label{margin: 3px 5px 3px 0; display: inline-block;}
 
 /*세로 차트*/
 .chart_box{display: flex; width: 100%; justify-content: space-evenly; border: 2px solid #011E41; padding: 14px; box-sizing: border-box;}

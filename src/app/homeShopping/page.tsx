@@ -7,6 +7,7 @@ import Image from "next/image";
 import Modal from "react-modal";
 import ProductList from "../modal/ProductList";
 import axios from 'axios'
+import Header from '../Header'
 
 type ProductCountInfo = Record<string, number>;
 type ProdcutPercentInfo = Record<string | number, number>;
@@ -282,6 +283,7 @@ function homeShopping() {
     { id: "오늘", label: "오늘" },
     { id: "1주일", label: "1주일" },
     { id: "1개월", label: "1개월" },
+    { id: "2023년", label: "2023년" },
     { id: "2024년", label: "2024년" },
   ];
   const search = () => {
@@ -383,10 +385,8 @@ function homeShopping() {
     setGoodsType(kind)
   }
   return (
-    //  <div className="header">
-    //     <h1><a href="" className="logo"><img src="img/logo_w.svg" alt="모스트엑스 로고" ></a>홈쇼핑 방송 정보<a href="" className="exit"><img src="img/exit.svg" alt="모스트엑스 로고"></a></h1>
-    //  </div>
     <div>
+      <Header />
       <article className="status hsp">
       <h2 className="sub_title">
         홈쇼핑 방송 정보
@@ -578,7 +578,7 @@ function homeShopping() {
             ))}
           </ul>
         </section>
-        <section className="search_box">
+        {/* <section className="search_box">
           <h3>유형 별 상품수</h3>
           <ul className="chart_box_donut">
             <li className="chart_donut_wrap">
@@ -586,23 +586,32 @@ function homeShopping() {
                 <li onClick={(e) => typeOpen(e, kind)} key={idx}>
                 <h4 key={idx}>
                   <a href="">
-                    {/* kind === '일반'?   */}
-                    <span style={{ color: "#ddd" }}>■ </span>
+                    <span style={kind ==='일반'? { color: '#ddd' }: { color: '#011E41' }}></span>
                     <strong>{kind.kind}</strong>{kind.cnt}개
-                  {/* :
-                    kind === '렌탈/상담'
-                    <span style={{ color: "#011E41" }}>■ </span>
-                    <strong>렌탈상담상품</strong> */}
                   </a>
                 </h4>
               </li>
               ))}
-              {/* <h4>
-                <a href="">
-                  <span style={{ color: "#011E41" }}>■ </span>
-                  <strong>렌탈상담상품</strong>
-                </a>
-              </h4> */}
+           </li>
+			</ul>
+		</section> */}
+		<section className="search_box">
+			<h3>유형 별 상품수</h3>
+			<ul className="chart_box_donut">
+				<li className="chart_donut_wrap">
+          {kindProds.map((kind, idx) => (
+            <li onClick={(e) => typeOpen(e, kind)} key={idx}>
+					<h4 key ={idx}>
+            <a href="">
+              <span style= {{color: '#ddd'}}>■ </span>
+              <strong>구매상품</strong> {kind.cnt}개</a></h4>
+					<h4 key={idx}>
+            <a href="">
+              <span style= {{color: '#011E41'}}>■ </span>
+              <strong>렌탈상담상품</strong> {kind.cnt}개</a></h4>			
+          </li>
+        ))}
+
               <div
                 className="chart_donut"
                 style={{
