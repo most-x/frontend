@@ -44,6 +44,7 @@ nav{background-color: #eee; margin: auto;}
 .gray_back{background-color: #eee}
 .btn{cursor: pointer; border-radius: 5px;}
 .btn:hover{opacity: 0.7;}
+.btn_off{background-color: #ddd; color: #999}
 .center_flex{display: flex;justify-content: center}
 
 /* index */

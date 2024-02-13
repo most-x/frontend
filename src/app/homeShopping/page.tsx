@@ -55,8 +55,7 @@ function homeShopping() {
   //달력 선택
   const [endDate, setEndDate] = useState<string>(convertDate(new Date()));
   const [startDate, setStartDate] = useState<string>(convertDate(new Date()));
-  // const [startDate, setStartDate] = useState<Date | null>
-
+  
   const [categorys, setCategorys] = useState<any>();
   const [shopCategory, setShopCategory] = useState<any[]>([]);
   const [standardCategorys, setStandardCategorys] = useState<any[]>([]);
@@ -64,10 +63,14 @@ function homeShopping() {
   const [recentDatas, setRecentDatas] = useState([]);
   const [kindProds, setKindProds] = useState<any[]>([]);
 
-  const [modalOn, setModalOn] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [shopCds, setShopCds] = useState<string[]>([]);
+  const [shopCdsView, setShopCdsView] = useState<string[]>([]);
+
   const [selectedChannels, setSelectedChannels] = useState<string[]>([]);
+  const [selectedChannelsView, setSelectedChannelsView] = useState<string[]>([]);
+
   const [prodName, setProdName] = useState("");
   const [selectedDate, setSelectedDate] = useState("오늘");
   const [goodsType,setGoodsType] = useState("");
@@ -75,37 +78,50 @@ function homeShopping() {
   const [timer, setTimer] = useState('0');
   
   const [modalCateNm,setModalCateNm] = useState("");
+
+  const [goodsTypeChart,setGoodTypeChart] = useState("")
   
   //const productCountAPIUrl = `http://31.152.254.254:3000/home-shopping/dashboard`;
   //const productCountAPIUrl = `http://43.202.91.211:3000/home-shopping/dashboard`;
   const productCountAPIUrl = `https://test.ilsang.co.kr/home-shopping/dashboard`;
-
-
-  const currentTimer = () => {
-    const date = new Date();
-    const hours = String(date.getHours()).padStart(2, "0");
-
-    console.log("hours=====", hours);
-  }
 
   const handleChannelChange = (event: any) => {
     const { id, checked } = event.target;
     if (id === "channelall") {
       if (checked) {
         setSelectedChannels(channels.map((channel) => channel.id));
+        setSelectedChannelsView(['전체'])
       } else {
         setSelectedChannels([]);
+        setSelectedChannelsView([])
       }
     } else {
+      console.log('selectedChannelsView=',selectedChannelsView);
+      
+      if(selectedChannelsView.includes('전체')) {
+        console.log("selectedChannelsView=",selectedChannelsView);
+        
+        setSelectedChannelsView(selectedChannelsView.filter((i)=>i!='전체'))
+        setSelectedChannels(selectedChannels.filter((i)=>i!='전체'))
+      }
+     
       if (checked) {
+     
         setSelectedChannels((prevSelectedChannels) => [
           ...prevSelectedChannels,
           id,
         ]);
+        setSelectedChannelsView((prevSelectedChannelsView)=>[
+          ...prevSelectedChannelsView,
+          id,
+        ])
       } else {
         setSelectedChannels((prevSelectedChannels) =>
           prevSelectedChannels.filter((channel) => channel !== id)
         );
+        setSelectedChannelsView((prevSelectedChannels) =>
+        prevSelectedChannels.filter((channel) => channel !== id)
+      );
       }
     }
   };
@@ -114,23 +130,33 @@ function homeShopping() {
     if (id === "전체") {
       if (checked) {
         setShopCds(categories.map((category) => category.id));
+        setShopCdsView(['전체'])
       } else {
         setShopCds([]);
+        setShopCdsView([])
+
       }
     } else {
+      if(shopCdsView.includes('전체')) {
+        setShopCdsView(shopCdsView.filter((i)=>i!=='전체'))
+        setShopCds(shopCds.filter((i)=>i!=='전체'))
+      }
       if (checked) {
         setShopCds((prevShopCds) => [...prevShopCds, id]);
+        setShopCdsView((prevShopCds) => [...prevShopCds, id])
+
       } else {
         setShopCds((prevShopCds) =>
           prevShopCds.filter((shopCd) => shopCd !== id)
         );
+        setShopCdsView((prevShopCds) =>
+        prevShopCds.filter((shopCd) => shopCd !== id)
+      );
       }
     }
   };
   const fetchData = async () => {
     try {
-      console.log('asdasd',shopCds);
-      
       const params = {
         // 필요한 query params를 {} 형태에 담아준다.
         fromDate: startDate,
@@ -138,12 +164,9 @@ function homeShopping() {
         shopCd:selectedChannels,
         goodsNm:prodName,
         cateNm:shopCds
-
       };
-      console.log('params=',params);
       
-  
-          // const queryString = new URLSearchParams(params).toString(); // url에 쓰기 적합한 querySting으로 return 해준다.
+            // const queryString = new URLSearchParams(params).toString(); // url에 쓰기 적합한 querySting으로 return 해준다.
           // const requrl = `${productCountAPIUrl}?${queryString}`; // 완성된 요청 url.
     axios.get(productCountAPIUrl,{params}).then((res)=>{
       const { recentData, percentData, searchData } =  res.data;
@@ -186,6 +209,7 @@ function homeShopping() {
         };
         shopCate.push(nData);
       }
+      
       for (let i = 0; i < standardPercent.length; i++) {
         const nData = {
           kind: standardPercent[i][0],
@@ -194,6 +218,7 @@ function homeShopping() {
         };
         standardCate.push(nData);
       }
+
       for (let i = 0; i < recentPercent.length; i++) {
         const nData = {
           kind: recentPercent[i][0],
@@ -203,7 +228,6 @@ function homeShopping() {
         recentCate.push(nData);
       }
 
-
       for (let i = 0; i < kindsPercent.length; i++) {
         const nData = {
           kind: kindsPercent[i][0],
@@ -212,9 +236,6 @@ function homeShopping() {
         };
         kindsProduct.push(nData);
       }
-
-      console.log(kindsProduct);
-
 
       setCategorys(allCate);
       setShopCategory(shopCate);
@@ -305,33 +326,62 @@ function homeShopping() {
     productCountInfo: ProductCountInfo,
     productPercentInfo: ProdcutPercentInfo
   ): JSX.Element[] => {
-    return Object.entries(productCountInfo).map(([date, count]) => (
-      <li key={date}>
+    return Object.entries(productCountInfo).map(([rawDate, count]) => {
+      const date: Date = parseRawDate(rawDate);
+      
+      return (
+      <li key={rawDate} onClick={()=>openTimeModal(date)} className={getDateClassName(date)} >
         <div className="chart">
-          <div style={{ height: `${productPercentInfo[date]}%` }}></div>
+          <div style={{ height: `${productPercentInfo[rawDate]}%` }}></div>
         </div>
-        <h4 className="date">{date}</h4>
+        <h4 className="date">{rawDate}</h4>
         <p className="num">{count}개</p>
       </li>
-    ));
+    )});
   };
+
+  function parseRawDate(rawDate: string): Date {
+    const dateString: string = rawDate.replace(/\(\.*\)$/, ''); // ex. "2024-02-10(금)" -> "2024-02-10"
+      
+    return new Date(Date.parse(dateString));
+  }
+
+  function getDateClassName(date: Date): 'before' | 'next' | 'today' {
+    const now = new Date()
+    now.setHours(0, 0, 0, 0);
+
+    if (date < now) {
+      return 'before';
+    } else if (date > now) {
+      return 'next';
+    } else {
+      return 'today';
+    }
+  }
+
+
+  const now = new Date();
+  const hour = now.getHours();
 
   const handleDateChange = (event: any) => {
     setSelectedDate(event.target.id);
 
-    console.log('id==',event.target.value)
+    
     if(event.target.id=='1주일'){
       
       const oneWeekAgo = new Date();
+      const endWeekAgo = new Date();
       oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
 
       // Date 객체를 'yyyy-MM-dd' 형식의 문자열로 변환
-      const formattedDate = oneWeekAgo.toISOString().split('T')[0];
+      const WeekformattedDate = oneWeekAgo.toISOString().split('T')[0];
       
-      console.log('formattedDate==',formattedDate);
+      
+      const formattedDate = endWeekAgo.toISOString().split('T')[0];
       
       // 변경된 날짜를 startDate에 설정
-      setStartDate(formattedDate);
+      setStartDate(WeekformattedDate);
+      setEndDate(formattedDate);
     }else if(event.target.id=='오늘'){
       
       const oneWeekAgo = new Date();
@@ -344,30 +394,36 @@ function homeShopping() {
       
       // 변경된 날짜를 startDate에 설정
       setStartDate(formattedDate);
+      setEndDate(formattedDate);
     }else if(event.target.id=='1개월'){
       
       const oneWeekAgo = new Date();
+      const endWeekAgo = new Date();
       oneWeekAgo.setDate(oneWeekAgo.getDate() - 30);
+      const toAgo = new Date();
 
       // Date 객체를 'yyyy-MM-dd' 형식의 문자열로 변환
-      const formattedDate = oneWeekAgo.toISOString().split('T')[0];
-      
-      console.log('formattedDate==',formattedDate);
+      const MonthformattedDate = oneWeekAgo.toISOString().split('T')[0];
+      const formattedDate = endWeekAgo.toISOString().split('T')[0];
+
+      console.log('MonthformattedDate==',MonthformattedDate);
       
       // 변경된 날짜를 startDate에 설정
-      setStartDate(formattedDate);
+      setStartDate(MonthformattedDate);
+      setEndDate(formattedDate);
     }else if(event.target.id=='2024년'){
       
       const oneWeekAgo = new Date();
-      oneWeekAgo.setDate(oneWeekAgo.getDate() - 30);
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 0);
 
       // Date 객체를 'yyyy-MM-dd' 형식의 문자열로 변환
       const formattedDate = oneWeekAgo.toISOString().split('T')[0];
       
-      console.log('formattedDate==',formattedDate);
+      console.log('formattedDate12==',formattedDate);
       
       // 변경된 날짜를 startDate에 설정
       setStartDate('2024-01-01');
+      setEndDate(formattedDate);
     }else if(event.target.id=='2023년') {
 
       const oneWeekAgo = new Date();
@@ -385,22 +441,49 @@ function homeShopping() {
 
   const cateOpen = (e:any,kind:string) =>{
     e.preventDefault()
-    setModalOn(true)
+    setIsModalOpen(true)
     setGoodsType(kind)
+    setModalCateNm('')
+    setStandardTime('')
   }
 
   const shopOpen = (e:any,kind:string) =>{
     e.preventDefault()
-    setModalOn(true)
+    setIsModalOpen(true)
     const res = channels.find((i)=>i.label===kind)
     setModalCateNm(String(res?.id))
+    setStandardTime('')
+    setGoodsType('')
+    setGoodTypeChart('')
   }
 
   const timeOpen = (e:any,kind:string) =>{
     e.preventDefault()
-    setModalOn(true)
+    setIsModalOpen(true)
     // const res = channels.find((i)=>i.label===kind)
     setStandardTime(kind)
+    setGoodsType('')
+    setGoodTypeChart('')
+    setModalCateNm('')
+  }
+
+  const openTimeModal = (toDate:Date)=>{
+    const cvDate = convertDate(toDate)
+    setStartDate(cvDate)
+    setEndDate(cvDate)
+    setStandardTime('')
+    setModalCateNm('')
+    setGoodsType('')
+    setGoodTypeChart('')
+    setIsModalOpen(true)
+  }
+
+  const goodsTypeOpen = (type:string)=>{
+    setStandardTime('')
+    setModalCateNm('')
+    setGoodsType('')
+    setIsModalOpen(true)
+    setGoodTypeChart(type)
   }
 
   return (
@@ -451,7 +534,7 @@ function homeShopping() {
                         id={category.id}
                         //onClick={handleShopCdChange}
                         onChange={handleShopCdChange}
-                        checked={shopCds.includes(category.id)}
+                        checked={shopCdsView.includes(category.id)}
                       />
                       <label htmlFor={category.id}>{category.label}</label>
                     </span>
@@ -466,16 +549,18 @@ function homeShopping() {
                   <input
                     type="checkbox"
                     id="channelall"
+                    checked={selectedChannelsView.includes('전체')}
                     onChange={handleChannelChange}
                   />
                   <label htmlFor="channelall">전체</label>
                   <input type="checkbox" id="channelall" />
                   {channels.map((channel) => (
                     <span key={channel.id}>
+                      
                       <input
                         type="checkbox"
                         id={channel.id}
-                        checked={selectedChannels.includes(channel.id)}
+                        checked={selectedChannelsView.includes(channel.id)}
                         onChange={handleChannelChange}
                       />
                       <label htmlFor={channel.id}>{channel.label}</label>
@@ -572,6 +657,20 @@ function homeShopping() {
           <ul className="chart_box_h">
             {standardCategorys.map((standardCategory, idx) => (
               <li onClick={(e)=>timeOpen(e,standardCategory.kind)} key={idx}>
+                {/* <li className="now"> */}
+                <h4>{standardCategory.kind}</h4>
+                <div className="chart">
+                  {/* <span>LIVE</span> */}
+                  <a href="" />
+                    <div style={{ width: `${standardCategory.percent}%` }}>
+                      {standardCategory.cnt}
+                    </div>
+                  </div>
+                  </li>
+                // </li>
+              ))}
+              </ul>
+              {/* else if {
                 <h4>{standardCategory.kind}</h4>
                 <div className="chart">
                   <a href="">
@@ -580,24 +679,25 @@ function homeShopping() {
                     </div>
                   </a>
                 </div>
-              </li>
-            ))}
-          </ul>
+} */}
         </section>
         <section className="search_box">
           <h3>유형 별 상품수</h3>
           <ul className="chart_box_donut">
             <li className="chart_donut_wrap">
               {kindProds.map((kind, idx) => (
-                <h4 key={idx}>
-                  <a href="">
-                    <span style={kind ==='일반'? { color: '#ddd' }: { color: '#011E41' }}></span>
-                    <strong>{kind.kind}</strong>{kind.cnt}개
+                <h4 key={idx} onClick={()=>goodsTypeOpen(kind.kind)}>
+                  <a href="#">
+                    <span style={kind.kind ==='일반'? { color: '#ddd' } : { color: '#011E41' }}>■  </span>
+                      <strong>{kind.kind}</strong>{kind.cnt}개
                   </a>
                 </h4>
               ))}
               <div className="chart_donut" 
-                style={{ background: "conic-gradient(#011E41 0% 72%, #ddd 72% 100%)" }}>
+                // style={{ background: `conic-gradient(#011E41 0% ${ratio}%, #ddd ${ratio}% 100%)` }}>
+                style={{
+                  background: `conic-gradient(#011E41 0% 72%, #ddd 72% 100%)`,
+                }}>
               </div>
            </li>
 			</ul>
@@ -628,34 +728,14 @@ function homeShopping() {
             </li>
           </ul>
         </section> */}
-       {/*  <section className="search_box">
-          <h3>유형 별 상품수</h3>
-            <ul className="chart_box_donut">
-            <li className="chart_donut_wrap">
-            {kindProds.map((kind, idx) => (
-              <h4 key ={idx}>
-                <a href="">
-                <span style= {{color: '#ddd'}}>■ </span>
-                <strong>구매상품</strong> {kind.cnt}개</a></h4>
-                <h4 key={idx}>
-                <a href="">
-                <span style= {{color: '#011E41'}}>■ </span>
-                <strong>렌탈상담상품</strong> {kind.cnt}개</a></h4>			
-             ))} 
-                <div className="chart_donut" 
-                style={{ background: "conic-gradient(#011E41 0% 72%, #ddd 72% 100%)" }}>
-                </div>
-              </li>
-            </ul>
-        </section>*/}
       </div>
 
       {/* 팝업 */}
       {/*  */}
      </article>
-        <Modal style={customStyles} isOpen={modalOn} onRequestClose={()=>setModalOn(false)}>
-        <ProductList goodsType={goodsType} fromDate={startDate} toDate={endDate } shopCds={shopCds} cateNm={selectedChannels} modalCateNm={modalCateNm} standardTime={standardTime} />
-      </Modal>
+        <Modal style={customStyles} isOpen={isModalOpen} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true}>
+          <ProductList goodsType={goodsType} goodsTypeChart={goodsTypeChart} prodName={prodName} fromDate={startDate} toDate={endDate } shopCds={shopCds} cateNm={selectedChannels} modalCateNm={modalCateNm} standardTime={standardTime} closeModal={() => setIsModalOpen(false)} />
+        </Modal>
     </div>
 
   );

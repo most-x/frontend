@@ -3,15 +3,18 @@ import axios from 'axios'
 
 interface Props {
   goodsType: string;
+  goodsTypeChart:string;
+  prodName:string;
   fromDate: string;
   toDate: string;
   shopCds: string[];
   cateNm: string[];
   modalCateNm:string;
   standardTime:string;
+  closeModal: () => void;
 }
 
-const ProductList = ({ goodsType, fromDate, toDate, shopCds, cateNm,modalCateNm,standardTime }: Props) => {
+const ProductList = ({ goodsType,goodsTypeChart,prodName, fromDate, toDate, shopCds, cateNm, modalCateNm, standardTime, closeModal }: Props) => {
   const [productCnt, setProductCnt] = useState(0);
   const [products, setProducts] = useState<any>([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,8 +32,8 @@ const ProductList = ({ goodsType, fromDate, toDate, shopCds, cateNm,modalCateNm,
 
   const fetchData = () => {
     const params:any = {
-      goodsType: '',
-      goodsNm: goodsNm,
+      goodsType: goodsTypeChart,
+      goodsNm: prodName?prodName:goodsNm,
       addGoodsNm: addGoodsNm,
       fromDate: fromDate,
       toDate: toDate,
@@ -45,6 +48,9 @@ const ProductList = ({ goodsType, fromDate, toDate, shopCds, cateNm,modalCateNm,
     if (goodsType) {
       params.cateNm = [goodsType];
     }
+
+    console.log('goodsType=',goodsType)
+    console.log('standardTime==',standardTime)
     if(standardTime){
       params.standardTime = standardTime
     }
@@ -60,7 +66,8 @@ const ProductList = ({ goodsType, fromDate, toDate, shopCds, cateNm,modalCateNm,
 
   useEffect(() => {
     fetchData();
-  }, [currentPage,limit]); // currentPage가 변경될 때마다 데이터 다시 가져오기
+    //캐시지우기
+  }, [currentPage,limit,modalCateNm,goodsType,standardTime]); // currentPage가 변경될 때마다 데이터 다시 가져오기
 
   const toComma = (n1: string) => {
     return n1.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
@@ -78,13 +85,22 @@ const ProductList = ({ goodsType, fromDate, toDate, shopCds, cateNm,modalCateNm,
   const startPage = Math.max(1, currentPage - Math.floor(pageLimit / 2));
   const endPage = Math.min(totalPages, startPage + pageLimit - 1);
 
+  
+  useEffect(() => {
+      document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+  };
+  }, []);
+
+
   return (
     <div>
     {
       <section className="popup input_box hsp_popup on">
         <h3>
           상품 정보&nbsp;&nbsp;|&nbsp;&nbsp;{fromDate} ~ {toDate}
-          <button type="button" className="popup_close"></button>
+          <button type="button" className="popup_close" onClick={closeModal}></button>
         </h3>
         <div className="table_top">
           <div className="sb_flex">
@@ -192,8 +208,8 @@ const ProductList = ({ goodsType, fromDate, toDate, shopCds, cateNm,modalCateNm,
           </table>
         </div>
         <div className="center_flex page">
-        <a href="">처음</a>
-        <a href="">&nbsp;〈&nbsp;&nbsp;&nbsp;</a>
+        <a href="#" onClick={() => handlePageClick(1)}>처음</a>
+        {/* <a href="">&nbsp;〈&nbsp;&nbsp;&nbsp;</a> */}
         {/* 페이지 번호 표시 */}
         {Array.from({ length: (endPage - startPage) + 1 }, (_, i) => i + startPage).map((page) => (
           <a key={page} href="#" className={page === currentPage ? "on" : ""} onClick={() => handlePageClick(page)}>
@@ -201,8 +217,8 @@ const ProductList = ({ goodsType, fromDate, toDate, shopCds, cateNm,modalCateNm,
           </a>
         ))}
 
-        <a href="">&nbsp;&nbsp;&nbsp;〉&nbsp;</a>
-        <a href="">끝</a>
+        {/* <a href="" onClick={() => handlePageClick(startPage+1)}>&nbsp;&nbsp;&nbsp;〉&nbsp;</a> */}
+        <a href="#" onClick={() => handlePageClick(totalPages)}>끝</a>
       </div>
       </section>
     }
