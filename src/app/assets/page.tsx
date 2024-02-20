@@ -2,12 +2,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import Modal from "react-modal";
-import ProductList from "../modal/ProductList";
-import axios from 'axios'
-import { Duplex } from "stream";
 
 function assetsList() {
 
