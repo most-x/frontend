@@ -104,16 +104,9 @@ function homeShopping() {
         setSelectedChannels(selectedChannels.filter((i)=>i!='전체'))
       }
      
-      if (checked) {
-     
-        setSelectedChannels((prevSelectedChannels) => [
-          ...prevSelectedChannels,
-          id,
-        ]);
-        setSelectedChannelsView((prevSelectedChannelsView)=>[
-          ...prevSelectedChannelsView,
-          id,
-        ])
+      if (checked) { 
+        setSelectedChannels((prevSelectedChannels) => [...prevSelectedChannels, id]);
+        setSelectedChannelsView((prevSelectedChannelsView)=>[...prevSelectedChannelsView, id]);
       } else {
         setSelectedChannels((prevSelectedChannels) =>
           prevSelectedChannels.filter((channel) => channel !== id)
