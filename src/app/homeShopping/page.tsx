@@ -622,7 +622,7 @@ function homeShopping() {
           <summary></summary>
         </details>
       </section>
-      <section className="search_r_box">
+      {/* <section className="search_r_box">
 			<div className="search_r">
 				<p>
 					방송일자
@@ -645,20 +645,19 @@ function homeShopping() {
 					입니다.
 				</p>
 			</div>
-		</section>
-
+		</section> */}
       <div className="btm_chart">
         <section className="btm_chart_box">
           <h3>카테고리 별</h3>
           <ul className="chart_box_h">
-            {categorys &&
-              categorys.map((category: any, idx: number) => (
-                <li>
+            {categorys && 
+             categorys.map((category: any, idx: number) => (
+                <li key={idx}>
                   <h4>{category.kind}</h4>
                   <div className="chart">
                     {
                       category.cnt ? (
-                    <a href=""  onClick={(e) => cateOpen(e,category.kind)} key={idx}>
+                      <a href=""  onClick={(e) => cateOpen(e,category.kind)} key={idx}>
                       <div style={{ width: `${category.percent}%` }}>
                         {toComma(category.cnt)}
                       </div>
@@ -679,7 +678,7 @@ function homeShopping() {
           <h3>홈쇼핑 채널 별</h3>
           <ul className="chart_box_h">
             {shopCategory.map((shopCate, idx) => (
-              <li>
+              <li key={idx}>
                 <h4>{shopCate.kind}</h4>
                 <div className="chart">
                 {
@@ -705,7 +704,7 @@ function homeShopping() {
           <ul className="chart_box_h">
             {standardCategorys.map((standardCategory, idx) => {
               return (
-                <li className={`${today.getHours().toString().padStart(2, '0')}시` === standardCategory.kind ? 'now' : undefined}> 
+                <li key={idx} className={`${today.getHours().toString().padStart(2, '0')}시` === standardCategory.kind ? 'now' : undefined}> 
                   <h4>{standardCategory.kind}</h4>
                   <div className="chart">
                     {
@@ -739,7 +738,7 @@ function homeShopping() {
             <li className="chart_donut_wrap">
               {kindProds.map((kind, idx) => {
                 return (
-                <h4>
+                <h4 key={idx}>
                   {
                     kind.cnt ? (
                   <a href="#"  key={idx} onClick={()=>goodsTypeOpen(kind.kind)}>
@@ -748,7 +747,7 @@ function homeShopping() {
                   </a>
                     ) :
                     (
-                      <a href="#">
+                      <a href="#" key={idx}>
                       <span style={kind.kind ==='일반'? { color: '#ddd' } : { color: '#011E41' }}>■  </span>
                         <strong>{kind.kind}</strong>{toComma(kind.cnt)}
                     </a>
