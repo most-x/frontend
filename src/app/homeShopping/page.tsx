@@ -281,6 +281,7 @@ function homeShopping() {
     { id: "생활·주방", label: "생활·주방" },
     { id: "식품·건강", label: "식품·건강" },
     { id: "유아·아동", label: "유아·아동" },
+    { id: "여행·레저", label: "여행·레저" },
     { id: "패션·잡화", label: "패션·잡화" },
     { id: "화장품·미용", label: "화장품·미용" },
     { id: "기타", label: "기타" },
