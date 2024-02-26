@@ -2,6 +2,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import axios from 'axios'
+import Link from 'next/link';
 
 function assetsList() {
 
@@ -17,10 +19,10 @@ function assetsList() {
                     <img src="img/exit.svg" alt="모스트엑스 로고" /></a></h1>
             <nav>
                 <ul className="nav">
-                    <li><a className="link" href="menu01.html">자산 감가상각 현황</a></li>
-                    <li><a className="link" href="menu02.html">자산 등록</a></li>
-                    <li><a className="link" href="menu03.html">자산 처분</a></li>
-                    <li><a className="link" href="menu04.html">건별 자산 조회</a></li>
+                    <li><Link className="link" href="/assetsList" legacyBehavior><a>자산 감가상각 현황</a></Link></li>
+                    <li><Link className="link" href="/assetsCreate" legacyBehavior><a>자산 등록</a></Link></li>
+                    <li><Link className="link" href="/assetsDiscard" legacyBehavior><a>자산 처분</a></Link></li>
+                    <li><Link className="link" href="" legacyBehavior><a>건별 자산 조회</a></Link></li>
                 </ul>
             </nav>			
         </header>

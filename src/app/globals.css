@@ -42,7 +42,7 @@ nav{background-color: #eee; margin: auto;}
 
 .blue_back{background-color: #011E41; color: #fff}
 .gray_back{background-color: #eee}
-.btn{cursor: pointer; border-radius: 5px;}
+.btn{cursor: pointer; border-radius: 5px; text-align: center;}
 .btn:hover{opacity: 0.7;}
 .btn_off{background-color: #ddd; color: #999}
 .center_flex{display: flex;justify-content: center}
@@ -268,7 +268,8 @@ textarea{resize: none;}
 /*상담 스크립트 관리*/
 .sd_td_title a{text-overflow: ellipsis;text-wrap: nowrap; overflow: hidden; display: inline-block; max-width: 250px}
 .sb_flex{display: flex; width: 100%; justify-content: space-between;}
-
+.sd_reg_btn{display: inline-block; padding: 3px 15px; margin-right: 5px}
+.search .re_btn{background-color: #999;}
 .list_table{border-collapse:collapse; width: 100%; margin: 20px 0}
 .list_table th{background-color: #011E41; color: #fff;}
 .list_table th, .list_table td{border: 1px solid #313F4F; padding: 5px; text-align: center;}
@@ -288,6 +289,22 @@ textarea{resize: none;}
 .btm_btn_wrap .btn{margin: 16px 0}
 .btm_btn_wrap .btn.list_btn{background-color: #999; width: 100px; margin-right: 20px}
 .btm_btn_wrap .btn.save{width: 400px}
+
+.sd_cate_flex{display: flex;justify-content: space-between; align-content: stretch;}
+.sd_cate{width: 33%; border: 1px solid #011e41; box-sizing: border-box; height: 500px;}
+.sd_cate h3{text-align: center;padding: 10px 0; background-color: #011e41; color: #fff}
+.sd_cate ul{padding:10px; overflow-y: auto; height: 381px; background: #f3f3f3}
+.sd_cate ul li{margin-bottom: 5px}
+.sd_cate ul li:last-child{margin-bottom: 0}
+.sd_cate .cate_text{width: 72.5%}
+.cate_plus_btn_wrap{padding: 0 10px 10px}
+.cate_plus_btn,.cate_edit_btn,.cate_del_btn{color: #fff; border-radius: 5px; padding: 8px 10px; font-size: 11px; text-decoration: none; cursor: pointer; box-sizing: border-box;}
+.cate_plus_btn:hover,.cate_edit_btn:hover,.cate_del_btn:hover{opacity: 0.7}
+.cate_plus_btn{background-color: #313F4F; margin: auto; display: block; width: 100%;}
+.cate_edit_btn,.cate_del_btn{width: 48%}
+.cate_edit_btn{background-color: #313F4F;}
+.cate_del_btn{background-color: #B00000;}
+.cate_btn_wrap{float: right; width: 27%; text-align: right;}
 /*상담 스크립트 관리 끝*/
 
 
@@ -347,7 +364,7 @@ textarea{resize: none;}
 .date_blank{margin: 0 2px}
 .btm_chart{display: flex;justify-content: space-between; padding-top: 40px}
 .chart_box_h .now {position: relative;}
-.chart_box_h .now .chart div{background-color: #011E41; color: #fff}
+.chart_box_h .now .chart div{background-color: #011E41; color: #ccc}
 .chart_box_h .now span{display: block; position: absolute; margin-left: -47px; background-color: #ED3C3C; font-weight: 600; font-size: 12px; top: 4px;color:#fff; padding: 0 5px; border-radius: 3px}
 
 /*원형 차트*/
@@ -386,3 +403,9 @@ textarea{resize: none;}
 .align_up:before,.align_down:before{font-family: 'xeicon';color: #fff;}
 .align_up:before {content: "\e915"; }
 .align_down:before {content: "\e905";}
+
+
+/*404에러*/
+.warning::after{content: "\ea2d";font-family : xeicon;font-size: 80px; display: block; color: #FFB700}
+.warning_msg{font-size: 22px; color: #011E41; font-weight: 800}
+.warning_msg_sub{font-size: 18px; margin: 20px auto 40px}

@@ -1,8 +1,9 @@
-import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import axios from 'axios'
 
 function Home() {
+
   return(
     <article className="index">
 		<section className="blue_back">
