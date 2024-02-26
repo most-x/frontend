@@ -622,7 +622,7 @@ function homeShopping() {
             <summary></summary>
           </details>
         </section>
-        <section className="search_r_box">
+        {/* <section className="search_r_box">
           <div className="search_r">
             <p>
               방송일자
@@ -646,7 +646,7 @@ function homeShopping() {
               입니다.
             </p>
           </div>
-        </section>
+        </section> */}
 
         <div className="btm_chart">
           <section className="btm_chart_box">
@@ -654,7 +654,7 @@ function homeShopping() {
             <ul className="chart_box_h">
               {categorys &&
                 categorys.map((category: any, idx: number) => (
-                  <li>
+                  <li key={idx}>
                     <h4>{category.kind}</h4>
                     <div className="chart">
                       {category.cnt ? (
@@ -681,7 +681,7 @@ function homeShopping() {
             <h3>홈쇼핑 채널 별</h3>
             <ul className="chart_box_h">
               {shopCategory.map((shopCate, idx) => (
-                <li>
+                <li key={idx}>
                   <h4>{shopCate.kind}</h4>
                   <div className="chart">
                     {shopCate.cnt ? (
@@ -709,7 +709,7 @@ function homeShopping() {
             <ul className="chart_box_h">
               {standardCategorys.map((standardCategory, idx) => {
                 return (
-                  <li
+                  <li key={idx}
                     className={
                       `${today.getHours().toString().padStart(2, "0")}시` ===
                       standardCategory.kind
@@ -750,7 +750,7 @@ function homeShopping() {
               <li className="chart_donut_wrap">
                 {kindProds.map((kind, idx) => {
                   return (
-                    <h4>
+                    <h4 key={idx}>
                       {kind.cnt ? (
                         <a
                           href="#"
@@ -806,6 +806,7 @@ function homeShopping() {
         isOpen={isModalOpen}
         shouldCloseOnOverlayClick={true}
         shouldCloseOnEsc={true}
+        ariaHideApp={false}
       >
         <ProductList
           goodsType={goodsType}
