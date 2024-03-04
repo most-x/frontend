@@ -15,7 +15,7 @@ jobs:
   # 빌드 Job
   build:
     name: Build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
