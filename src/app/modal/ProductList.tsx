@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 interface Props {
   goodsType: string;
+  shopCdsModalValue: string[];
   goodsTypeChart: string;
   prodName: string;
   fromDate: string;
@@ -17,6 +18,7 @@ interface Props {
 
 const ProductList = ({
   goodsType,
+  shopCdsModalValue,
   goodsTypeChart,
   prodName,
   fromDate,
@@ -56,12 +58,18 @@ const ProductList = ({
       //홈쇼핑채널
       params.shopCd = cateNm;
     }
-    if (goodsType && shopCds.length === 0) {
-      params.cateNm = [goodsType];
+
+    console.log("shopCdsModalValue==", shopCdsModalValue);
+    if (shopCdsModalValue) {
+      params.cateNm = shopCdsModalValue;
     }
-    if (shopCds && goodsType === "") {
-      params.cateNm = shopCds;
-    }
+
+    // if (goodsType.length > 0 && shopCds.length === 0) {
+    //   params.cateNm = [goodsType];
+    // }
+    // if (shopCds && goodsType.length === 0) {
+    //   params.cateNm = shopCds;
+    // }
 
     // if(shopCds) {
     //   params.cateNm = shopCds;
@@ -268,9 +276,11 @@ const ProductList = ({
             <a href="#" onClick={() => handlePageClick(1)}>
               처음
             </a>
-            <a href="#" onClick={handlePrev}>
-              &nbsp;〈&nbsp;&nbsp;&nbsp;
-            </a>
+            { currentPage !== 1 && (
+              <a href="#" onClick={handlePrev}>
+                &nbsp;〈&nbsp;&nbsp;&nbsp;
+              </a>
+            )}
             {/* 페이지 번호 표시 */}
             {Array.from(
               { length: endPage - startPage + 1 },

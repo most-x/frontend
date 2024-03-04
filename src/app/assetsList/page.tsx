@@ -1,11 +1,56 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from 'axios'
 import Link from 'next/link';
 
  function assetsList() {
+    
+    const assetsListAPIUrl = `https://japi.mostx.co.kr/api/assets`
+    const [assetsDataList, setAssetsDataList] = useState();
+
+    const [selectedStatus, setselectedStatus] = useState("status01");
+    const [selectedKind, setselectedKind] = useState("use01");
+
+    const status = [
+        {id:"status01", lable: "전체" },
+        {id:"status02", lable: "정상" },
+        {id:"status03", lable: "매각" },
+        {id:"status04", lable: "폐기" }
+    ];
+
+    const handleStatusChange = (event: any) => {
+        console.log(event.target.id);
+        setselectedStatus(event.target.id);
+    }
+
+    const kind = [
+        {id:"use01", lable: "전체" },
+        {id:"use02", lable: "구독" },
+        {id:"use03", lable: "체험" }
+    ]
+
+    const handleKindChage = (event: any) => {
+        console.log(event.target.id);
+        setselectedKind(event.target.id);
+    }
+
+    // axios.get(assetsListAPIUrl).then((res) => {
+        
+    //     console.log(res.data);
+
+    //     setAssetsDataList(res.data);
+    // });
+
+    const reFetch = () => {
+        axios.get(assetsListAPIUrl).then((res) => {
+            console.log(res.data);
+            setAssetsDataList(res.data);
+
+
+       });
+    };
    
     return (
         <div>
@@ -57,33 +102,47 @@ import Link from 'next/link';
                         <li>
                             <h4 className="label">상태</h4>
                             <fieldset className="input_wrap">
-                               <input type="radio" name="status" id="status01" />
-                                <label htmlFor="status01">전체</label>
-                                <input type="radio" name="status" id="status02" />
-                                <label htmlFor="status02">정상</label>
-                                <input type="radio" name="status" id="status03" />
-                                <label htmlFor="status03">매각</label>
-                                <input type="radio" name="status" id="status04" />
-                                <label htmlFor="status04">폐기</label>
-                                {/* <input
-                                    type="radio"
-                                    name="status"
-                                    id={}
-                                    value={}
-                                    onChange={}
-                                    checked={}
-                                /> */}
+                                {
+                                    status.map((status) => (
+                                        <span key={status.id}>
+                                            <input
+                                                type="radio"
+                                                id={status.id}
+                                                name="status"
+                                                checked={selectedStatus === status.id}
+                                                onChange = {handleStatusChange}
+                                                value={status.id}
+                                            />
+                                            <label htmlFor={status.id}>{status.lable}</label>
+                                        </span>
+                                    ))
+                                }
                             </fieldset>
                         </li>
                         <li>
                             <h4 className="label">용도</h4>
                             <fieldset className="input_wrap">
-                                <input type="radio" name="use" id="use01" />
+                                {
+                                    kind.map((kind) => (
+                                        <span key ={kind.id}>
+                                            <input
+                                                type="radio"
+                                                id={kind.id}
+                                                name="kind"
+                                                checked={selectedKind === kind.id}
+                                                onChange = {handleKindChage}
+                                                value={kind.id}
+                                            />
+                                            <label htmlFor={kind.id}>{kind.lable}</label>
+                                        </span>
+                                    ))
+                                }
+                                {/* <input type="radio" name="use" id="use01" />
                                 <label htmlFor="use01">전체</label>
                                 <input type="radio" name="use" id="use02" />
                                 <label htmlFor="use02">구독</label>
                                 <input type="radio" name="use" id="use03" />
-                                <label htmlFor="use03">체험</label>
+                                <label htmlFor="use03">체험</label> */}
                             </fieldset>
                         </li>
                         <li>
