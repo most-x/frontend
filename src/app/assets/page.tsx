@@ -7,6 +7,8 @@ import Link from 'next/link';
 
 function assetsList() {
 
+    const assetsDashboard = `http://31.152.254.254:9000/api/assets/dashboard`
+
     const today = new Date();
     const formattedDate = `${today.getFullYear()}/ ${today.getMonth() + 1}/ ${today.getDate()}`; 
 
