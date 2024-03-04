@@ -7,7 +7,7 @@ on:
 
 # 환경설정
 env:
-  DOCKER_IMAGE: ghcr.io/${{ github.actor }}/mostx-frontend
+  DOCKER_IMAGE: ghcr.io/${{ github.actor }}/mostx_frontend
   VERSION: ${{ github.sha }}
   NAME: react-front
 
@@ -53,7 +53,7 @@ jobs:
   deploy:
     needs: build  # build 후에 실행되도록 정의
     name: Deploy
-    runs-on: [ self-hosted, label-go ] # AWS ./configure에서 사용할 label명
+    runs-on: [ self-hosted ] # AWS ./configure에서 사용할 label명
     permissions:
       contents: read
       packages: write
