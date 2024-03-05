@@ -11,7 +11,7 @@ function Home() {
 		</section>
 		<section>
 			<div>
-				<h2 className="title">사내 정보 관리 시스템(home)</h2>
+				<h2 className="title">사내 정보 관리 시스템</h2>
 			    {/* <Link href="/dashboard" legacyBehavior>
 					<a className='btn blue_back'>자산 감가상각 관리</a>
 				</Link> */}

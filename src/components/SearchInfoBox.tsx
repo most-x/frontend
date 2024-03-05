@@ -31,7 +31,7 @@ export default function SearchInfoBox({
                 </p>
                 <p>
                     상품명
-                    {prodName} ? <b> 전체 </b> : <b>{prodName}</b>
+                    <b>{prodName}</b>
                     <span>|</span>
                     카테고리
                     <b>{shopCds.join(',')}</b>
