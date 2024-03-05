@@ -7,10 +7,22 @@ import Link from 'next/link';
 
 function assetsList() {
 
-    const assetsDashboard = `http://31.152.254.254:9000/api/assets/dashboard`
+    const assetsDashboardAPI = `http://31.152.254.254:9000/api/assets/dashboard`
+
+    const [totalAssest, setTotalAsset] = useState(); //총자산
+    const [nomalAssest, setNormalAsset] = useState();  //정상
 
     const today = new Date();
     const formattedDate = `${today.getFullYear()}/ ${today.getMonth() + 1}/ ${today.getDate()}`; 
+
+    axios
+        .get(assetsDashboardAPI)
+        .then((response) => {
+            console.log(response.data);
+            console.log(response.data.totalAssest);
+            setTotalAsset(response.data.totalAssest);
+            setNormalAsset(response.data.nomalAssest);
+        })
 
     return (
         <div>
