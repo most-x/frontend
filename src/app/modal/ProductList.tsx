@@ -3,29 +3,23 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
-  goodsType: string;
-  shopCdsModalValue: string[];
   goodsTypeChart: string;
   prodName: string;
   fromDate: string;
   toDate: string;
   shopCds: string[];
   cateNm: string[];
-  modalCateNm: string;
   standardTime: string;
   closeModal: () => void;
 }
 
 const ProductList = ({
-  goodsType,
-  shopCdsModalValue,
   goodsTypeChart,
   prodName,
   fromDate,
   toDate,
-  shopCds,
-  cateNm,
-  modalCateNm,
+  shopCds, // 쇼핑몰코드
+  cateNm, // 카테고리명
   standardTime,
   closeModal,
 }: Props) => {
@@ -45,35 +39,19 @@ const ProductList = ({
 
   const fetchData = () => {
     const params: any = {
-      goodsType: goodsTypeChart,
-      goodsNm: prodName ? prodName : goodsNm,
+      goodsType: goodsTypeChart, // 상품 유형
+      goodsNm: prodName ? prodName : goodsNm, // 상품명
       addGoodsNm: addGoodsNm,
-      fromDate: fromDate,
-      toDate: toDate,
+      fromDate: fromDate, // 시작날짜
+      toDate: toDate, // 종료날짜
+      shopCd: shopCds, // 쇼핑몰코드
+      cateNm: cateNm, // 카테고리명
       page: currentPage, // 현재 페이지
-      limit: limit,
+      limit: limit, // 사이즈
     };
 
-    if (cateNm) {
-      //홈쇼핑채널
-      params.shopCd = cateNm;
-    }
+    console.log(params)
 
-    console.log("shopCdsModalValue==", shopCdsModalValue);
-    if (shopCdsModalValue) {
-      params.cateNm = shopCdsModalValue;
-    }
-
-    // if (goodsType.length > 0 && shopCds.length === 0) {
-    //   params.cateNm = [goodsType];
-    // }
-    // if (shopCds && goodsType.length === 0) {
-    //   params.cateNm = shopCds;
-    // }
-
-    // if(shopCds) {
-    //   params.cateNm = shopCds;
-    // }
 
     if (standardTime) {
       params.standardTime = standardTime;
@@ -93,8 +71,6 @@ const ProductList = ({
   }, [
     currentPage,
     limit,
-    modalCateNm,
-    goodsType,
     standardTime,
     cateNm,
     shopCds,

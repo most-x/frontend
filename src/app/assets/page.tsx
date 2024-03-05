@@ -1,28 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
-import { useEffect, useState, useContext } from "react";
-import axios from 'axios'
 import Link from 'next/link';
 
 function assetsList() {
 
-    const assetsDashboardAPI = `http://31.152.254.254:9000/api/assets/dashboard`
-
-    const [totalAssest, setTotalAsset] = useState(); //총자산
-    const [nomalAssest, setNormalAsset] = useState();  //정상
-
     const today = new Date();
     const formattedDate = `${today.getFullYear()}/ ${today.getMonth() + 1}/ ${today.getDate()}`; 
-
-    axios
-        .get(assetsDashboardAPI)
-        .then((response) => {
-            console.log(response.data);
-            console.log(response.data.totalAssest);
-            setTotalAsset(response.data.totalAssest);
-            setNormalAsset(response.data.nomalAssest);
-        })
 
     return (
         <div>
