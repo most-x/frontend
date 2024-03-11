@@ -43,6 +43,19 @@ export const SHOP_NAME = {
     bshop: "SK스토아",
   };
 
+export const STATUS = [
+    {id:"status01", lable: "전체" },
+    {id:"status02", lable: "정상" },
+    {id:"status03", lable: "매각" },
+    {id:"status04", lable: "폐기" }
+];
+
+export const KIND = [
+    {id:"use01", lable: "전체" },
+    {id:"use02", lable: "구독" },
+    {id:"use03", lable: "체험" }
+];
+
 export const WEEK =  new Array("일", "월", "화", "수", "목", "금", "토");
 
 export const TODAY = new Date();

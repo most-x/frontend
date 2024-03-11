@@ -18,7 +18,7 @@ export const fotmattedDate = () => {
     const label = TODAY.getDay();
     const todayLabel = WEEK[label];
 
-    return `${TODAY.getFullYear()}. 0${TODAY.getMonth() + 1}. 0${TODAY.getDate()}(${todayLabel}) 05:00:00`;
+    return `${TODAY.getFullYear()}. 0${TODAY.getMonth() + 1}. ${TODAY.getDate()}(${todayLabel}) 05:00:00`;
 };
 
 

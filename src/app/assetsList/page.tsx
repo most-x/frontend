@@ -4,55 +4,49 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from 'axios'
 import Link from 'next/link';
+import { KIND, STATUS } from '@/utils/constants';
+import { toComma } from '@/utils/util';
 
  function assetsList() {
     
     const assetsListAPIUrl = `https://japi.mostx.co.kr/api/assets`
-    const [assetsDataList, setAssetsDataList] = useState();
+    const [assetsDatas, setAssetsDatas] = useState<any[]>([]);
 
     const [selectedStatus, setselectedStatus] = useState("status01");
     const [selectedKind, setselectedKind] = useState("use01");
 
-    const status = [
-        {id:"status01", lable: "전체" },
-        {id:"status02", lable: "정상" },
-        {id:"status03", lable: "매각" },
-        {id:"status04", lable: "폐기" }
-    ];
+    const [limit, setLimit] =useState(10);
+    const [currentPage, setCurrentPage] = useState(0);
+    const pageLimit = 10;
 
     const handleStatusChange = (event: any) => {
         console.log(event.target.id);
         setselectedStatus(event.target.id);
     }
 
-    const kind = [
-        {id:"use01", lable: "전체" },
-        {id:"use02", lable: "구독" },
-        {id:"use03", lable: "체험" }
-    ]
-
     const handleKindChage = (event: any) => {
         console.log(event.target.id);
         setselectedKind(event.target.id);
     }
 
-    // axios.get(assetsListAPIUrl).then((res) => {
-        
-    //     console.log(res.data);
+    useEffect(() => {
+        const params: any = {
+            page: currentPage,
+            limit: limit
+        }
+        getAssetsList();
+    }, []);
 
-    //     setAssetsDataList(res.data);
-    // });
-
-    const reFetch = () => {
-        axios.get(assetsListAPIUrl).then((res) => {
-            console.log(res.data);
-            setAssetsDataList(res.data);
-
-
-       });
-    };
+    async function getAssetsList() {
+        await axios
+            .get(assetsListAPIUrl)
+            .then((res: {data: {asstesData: any }}) => {
+                console.log(res.data.contents);
+                setAssetsDatas(res.data.contents);
+            });
+    }
    
-    return (
+    return (                                            
         <div>
             <header>
                 <nav>
@@ -99,7 +93,7 @@ import Link from 'next/link';
                             <h4 className="label">상태</h4>
                             <fieldset className="input_wrap">
                                 {
-                                    status.map((status) => (
+                                    STATUS.map((status) => (
                                         <span key={status.id}>
                                             <input
                                                 type="radio"
@@ -119,7 +113,7 @@ import Link from 'next/link';
                             <h4 className="label">용도</h4>
                             <fieldset className="input_wrap">
                                 {
-                                    kind.map((kind) => (
+                                    KIND.map((kind) => (
                                         <span key ={kind.id}>
                                             <input
                                                 type="radio"
@@ -133,12 +127,6 @@ import Link from 'next/link';
                                         </span>
                                     ))
                                 }
-                                {/* <input type="radio" name="use" id="use01" />
-                                <label htmlFor="use01">전체</label>
-                                <input type="radio" name="use" id="use02" />
-                                <label htmlFor="use02">구독</label>
-                                <input type="radio" name="use" id="use03" />
-                                <label htmlFor="use03">체험</label> */}
                             </fieldset>
                         </li>
                         <li>
@@ -194,7 +182,6 @@ import Link from 'next/link';
                             <th>일상구독 상품번호</th>
                             <th>시리얼 번호</th>
                             <th>상품명</th>
-                            <th>WRMS 구매오더번호</th>
                             <th>창고번호</th>
                             <th>발주단가(VAT+)</th>
                             <th>발주단가(VAT-)</th>
@@ -204,196 +191,28 @@ import Link from 'next/link';
                             <th>자산등록일자</th>
                             <th>최초개시일자</th>
                         </tr>
-                        <tr>
-                            <td>1595</td>
-                            <td>정상</td>
-                            <td>구독</td>
-                            <td><a href="menu04.html">MP4678965</a></td>
-                            <td>P10000005889</td>
-                            <td>SP1234568459</td>
-                            <td>SKG123546EG6</td>
-                            <td>루킨스 Premium 특별패키지(체험용)</td>
-                            <td>PO00000000891</td>
-                            <td>CT200</td>
-                            <td>990,000</td>
-                            <td>900,000</td>
-                            <td>1,000,000</td>
-                            <td>800,000</td>
-                            <td>900,000</td>
-                            <td>2023-07-01</td>
-                            <td>2023-07-07</td>
-                        </tr>
-                        <tr>
-                            <td>1594</td>
-                            <td>정상</td>
-                            <td>구독</td>
-                            <td><a href="menu04.html">MP4678965</a></td>
-                            <td>P10000005889</td>
-                            <td>SP1234568459</td>
-                            <td>SKG123546EG6</td>
-                            <td>루킨스 Premium 특별패키지(체험용)</td>
-                            <td>PO00000000891</td>
-                            <td>CT200</td>
-                            <td>990,000</td>
-                            <td>900,000</td>
-                            <td>1,000,000</td>
-                            <td>800,000</td>
-                            <td>900,000</td>
-                            <td>2023-07-01</td>
-                            <td>2023-07-07</td>
-                        </tr>
-                        <tr>
-                            <td>1593</td>
-                            <td>정상</td>
-                            <td>구독</td>
-                            <td><a href="menu04.html">MP4678965</a></td>
-                            <td>P10000005889</td>
-                            <td>SP1234568459</td>
-                            <td>SKG123546EG6</td>
-                            <td>루킨스 Premium 특별패키지(체험용)</td>
-                            <td>PO00000000891</td>
-                            <td>CT200</td>
-                            <td>990,000</td>
-                            <td>900,000</td>
-                            <td>1,000,000</td>
-                            <td>800,000</td>
-                            <td>900,000</td>
-                            <td>2023-07-01</td>
-                            <td>2023-07-07</td>
-                        </tr>
-                        <tr>
-                            <td>1592</td>
-                            <td>정상</td>
-                            <td>구독</td>
-                            <td><a href="menu04.html">MP4678965</a></td>
-                            <td>P10000005889</td>
-                            <td>SP1234568459</td>
-                            <td>SKG123546EG6</td>
-                            <td>루킨스 Premium 특별패키지(체험용)</td>
-                            <td>PO00000000891</td>
-                            <td>CT200</td>
-                            <td>990,000</td>
-                            <td>900,000</td>
-                            <td>1,000,000</td>
-                            <td>800,000</td>
-                            <td>900,000</td>
-                            <td>2023-07-01</td>
-                            <td>2023-07-07</td>
-                        </tr>
-                        <tr>
-                            <td>1591</td>
-                            <td>정상</td>
-                            <td>구독</td>
-                            <td><a href="menu04.html">MP4678965</a></td>
-                            <td>P10000005889</td>
-                            <td>SP1234568459</td>
-                            <td>SKG123546EG6</td>
-                            <td>루킨스 Premium 특별패키지(체험용)</td>
-                            <td>PO00000000891</td>
-                            <td>CT200</td>
-                            <td>990,000</td>
-                            <td>900,000</td>
-                            <td>1,000,000</td>
-                            <td>800,000</td>
-                            <td>900,000</td>
-                            <td>2023-07-01</td>
-                            <td>2023-07-07</td>
-                        </tr>
-                        <tr>
-                            <td>1590</td>
-                            <td>정상</td>
-                            <td>구독</td>
-                            <td><a href="menu04.html">MP4678965</a></td>
-                            <td>P10000005889</td>
-                            <td>SP1234568459</td>
-                            <td>SKG123546EG6</td>
-                            <td>루킨스 Premium 특별패키지(체험용)</td>
-                            <td>PO00000000891</td>
-                            <td>CT200</td>
-                            <td>990,000</td>
-                            <td>900,000</td>
-                            <td>1,000,000</td>
-                            <td>800,000</td>
-                            <td>900,000</td>
-                            <td>2023-07-01</td>
-                            <td>2023-07-07</td>
-                        </tr>
-                        <tr>
-                            <td>1589</td>
-                            <td>정상</td>
-                            <td>구독</td>
-                            <td><a href="menu04.html">MP4678965</a></td>
-                            <td>P10000005889</td>
-                            <td>SP1234568459</td>
-                            <td>SKG123546EG6</td>
-                            <td>루킨스 Premium 특별패키지(체험용)</td>
-                            <td>PO00000000891</td>
-                            <td>CT200</td>
-                            <td>990,000</td>
-                            <td>900,000</td>
-                            <td>1,000,000</td>
-                            <td>800,000</td>
-                            <td>900,000</td>
-                            <td>2023-07-01</td>
-                            <td>2023-07-07</td>
-                        </tr>
-                        <tr>
-                            <td>1588</td>
-                            <td>정상</td>
-                            <td>구독</td>
-                            <td><a href="menu04.html">MP4678965</a></td>
-                            <td>P10000005889</td>
-                            <td>SP1234568459</td>
-                            <td>SKG123546EG6</td>
-                            <td>루킨스 Premium 특별패키지(체험용)</td>
-                            <td>PO00000000891</td>
-                            <td>CT200</td>
-                            <td>990,000</td>
-                            <td>900,000</td>
-                            <td>1,000,000</td>
-                            <td>800,000</td>
-                            <td>900,000</td>
-                            <td>2023-07-01</td>
-                            <td>2023-07-07</td>
-                        </tr>
-                        <tr>
-                            <td>1587</td>
-                            <td>정상</td>
-                            <td>구독</td>
-                            <td><a href="menu04.html">MP4678965</a></td>
-                            <td>P10000005889</td>
-                            <td>SP1234568459</td>
-                            <td>SKG123546EG6</td>
-                            <td>루킨스 Premium 특별패키지(체험용)</td>
-                            <td>PO00000000891</td>
-                            <td>CT200</td>
-                            <td>990,000</td>
-                            <td>900,000</td>
-                            <td>1,000,000</td>
-                            <td>800,000</td>
-                            <td>900,000</td>
-                            <td>2023-07-01</td>
-                            <td>2023-07-07</td>
-                        </tr>
-                        <tr>
-                            <td>1586</td>
-                            <td>정상</td>
-                            <td>구독</td>
-                            <td><a href="menu04.html">MP4678965</a></td>
-                            <td>P10000005889</td>
-                            <td>SP1234568459</td>
-                            <td>SKG123546EG6</td>
-                            <td>루킨스 Premium 특별패키지(체험용)</td>
-                            <td>PO00000000891</td>
-                            <td>CT200</td>
-                            <td>990,000</td>
-                            <td>900,000</td>
-                            <td>1,000,000</td>
-                            <td>800,000</td>
-                            <td>900,000</td>
-                            <td>2023-07-01</td>
-                            <td>2023-07-07</td>
-                        </tr>	
+                        {
+                            Object.values(assetsDatas).map((asset, idx) => (
+                                <tr key={idx}>
+                                    <td>{asset.no}</td>
+                                    <td>{asset.assetStatus}</td>
+                                    <td>{asset.assetUsage}</td>
+                                    <td>{asset.wrmsAssetCode}</td>
+                                    <td>{asset.wrmsItemCode}</td>
+                                    <td>{asset.ilsangProductCode}</td>
+                                    <td>{asset.serialNumber}</td>
+                                    <td>{asset.productName}</td>
+                                    <td>{asset.warehouseNumber}</td>
+                                    <td>{ toComma(asset.supplyPrice)}</td>
+                                    <td>{ toComma(asset.vat) }</td>
+                                    <td>{ toComma(String(asset.depreciationCurrent)) }</td>
+                                    <td>{ toComma(String(asset.depreciationTotalprice)) }</td>
+                                    <td>{asset.bookValue}</td>
+                                    <td>{asset.assetRegistDate}</td>
+                                    <td>{asset.initialStartDate}</td>
+                                </tr>
+                            ))
+                        }
                     </thead>
                 </table>
                 <div className="center_flex page">

@@ -31,13 +31,13 @@ export default function SearchInfoBox({
                 </p>
                 <p>
                     상품명
-                    <b>{prodName}</b>
+                    <b> {prodName ? prodName : '전체'} </b>
                     <span>|</span>
                     카테고리
-                    <b>{shopCds.join(',')}</b>
+                    <b>{shopCds.includes('전체') ? '전체' : shopCds.join(',')}</b>
                     <span>|</span>
                     홈쇼핑 채널
-                    <b>{channels.join(',')}</b>의
+                    <b>{channels.includes('전체') ? '전체' : channels.join(',')}</b>의
                 </p>
                 <p className="search_r_f">
                     조회 상품수는 총<b>{totalCount}개</b>

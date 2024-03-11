@@ -27,7 +27,6 @@ const customStyles = {
 };
 
 function homeShopping() {
-
     const channels = Object.entries(SHOP_NAME).map(([id, label]) => ({
         id,
         label,
@@ -41,12 +40,11 @@ function homeShopping() {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const [shopCds, setShopCds] = useState<string[]>(CATEGORYS.map((category) => category.id))
+    const [shopCds, setShopCds] = useState<string[]>(CATEGORYS.map((category) => category.id)); // 카테고리
     const [currentCategory, setCurrentCategory] = useState<string[]>([]);
     const [currentChannel, setCurrentChannel] = useState<string[]>([]);
 
-
-    const [selectedChannels, setSelectedChannels] = useState<string[]>(DEFAULT_CHANNEL);
+    const [selectedChannels, setSelectedChannels] = useState<string[]>(DEFAULT_CHANNEL); //채널
     const [loading, setLoading] = useState(false);
 
     const [prodName, setProdName] = useState('');
@@ -55,6 +53,8 @@ function homeShopping() {
     const [standardTime, setStandardTime] = useState('');
 
     const [goodsTypeChart, setGoodTypeChart] = useState('');
+
+    console.log(shopCds);
 
     const {
         fetchProductCount,
@@ -81,21 +81,28 @@ function homeShopping() {
 
     const handleChannelChange = (event: any) => {
         const { id, checked } = event.target;
-        if (id === 'channelall') {
+        console.log(id);
+        if (id === 'totalChannel') {
             if (checked) {
                 setSelectedChannels(channels.map((channel) => channel.id));
             } else {
                 setSelectedChannels([]);
             }
         } else {
-
-
             if (checked) {
-                setSelectedChannels((prevSelectedChannels: any) => [...prevSelectedChannels, id]);
+                setSelectedChannels((prevChannel: any) => {
+                    if (prevChannel.includes('totalChannel')) {
+                        return [id];
+                    }
+                    return [...prevChannel, id];
+                });
             } else {
-                setSelectedChannels((prevSelectedChannels: any[]) =>
-                    prevSelectedChannels.filter((channel: any) => channel !== id)
-                );
+                setSelectedChannels((prevChannel: any[]) => {
+                    if (prevChannel.includes('totalChannel')) {
+                        return [id];
+                    }
+                    return prevChannel.filter((shopCd: any) => shopCd !== id);
+                });
             }
         }
     };
@@ -110,9 +117,19 @@ function homeShopping() {
             }
         } else {
             if (checked) {
-                setShopCds((prevShopCds: any) => [...prevShopCds, id]);
+                setShopCds((prevShopCds: any) => {
+                    if (prevShopCds.includes('전체')) {
+                        return [id];
+                    }
+                    return [...prevShopCds, id];
+                });
             } else {
-                setShopCds((prevShopCds: any[]) => prevShopCds.filter((shopCd: any) => shopCd !== id));
+                setShopCds((prevShopCds: any[]) => {
+                    if (prevShopCds.includes('전체')) {
+                        return [id];
+                    }
+                    return prevShopCds.filter((shopCd: any) => shopCd !== id);
+                });
             }
         }
     };
@@ -178,8 +195,8 @@ function homeShopping() {
 
     const cateOpen = (e: any, kind: string) => {
         e.preventDefault();
-        setCurrentCategory([kind])
-        setCurrentChannel(selectedChannels)
+        setCurrentCategory([kind]);
+        setCurrentChannel(selectedChannels);
         setIsModalOpen(true);
         setStandardTime('');
     };
@@ -199,7 +216,7 @@ function homeShopping() {
     const timeOpen = (e: any, kind: string) => {
         e.preventDefault();
         setCurrentCategory(shopCds);
-        setCurrentChannel(selectedChannels)
+        setCurrentChannel(selectedChannels);
         setStandardTime(kind);
         setIsModalOpen(true);
     };
@@ -207,7 +224,7 @@ function homeShopping() {
     const openTimeModal = (toDate: Date) => {
         const cvDate = convertDate(toDate);
         setCurrentCategory(shopCds);
-        setCurrentChannel(selectedChannels)
+        setCurrentChannel(selectedChannels);
         setStartDate(cvDate);
         setEndDate(cvDate);
         setIsModalOpen(true);
@@ -217,11 +234,13 @@ function homeShopping() {
         setGoodTypeChart(type);
         setIsModalOpen(true);
         setCurrentCategory(shopCds);
-        setCurrentChannel(selectedChannels)
+        setCurrentChannel(selectedChannels);
     };
     if (loading) {
         return <div>로딩중...</div>;
     }
+
+    console.log(selectedChannels);
 
     return (
         <div>
@@ -268,17 +287,39 @@ function homeShopping() {
                                         카테고리
                                     </label>
                                     <fieldset className="date_radio checkbox">
-                                        {CATEGORYS.map((category) => (
-                                            <span key={category.id}>
-                                                <input
-                                                    type="checkbox"
-                                                    id={category.id}
-                                                    onChange={handleShopCdChange}
-                                                    checked={shopCds.includes(category.id)}
-                                                />
-                                                <label htmlFor={category.id}>{category.label}</label>
-                                            </span>
-                                        ))}
+                                        {CATEGORYS.map((category) => {
+                                            const totalCheck = shopCds.includes('전체');
+                                            console.log(shopCds.includes(category.label));
+                                            return (
+                                                <span key={category.id}>
+                                                    <input
+                                                        type="checkbox"
+                                                        id={category.id}
+                                                        onChange={handleShopCdChange}
+                                                        checked={shopCds.includes(category.id)}
+                                                    />
+                                                    <label
+                                                        htmlFor={category.id}
+                                                        style={{
+                                                            backgroundColor:
+                                                                category.label === '전체' && totalCheck
+                                                                    ? '#011E41'
+                                                                    : shopCds.includes(category.label) && !totalCheck
+                                                                    ? '#011E41'
+                                                                    : '#fff',
+                                                            color:
+                                                                category.label === '전체' && totalCheck
+                                                                    ? '#fff'
+                                                                    : shopCds.includes(category.label) && !totalCheck
+                                                                    ? '#fff'
+                                                                    : '#000',
+                                                        }}
+                                                    >
+                                                        {category.label}
+                                                    </label>
+                                                </span>
+                                            );
+                                        })}
                                     </fieldset>
                                 </li>
                                 <li className="checkbox_wrap">
@@ -286,27 +327,39 @@ function homeShopping() {
                                         홈쇼핑 채널
                                     </label>
                                     <fieldset className="date_radio checkbox">
-                                        <input
-                                            type="checkbox"
-                                            id="channelall"
-                                            checked={selectedChannels.includes('total')}
-                                            onChange={handleChannelChange}
-                                        />
-                                        <label htmlFor="channelall">전체</label>
                                         {channels.map((channel) => {
-                                            if (channel.id !== 'total') {
-                                                return (
-                                                    <span key={channel.id}>
-                                                        <input
-                                                            type="checkbox"
-                                                            id={channel.id}
-                                                            checked={selectedChannels.includes(channel.id)}
-                                                            onChange={handleChannelChange}
-                                                        />
-                                                        <label htmlFor={channel.id}>{channel.label}</label>
-                                                    </span>
-                                                );
-                                            }
+                                            const totalCheck = selectedChannels.includes('totalChannel');
+                                            return (
+                                                <span key={channel.id}>
+                                                    <input
+                                                        type="checkbox"
+                                                        id={channel.id}
+                                                        checked={selectedChannels.includes(channel.id)}
+                                                        onChange={handleChannelChange}
+                                                    />
+                                                    <label
+                                                        style={{
+                                                            backgroundColor:
+                                                                channel.id === 'totalChannel' && totalCheck
+                                                                    ? '#011E41'
+                                                                    : selectedChannels.includes(channel.id) &&
+                                                                      !totalCheck
+                                                                    ? '#011E41'
+                                                                    : '#fff',
+                                                            color:
+                                                                channel.id === 'totalChannel' && totalCheck
+                                                                    ? '#fff'
+                                                                    : selectedChannels.includes(channel.id) &&
+                                                                      !totalCheck
+                                                                    ? '#fff'
+                                                                    : '#000',
+                                                        }}
+                                                        htmlFor={channel.id}
+                                                    >
+                                                        {channel.label}
+                                                    </label>
+                                                </span>
+                                            );
                                         })}
                                     </fieldset>
                                 </li>
@@ -370,7 +423,12 @@ function homeShopping() {
                         <>
                             <SearchBox title={'카테고리 별'} searchList={categorys} searchOpen={cateOpen} />
                             <SearchBox title={'홈쇼핑 채널 별'} searchList={shopCategory} searchOpen={shopOpen} />
-                            <SearchBox title={'시간대 별'} searchList={standardCategorys} searchOpen={timeOpen} />
+                            <SearchBox
+                                title={'시간대 별'}
+                                searchList={standardCategorys}
+                                isTimeZone={true}
+                                searchOpen={timeOpen}
+                            />
                             <SearchBoxByChart title={'유형 별'} searchList={kindProds} searchOpen={goodsTypeOpen} />
                         </>
                     )}
