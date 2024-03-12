@@ -10,7 +10,7 @@ import { toComma } from '@/utils/util';
  function assetsList() {
     
     const assetsListAPIUrl = `https://japi.mostx.co.kr/api/assets`
-    const [assetsDatas, setAssetsDatas] = useState<any[]>([]);
+    const [assetsDatas, setAssetsDatas] = useState<any>([]);
 
     const [selectedStatus, setselectedStatus] = useState("status01");
     const [selectedKind, setselectedKind] = useState("use01");
@@ -41,8 +41,8 @@ import { toComma } from '@/utils/util';
         await axios
             .get(assetsListAPIUrl)
             .then((res: {data: {asstesData: any }}) => {
-                console.log(res.data.contents);
-                setAssetsDatas(res.data.contents);
+                console.log(res.data);
+                setAssetsDatas(res.data);
             });
     }
    
@@ -192,7 +192,9 @@ import { toComma } from '@/utils/util';
                             <th>최초개시일자</th>
                         </tr>
                         {
-                            Object.values(assetsDatas).map((asset, idx) => (
+                            // Object.values(assetsDatas).map((asset, idx) => (
+                                assetsDatas["contents"] &&
+                                assetsDatas["contents"].map((asset:any, idx:number) => {
                                 <tr key={idx}>
                                     <td>{asset.no}</td>
                                     <td>{asset.assetStatus}</td>
@@ -211,7 +213,7 @@ import { toComma } from '@/utils/util';
                                     <td>{asset.assetRegistDate}</td>
                                     <td>{asset.initialStartDate}</td>
                                 </tr>
-                            ))
+                            })
                         }
                     </thead>
                 </table>

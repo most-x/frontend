@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import * as XLSX from "xlsx";
 
 interface Props {
   goodsTypeChart: string;
@@ -103,6 +103,10 @@ const ProductList = ({
     const nextPage = currentPage + 1;
     handlePageClick(nextPage);
   };
+
+  // const productDataDownload = useMemo(() => {
+
+  // })
 
   useEffect(() => {
     document.body.style.overflow = "hidden";

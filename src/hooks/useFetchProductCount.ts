@@ -99,8 +99,7 @@ export const useFetchProductCount = ({
                     setStandardCategorys(standardCate);
                     setPercentDataA(percentData);
                     setProductCountInfo(recentData);
-    
-                    // TODO: 테스트를 위해 샘플 데이터를 사용했음. 추후 API 데이터로 변경 필요
+
                     setProductPercentInfo(percentData.recentPercent);
     
                     setKindProds(kindsProduct);
