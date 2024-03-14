@@ -437,6 +437,9 @@ function homeShopping() {
                 {/* 팝업 */}
                 {/*  */}
             </article>
+            <footer>
+                <p className="ver">© MOSTX. ALL RIGHT RESERVED. ver 1.0</p>
+            </footer>
             <Modal
                 style={customStyles}
                 isOpen={isModalOpen}
@@ -459,6 +462,7 @@ function homeShopping() {
                 />
             </Modal>
         </div>
+        
     );
 }
 

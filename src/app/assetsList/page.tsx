@@ -193,8 +193,8 @@ import { toComma } from '@/utils/util';
                         </tr>
                         {
                             // Object.values(assetsDatas).map((asset, idx) => (
-                                assetsDatas["contents"] &&
-                                assetsDatas["contents"].map((asset:any, idx:number) => {
+                                assetsDatas.contents &&
+                                assetsDatas.contents.map((asset:any, idx:number) => {
                                 <tr key={idx}>
                                     <td>{asset.no}</td>
                                     <td>{asset.assetStatus}</td>
