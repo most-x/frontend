@@ -22,7 +22,7 @@ export const CATEGORYS = [
 export const SHOP_NAME = {
     //homeshopping: '홈쇼핑',
     //tcommerce2: 'T커머스',
-    total: "전체",
+    totalChannel: "전체",
     hnsmall: "홈&쇼핑",
     cjmall: "CJ&스타일",
     lottemall: "롯데홈쇼핑",

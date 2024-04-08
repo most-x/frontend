@@ -438,7 +438,7 @@ function homeShopping() {
                 {/*  */}
             </article>
             <footer>
-                <p className="ver">© MOSTX. ALL RIGHT RESERVED. ver 1.0</p>
+                <p className="ver">© MOSTX. ALL RIGHT RESERVED. ver 2.0</p>
             </footer>
             <Modal
                 style={customStyles}

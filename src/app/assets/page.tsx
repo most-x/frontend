@@ -59,7 +59,7 @@ function assetsDashboard() {
                         <li><Link href="/assetsList" legacyBehavior><a className="link">자산 감가상각 현황</a></Link></li>
                         <li><Link href="/assetsCreate" legacyBehavior><a className="link">자산 등록</a></Link></li>
                         <li><Link href="/assetsDiscard" legacyBehavior><a className="link">자산 처분</a></Link></li>
-                        <li><Link href="" legacyBehavior><a className="link"> 건별 자산 조회</a></Link></li>
+                        <li><Link href="/assetView" legacyBehavior><a className="link"> 건별 자산 조회</a></Link></li>
                     </ul>
                 </nav>			
 	

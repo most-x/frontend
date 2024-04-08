@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useEffect, useState, useContext } from "react";
+import { useParams } from "react-router-dom";
 import axios from 'axios'
 import Link from 'next/link';
 import { KIND, STATUS } from '@/utils/constants';
@@ -10,7 +11,8 @@ import { toComma } from '@/utils/util';
  function assetsList() {
     
     const assetsListAPIUrl = `https://japi.mostx.co.kr/api/assets`
-    const [assetsDatas, setAssetsDatas] = useState<any>([]);
+    const [assetsDatas, setAssetsDatas] = useState<any[]>([]);
+    const [assetTotalCount, setAssetTotalCount] = useState();
 
     const [selectedStatus, setselectedStatus] = useState("status01");
     const [selectedKind, setselectedKind] = useState("use01");
@@ -18,6 +20,16 @@ import { toComma } from '@/utils/util';
     const [limit, setLimit] =useState(10);
     const [currentPage, setCurrentPage] = useState(0);
     const pageLimit = 10;
+
+    const fatchData = () => {
+        const params : any = {
+            page : currentPage,
+            limit : limit
+        }
+
+        console.log("params" + params)
+
+    }
 
     const handleStatusChange = (event: any) => {
         console.log(event.target.id);
@@ -30,19 +42,21 @@ import { toComma } from '@/utils/util';
     }
 
     useEffect(() => {
-        const params: any = {
-            page: currentPage,
-            limit: limit
-        }
-        getAssetsList();
-    }, []);
 
-    async function getAssetsList() {
+       fatchData(),
+        getAssetsList();
+    }, [currentPage, limit]);
+
+     async function getAssetsList() {
         await axios
             .get(assetsListAPIUrl)
-            .then((res: {data: {asstesData: any }}) => {
-                console.log(res.data);
-                setAssetsDatas(res.data);
+            .then((res) => {
+
+                //const {count, data } = res.data[0];
+                console.log(res.data.contents);
+                console.log(res.data.totalCnt);
+                setAssetsDatas(res.data.contents);
+                setAssetTotalCount(res.data.totalCnt)
             });
     }
    
@@ -54,7 +68,7 @@ import { toComma } from '@/utils/util';
                         <li className="on"><Link href="/assetsList" legacyBehavior><a className="link">자산 감가상각 현황</a></Link></li>
                         <li><Link href="/assetsCreate" legacyBehavior><a className="link">자산 등록</a></Link></li>
                         <li><Link href="/assetsDiscard" legacyBehavior><a className="link">자산 처분</a></Link></li>
-                        <li><Link href="" legacyBehavior><a className="link"> 건별 자산 조회</a></Link></li>
+                        <li><Link href="/assetView" legacyBehavior><a className="link"> 건별 자산 조회</a></Link></li>
                     </ul>
                 </nav>			
             </header>
@@ -168,7 +182,8 @@ import { toComma } from '@/utils/util';
             <section>
                 <h3 className="hidden">결과표</h3>
                 <div className="table_top">
-                    <p>총 1,595개</p>
+                    {/* <p>총 1,595개</p> */}
+                    <p> 총 {assetTotalCount} 개 </p>
                     <p>(단위 : 원)</p>
                 </div>
                 <table className="table">
@@ -193,13 +208,16 @@ import { toComma } from '@/utils/util';
                         </tr>
                         {
                             // Object.values(assetsDatas).map((asset, idx) => (
-                                assetsDatas.contents &&
-                                assetsDatas.contents.map((asset:any, idx:number) => {
+                                assetsDatas &&
+                                assetsDatas.map((asset:any, idx:number) => (
                                 <tr key={idx}>
                                     <td>{asset.no}</td>
                                     <td>{asset.assetStatus}</td>
                                     <td>{asset.assetUsage}</td>
-                                    <td>{asset.wrmsAssetCode}</td>
+                                    <td>
+                                        {/* <Link href={`/assetView/${asset.sno}`}>{asset.wrmsAssetCode}</Link> */}
+                                        <Link href={`/assetView/${asset.sno}`}>{asset.wrmsAssetCode}</Link>
+                                    </td>
                                     <td>{asset.wrmsItemCode}</td>
                                     <td>{asset.ilsangProductCode}</td>
                                     <td>{asset.serialNumber}</td>
@@ -213,7 +231,7 @@ import { toComma } from '@/utils/util';
                                     <td>{asset.assetRegistDate}</td>
                                     <td>{asset.initialStartDate}</td>
                                 </tr>
-                            })
+                                ))
                         }
                     </thead>
                 </table>
