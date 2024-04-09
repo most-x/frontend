@@ -21,44 +21,68 @@ import { toComma } from '@/utils/util';
     const [currentPage, setCurrentPage] = useState(0);
     const pageLimit = 10;
 
+    useEffect(() => {
+
+        fatchData();
+        // getAssetsList();
+     }, [
+         currentPage, 
+         limit
+     ]);
+ 
     const fatchData = () => {
         const params : any = {
             page : currentPage,
-            limit : limit
-        }
+            size : limit
+        };
 
-        console.log("params" + params)
+        console.log("params" + params.page);
+        console.log("size", params.size);
 
-    }
+        //axios.get(assetsListAPIUrl, { params }).then((res) => {
+        axios.get(assetsListAPIUrl
+            //, { params }
+            ).then((res) => {
+                console.log("contents" + res.data.contents);
+                console.log(res.data.totalCnt);
+                setAssetsDatas(res.data.contents);
+                setAssetTotalCount(res.data.totalCnt)
+        });
+    };
 
     const handleStatusChange = (event: any) => {
         console.log(event.target.id);
         setselectedStatus(event.target.id);
-    }
+    };
 
     const handleKindChage = (event: any) => {
         console.log(event.target.id);
         setselectedKind(event.target.id);
+    };
+
+    //전체 페이지 수 계산
+    const totalPages = Math.ceil(assetTotalCount / limit);
+
+    //페이지 번호 클릭시
+    const handlePageClick = (pageNumber: number) => {
+        setCurrentPage(pageNumber);
     }
 
-    useEffect(() => {
+    // 페이지네이션에 표시될 시작 페이지와 끝 페이지 계산
+    const startPage = Math.max(1, currentPage - Math.floor(pageLimit / 2));
+    const endPage = Math.min(totalPages, startPage + pageLimit - 1);
 
-       fatchData(),
-        getAssetsList();
-    }, [currentPage, limit]);
+    //이전페이지 이동
+    const handlePrev = () => {
+        const prevPage = currentPage - 1;
+        handlePageClick(prevPage);
+    };
 
-     async function getAssetsList() {
-        await axios
-            .get(assetsListAPIUrl)
-            .then((res) => {
-
-                //const {count, data } = res.data[0];
-                console.log(res.data.contents);
-                console.log(res.data.totalCnt);
-                setAssetsDatas(res.data.contents);
-                setAssetTotalCount(res.data.totalCnt)
-            });
-    }
+    //다음페이지 이동
+    const handleNext = () => {
+        const nextPage = currentPage + 1;
+        handlePageClick(nextPage);
+    };
    
     return (                                            
         <div>
@@ -96,10 +120,6 @@ import { toComma } from '@/utils/util';
                         <li>
                             <label className="label" htmlFor="">시리얼 번호</label>
                             <input type="text" className="m_text" id="" />
-                        </li>
-                        <li>
-                            <label className="label" htmlFor="">상품명</label>
-                            <input type="text" className="l_text" id="" />
                         </li>
                     </ul>
                     <ul className="search_list">
@@ -238,11 +258,25 @@ import { toComma } from '@/utils/util';
                 <div className="center_flex page">
                     <a href="">처음</a>
                     <a href="">&nbsp;〈&nbsp;&nbsp;&nbsp;</a>
-                    <a href="" className="on">1</a>
+                    {/* <a href="" className="on">1</a>
                     <a href="">2</a>
                     <a href="">3</a>
                     <a href="">4</a>
-                    <a href="">5</a>
+                    <a href="">5</a> */}
+                    {/* 페이지 번호 표시 */}
+                    {Array.from(
+                    { length: endPage - startPage + 1 },
+                    (_, i) => i + startPage
+                    ).map((page) => (
+                    <a
+                        key={page}
+                        href="#"
+                        className={page === currentPage ? "on" : ""}
+                        onClick={() => handlePageClick(page)}
+                    >
+                        {page}
+                    </a>
+                    ))}
                     <a href="">&nbsp;&nbsp;&nbsp;〉&nbsp;</a>
                     <a href="">끝</a>
                 </div>
