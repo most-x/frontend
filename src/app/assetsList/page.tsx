@@ -61,7 +61,7 @@ import { toComma } from '@/utils/util';
     };
 
     //전체 페이지 수 계산
-    const totalPages = Math.ceil(assetTotalCount / limit);
+    //const totalPages = Math.ceil(assetTotalCount / limit);
 
     //페이지 번호 클릭시
     const handlePageClick = (pageNumber: number) => {
@@ -69,8 +69,8 @@ import { toComma } from '@/utils/util';
     }
 
     // 페이지네이션에 표시될 시작 페이지와 끝 페이지 계산
-    const startPage = Math.max(1, currentPage - Math.floor(pageLimit / 2));
-    const endPage = Math.min(totalPages, startPage + pageLimit - 1);
+    //const startPage = Math.max(1, currentPage - Math.floor(pageLimit / 2));
+    //const endPage = Math.min(totalPages, startPage + pageLimit - 1);
 
     //이전페이지 이동
     const handlePrev = () => {
@@ -264,7 +264,7 @@ import { toComma } from '@/utils/util';
                     <a href="">4</a>
                     <a href="">5</a> */}
                     {/* 페이지 번호 표시 */}
-                    {Array.from(
+                    {/* {Array.from(
                     { length: endPage - startPage + 1 },
                     (_, i) => i + startPage
                     ).map((page) => (
@@ -276,7 +276,7 @@ import { toComma } from '@/utils/util';
                     >
                         {page}
                     </a>
-                    ))}
+                    ))} */}
                     <a href="">&nbsp;&nbsp;&nbsp;〉&nbsp;</a>
                     <a href="">끝</a>
                 </div>

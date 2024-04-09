@@ -33,7 +33,7 @@ function Home() {
 				<Link href="/homeShopping" legacyBehavior>
 					<a className='btn blue_back'>홈쇼핑 방송 정보</a>
 				</Link>
-				<Link href="" legacyBehavior>
+				<Link href="http://31.152.254.254:5555/" legacyBehavior>
 					<a className='btn blue_back'>코스트코 리퍼브 상품</a>
 				</Link>
 			</div>
