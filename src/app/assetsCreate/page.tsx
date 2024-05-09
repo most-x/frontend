@@ -4,55 +4,85 @@
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import axios from 'axios'
 import Link from 'next/link';
+import { useNavigate } from "react-router-dom";
+
+export type assetCreateType = {
+	wrmsAssetCode : string;
+	wrmsItemCode : string;
+	productName : string;
+	ilsangProductCode : string;
+	serialNumber : string;
+	supplyPrice : number;
+	usefulLife : number;
+	assetUsage : string;
+    registDepartment: string;
+    registName: string;
+	initialStartDate : string;
+}
 
  function assetsCreate() {
 
     const [ wrmsAssetCode, setWrmsAssetCode ] = useState("");
     const [ wrmsItemCode, setWrmsItemCode ] = useState("");
-    const [ ilsangPrdCode, setIlsangPrdCode ] = useState("");
+    const [ ilsangProductCode, setIlsangProductCode ] = useState("");
     const [ serialNumber, setSerialNumber ] = useState("");
     const [ productName, setProductName ] = useState("");
-    const [ purchasePrice, setPurchasePrice ] = useState("");
     const [ supplyPrice, setSupplyPrice ] = useState("");
-    const [ vatPrice, setVatPrice ] = useState("");
-    const [ warehouseNumber, setWarehouseNumber ] = useState("");
-    const [ registrantInfo, setRegistrantInfo ] = useState("");
-    const [registDepartment, setRegistDepartment] = useState("");
     const [registName, setRegistName] = useState("");
+	const [usefulLife, setUsefulLife] = useState("");
+	const [assetUsage, setAssetUsage] = useState("");
+	const [registDepartment, setRegistDepartment] = useState("");
+	const [initialStartDate, setInitialStartDate] = useState("");
 
-    const canSubmit = useCallback(() => {
-        return 
-        //image.image_file !== "" && content !== "" && title !== "";
-      }, 
-        //[image, title, content]
-       []);   
+	const formSubmit = (e:React.MouseEvent<HTMLButtonElement>) => {
 
-    const handleSubmit = useCallback(async () => {
-        try{
-          const formData = new FormData();
-          formData.append("wrmsAssetCode", wrmsAssetCode);
-          formData.append("wrmsItemCode", wrmsItemCode);
-          formData.append("ilsangPrdCode", ilsangPrdCode);
-          formData.append("serialNumber", serialNumber);
-          formData.append("productName", productName);
-          formData.append("purchasePrice", purchasePrice);
-          formData.append("supplyPrice", supplyPrice);
-          formData.append("vatPrice", vatPrice);
-          formData.append("warehouseNumber", warehouseNumber);
-          formData.append("registrantInfo", registrantInfo);
-          formData.append("registDepartment", registDepartment);
-          formData.append("registName", registName);
+		console.log(assetUsage);
 
-          console.log("------- 확인 ========");
-    
-          axios.post("/api/assets/asset-regist", formData);
-          window.alert("등록이 완료되었습니다");
-        } catch (e) {
-          // 서버에서 받은 에러 메시지 출력
-          
-        }
-    
-      }, [canSubmit]);
+		e.preventDefault()
+
+		if (wrmsAssetCode.length === 0) {
+			alert('wrms 자산코드를 입력해 주세요.')
+		} else if (wrmsItemCode.length === 0) {
+			alert('wrms 품목코드를 입력해 주세요.')
+		} else if (ilsangProductCode.length === 0) {
+			alert('일상구독 상품번호를 입력해 주세요')
+		} else if (serialNumber.length === 0) {
+			alert('시리얼번호를 입력해 주세요')
+		} else if (productName.length === 0) {
+			alert('상품명을 입력해 주세요')
+		} else if (supplyPrice.length === 0) {
+			alert('공급가를 입력해 주세요')
+		} else if (usefulLife.length === 0) {
+			alert('내용연수를 입력해 주세요')
+		} else {
+			if(window.confirm('자산등록을 하시겠습니까?')) {
+					axios.post("http://31.152.254.254:9000/api/assets/asset-regist", 
+					{
+						wrmsAssetCode: wrmsAssetCode,
+						wrmsItemCode: wrmsItemCode,
+						ilsangProductCode: ilsangProductCode,
+						serialNumber: serialNumber,
+						productName: productName,
+						supplyPrice: supplyPrice,
+						usefulLife: usefulLife,
+						registDepartment: registDepartment,
+						registName: registName,
+						assetUsage: assetUsage,
+						initialStartDate: initialStartDate
+					})
+					.then(function(response){
+						console.log(response);
+						alert('자산등록이 되었습니다.');
+						location.href='https://support.mostx.co.kr/assetsList';
+					})
+					.catch(function(error) {
+						console.log(error);
+					})
+			} else {
+				return false
+			}
+		}
+	}
      
     return (                                            
         <div>
@@ -62,67 +92,177 @@ import Link from 'next/link';
                     <li><Link href="/assetsList" legacyBehavior><a className="link">자산 감가상각 현황</a></Link></li>
                     <li className="on"><Link href="/assetsCreate" legacyBehavior><a className="link">자산 등록</a></Link></li>
                     <li><Link href="/assetsDiscard" legacyBehavior><a className="link">자산 처분</a></Link></li>
-                    <li><Link href="/assetView" legacyBehavior><a className="link"> 건별 자산 조회</a></Link></li>
+                    <li><Link href="/assetView/0" legacyBehavior><a className="link"> 건별 자산 조회</a></Link></li>
                     </ul>
                 </nav>			
             </header>
             <article className="status">
-                <h2 className="sub_title">자산 등록</h2>
-                <section className="input_box">
-                    <h3>등록<button type="button" className="btn blue_back up_btn">엑셀파일 업로드</button></h3>
-                    <form action="" className="search">
-                        <div>
-                            <ul className="input_list">
-                                <li>
-                                    <label className="label" htmlFor="">WRMS 자산코드</label>
-                                    <input type="text" className="m_text" id="wrmsAssetCode" />
-                                </li>
-                                <li>
-                                    <label className="label" htmlFor="">WRMS 품목코드</label>
-                                    <input type="text" className="m_text" id="wrmsItemCode" />
-                                </li>
-                                <li>
-                                    <label className="label" htmlFor="">일상구독 상품번호</label>
-                                    <input type="text" className="m_text" id="ilsangPrdCode" />
-                                </li>
-                                <li>
-                                    <label className="label" htmlFor="">시리얼 번호</label>
-                                    <input type="text" className="m_text" id="serialNumber" />
-                                </li>
-                                <li>
-                                    <label className="label" htmlFor="">상품명</label>
-                                    <input type="text" className="l_text" id="productName" />
-                                </li>
-                                <li>
-                                    <h4 className="label">매입원가</h4>
-                                    <label htmlFor="">공급가(원)</label>
-                                    <input type="text" className="s_text" id="supplyPrice" />
-                                    &nbsp;&nbsp;
-                                    <label htmlFor="">부가세(원)</label>
-                                    <input type="text" className="s_text" id="vatPrice" />
-                                </li>
-                                <li>
-                                    <label className="label" htmlFor="">내용연수</label>
-                                    <input type="text" className="m_text" id="" />
-                                </li>
-                                <li>
-                                    <label className="label" htmlFor="">창고번호</label>
-                                    <input type="text" className="m_text" id="warehouseNumber" />
-                                </li>
-                                <li>
-                                    <h4 className="label">등록자 정보</h4>
-                                    <label htmlFor="">부서명&nbsp;</label>
-                                    <input type="text" className="s_text" id="registDepartment" />
-                                    &nbsp;&nbsp;
-                                    <label htmlFor="">성명&nbsp;</label>
-                                    <input type="text" className="s_text" id="registName" />
-                                </li>	
-                            </ul>
-                        </div>
-                        <button className="btn" type="submit">등록하기</button>
-                    </form>
-                </section>
-            </article>
+			<h2 className="sub_title">자산 등록</h2>
+			<section className="input_box">
+				<h3>등록
+					{/* <button type="button" className="btn blue_back up_btn">엑셀파일 업로드</button> */}
+				</h3>
+				<form action="" className="search">
+					<div>
+					<ul className="input_list">
+						<li>
+							<label className="label" htmlFor="">
+								WRMS 자산코드
+								<span className="redtxt">*</span>
+							</label>
+							<input
+								type="text"
+								onChange={(e) => setWrmsAssetCode(e.target.value)}
+								value={wrmsAssetCode}
+								className="m_text"
+								id="wrmsAssetCode"
+								placeholder="WRMS 자산코드는 중복 입력이 불가능합니다">
+							</input>
+						</li>
+						<li>
+							<label className="label" htmlFor="">
+								WRMS 품목코드
+								<span className="redtxt">*</span>
+							</label>
+							<input
+								type="text"
+								onChange={(e) => setWrmsItemCode(e.target.value)}
+								value={wrmsItemCode}
+								className="m_text"
+								id="wrmsItemCode"
+							/>
+						</li>
+						<li>
+							<label className="label" htmlFor="">
+								일상구독 상품번호<span className="redtxt">*</span>
+							</label>
+							<input
+								type="text"
+								onChange={(e) => setIlsangProductCode(e.target.value)}
+								value = {ilsangProductCode}
+								className="m_text"
+								id="ilsangPrdCode"
+							/>
+						</li>
+						<li>
+							<label className="label" htmlFor="">
+								시리얼 번호
+								<span className="redtxt">*</span>
+							</label>
+							<input
+								type="text"
+								onChange={(e) => setSerialNumber(e.target.value)}
+								value={serialNumber}
+								className="m_text"
+								id="serialNumber"
+							/>
+						</li>
+						<li>
+							<label className="label" htmlFor="">
+								상품명
+								<span className="redtxt">*</span>
+							</label>
+							<input
+								type="text"
+								onChange={(e) => setProductName(e.target.value)}
+								value={productName}
+								className="l_text"
+								id="productName"
+							/>
+						</li>
+						<li>
+							<h4 className="label">공급가
+							<span className="redtxt">*</span></h4>
+							<label className="hidden" htmlFor="">
+								공급가(원)
+							</label>
+							<input
+								type="text"
+								onChange={(e) => setSupplyPrice(e.target.value)}
+								value={supplyPrice}
+								className="m_text"
+								id="supplyPrice"
+								placeholder="부가세(원) 제외한 금액 입력해주세요"
+							/>
+						</li>
+						<li>
+							<label className="label" htmlFor="">
+								내용연수
+								<span className="redtxt">*</span>
+							</label>
+							<input
+								type="text"
+								onChange={(e) => setUsefulLife(e.target.value)}
+								value={usefulLife}
+								className="m_text"
+								id="usefulLife"
+							/>
+						</li>
+						<li>
+							<h4 className="label">용도</h4>
+							<label htmlFor="" className="hidden">용도</label>
+							<fieldset className="input_wrap">
+								<input 
+									type="radio"
+									onChange={(e) => setAssetUsage(e.target.value)}
+									value={'구독'}
+									name="assetUsage"
+									id="use02"
+									defaultChecked
+								/>
+								<label htmlFor="use02">구독</label>
+								<input
+									type="radio"
+									onChange={(e) => setAssetUsage(e.target.value)}
+									value={'폐기'}
+									name="assetUsage"
+									id="use03"
+								/>
+								<label htmlFor="use03">체험</label>
+							</fieldset>
+						</li>					
+						<li>
+							<h4 className="label">등록자 정보</h4>
+							<label htmlFor="">부서명&nbsp;</label>
+							<input
+								type="text"
+								onChange={(e) => setRegistDepartment(e.target.value)}
+								value={registDepartment}
+								className="s_text"
+								id=""
+							/>
+							&nbsp;&nbsp;
+							<label htmlFor="">성명&nbsp;</label>
+							<input
+								type="text"
+								onChange={(e) => setRegistName(e.target.value)}
+								value={registName}
+								className="s_text"
+								id=""
+							/>
+						</li>
+						<li>
+							<h4 className="label">최초개시일자</h4>
+							<label htmlFor="" className="hidden">
+								최초개시일자
+							</label>
+							<input
+								type="date"
+								onChange={(e) => setInitialStartDate(e.target.value)}
+								value={initialStartDate}
+								id=""
+								className="s_text"
+								placeholder="최초개시일자"
+							/>
+						</li>
+					</ul>
+					</div>
+					<button onClick={formSubmit} className="btn" type="submit">
+						등록하기
+					</button>
+				</form>
+			</section>
+		</article>
         </div>
     );
 };

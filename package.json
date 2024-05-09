@@ -13,6 +13,7 @@
     "axios": "^1.6.7",
     "next": "14.0.3",
     "react": "^18",
+    "react-csv": "^2.2.2",
     "react-dom": "^18",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.21.0",

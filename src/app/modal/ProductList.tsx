@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import * as XLSX from "xlsx";
+import { CSVLink, CSVDownload } from "react-csv";
 
 interface Props {
   goodsTypeChart: string;
@@ -51,7 +52,6 @@ const ProductList = ({
     };
 
     console.log(params)
-
 
     if (standardTime) {
       params.standardTime = standardTime;
@@ -155,12 +155,12 @@ const ProductList = ({
                 </form>
               </div>
               <form action="" className="table_select">
-                {/* <button
+                <button
                 type="submit"
                 className="btn blue_back select_btn excel"
               >
                 <span className="down">&nbsp;</span>엑셀 다운로드
-              </button> */}
+              </button>
                 <select
                   onChange={(e) => {
                     setLimit(Number(e.target.value));

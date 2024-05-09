@@ -121,8 +121,8 @@ nav{background-color: #eee; margin: auto;}
 .disuse, .table .disuse th,.table .disuse td,.table .disuse button{color: #B00000}
 
 .page{margin-top: 24px}
-.page a{font-size: 13px; margin: 0 12px; cursor: pointer;}
-.page a:hover{opacity: 0.7}
+.page span{font-size: 13px; margin: 0 12px; cursor: pointer;}
+.page span:hover{opacity: 0.7}
 .page .on{font-weight: 900}
 
 /*자산 등록*/
