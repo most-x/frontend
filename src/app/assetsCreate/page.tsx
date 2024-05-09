@@ -203,7 +203,7 @@ export type assetCreateType = {
 							<label htmlFor="" className="hidden">용도</label>
 							<fieldset className="input_wrap">
 								<input 
-									type="radino"
+									type="radio"
 									onChange={(e) => setAssetUsage(e.target.value)}
 									value={'구독'}
 									name="assetUsage"
