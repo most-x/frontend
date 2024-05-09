@@ -69,24 +69,24 @@ function assetsDashboard() {
                 <ul className="num center_flex">
                     <li>
                         <h3>총 자산</h3>
-                        <p>{ totalAsset }</p>
+                        <p>{totalAsset && toComma(String(totalAsset))}</p>
                     </li>
                     <li>
                         <h3>정상</h3>
                         <p> { normalAsset } </p>
                         <ul className="center_flex list_btm">
-                            <li>개시<strong> { openingdayAsset } </strong></li>
+                            <li>개시<strong> {openingdayAsset && toComma(String(openingdayAsset)) } </strong></li>
                             <li className="blank"><span>|</span></li>
-                            <li>미개시<strong> {nonOpeningdayAsset} </strong></li>
+                            <li>미개시<strong> {nonOpeningdayAsset && toComma(String(nonOpeningdayAsset))} </strong></li>
                         </ul>
                     </li>
                     <li>
                         <h3>매각</h3>
-                        <p> {disposalAsset} </p>
+                        <p> {disposalAsset && toComma(String(disposalAsset))} </p>
                     </li>
                     <li>
                         <h3>폐기</h3>
-                        <p> { disuseAsset } </p>
+                        <p> { disuseAsset && toComma(String(disuseAsset))} </p>
                     </li>
                 </ul>
             </section>
@@ -115,15 +115,15 @@ function assetsDashboard() {
                 <ul className="btm_num">
                     <li>
                         <h4>총금액</h4>
-                        <p> {totalPrice}원</p>
+                        <p>{totalPrice && toComma(String(totalPrice))}원</p>
                     </li>
                     <li>
                         <h4>누계액</h4>
-                        <p> {sumTotalPrice}원</p>
+                        <p>{sumTotalPrice && toComma(String(sumTotalPrice))}원</p>
                     </li>
                     <li>
                         <h4>장부가액</h4>
-                        <p> {bookValue}원</p>
+                        <p>{bookValue && toComma(String(bookValue))}원</p>
                     </li>
                 </ul>
             </section>

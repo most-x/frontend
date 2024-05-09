@@ -5,6 +5,7 @@ import React, { useEffect, useState, useContext, useCallback } from "react";
 import axios from 'axios'
 import Link from 'next/link';
 import { useNavigate } from "react-router-dom";
+import { redirect } from "next/dist/server/api-utils";
 
 export type assetCreateType = {
 	wrmsAssetCode : string;
@@ -74,6 +75,7 @@ export type assetCreateType = {
 						console.log(response);
 						alert('자산등록이 되었습니다.');
 						//location.href='//support.mostx.co.kr/assetsList';
+						redirect("/assetsList");
 					})
 					.catch(function(error) {
 						console.log(error);

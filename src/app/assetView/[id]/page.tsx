@@ -356,7 +356,7 @@ function assetView({ params }: AssetViewParamsType) {
                                         <tr key={depreciation?.sno}>
                                             <td>{depreciation?.no}</td>
                                             <td>{depreciation?.depreciationDate}</td>
-                                            <td>{assetData?.supplyPrice}</td>
+                                            <td className='right'>{assetData?.supplyPrice && toComma(String(assetData.supplyPrice))}</td>
                                             <td className="right">{depreciation?.depreciationCost && toComma(String(depreciation.depreciationCost))}</td>
                                             <td className="right">{depreciation?.accumlatedDepreciation && toComma(String(depreciation.accumlatedDepreciation))}</td>
                                             <td className="right">{depreciation?.bookValue && toComma(String(depreciation.bookValue))}</td>
