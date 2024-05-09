@@ -73,7 +73,7 @@ export type assetCreateType = {
 					.then(function(response){
 						console.log(response);
 						alert('자산등록이 되었습니다.');
-						location.href='https://support.mostx.co.kr/assetsList';
+						location.href='http://support.mostx.co.kr/assetsList';
 					})
 					.catch(function(error) {
 						console.log(error);
@@ -203,7 +203,7 @@ export type assetCreateType = {
 							<label htmlFor="" className="hidden">용도</label>
 							<fieldset className="input_wrap">
 								<input 
-									type="radio"
+									type="radino"
 									onChange={(e) => setAssetUsage(e.target.value)}
 									value={'구독'}
 									name="assetUsage"
