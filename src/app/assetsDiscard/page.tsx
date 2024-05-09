@@ -429,7 +429,7 @@ function assetsDiscard() {
                                             <option value="" selected>
                                                 선택
                                             </option>
-                                            <option value="assetRegistDate">최초등록일자</option>
+                                            <option value="assetRegistDate">등록일자</option>
                                             <option value="initialStartDate">최초개시일자</option>
                                         </select>
                                         <input
@@ -506,7 +506,7 @@ function assetsDiscard() {
                                     <th>일상구독 상품번호</th>
                                     <th>시리얼 번호</th>
                                     <th>상품명</th>
-                                    <th>최초등록일자</th>
+                                    <th>등록일자</th>
                                     <th>최초개시일자</th>
                                     <th>장부가액</th>
                                     <th>

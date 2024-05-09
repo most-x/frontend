@@ -311,7 +311,7 @@ function assetView({ params }: AssetViewParamsType) {
                                 <p className="text">{assetData?.initialStartDate || '-'}</p>
                             </li>
                             <li>
-                                <h5 className="label">최초등록일자</h5>
+                                <h5 className="label">등록일자</h5>
                                 <p className="text">{assetData?.assetRegistDate || '-'}</p>
                             </li>
                             <li>

@@ -448,8 +448,8 @@ export type AssetsSearchDataType = {
                                     <td className="right">{data.depreciationCurrent && toComma(String(data.depreciationCurrent))}</td>
                                     <td className="right">{data.depreciationTotalprice && toComma(String(data.depreciationTotalprice))}</td>
                                     <td className="right">{data.bookValue && toComma(String(data.bookValue))}</td>
-                                    <td>{data.assetRegistDate}</td>
                                     <td>{data.initialStartDate}</td>
+                                    <td>{data.assetRegistDate}</td>
                                 </tr>
                             );
                         })}
