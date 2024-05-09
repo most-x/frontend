@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import * as XLSX from "xlsx";
-import { CSVLink, CSVDownload } from "react-csv";
 
 interface Props {
   goodsTypeChart: string;
