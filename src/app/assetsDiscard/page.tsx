@@ -232,9 +232,9 @@ function assetsDiscard() {
     return (
         <div>
             <header>
-            <h1><a href="index.html" className="logo">
+            <h1><a href="/" className="logo">
                 <img src="img/logo_w.svg" alt="모스트엑스 로고" /></a>자산 감가상각 관리
-                <a href="index.html" className="exit">
+                <a href="/" className="exit">
                     <img src="img/exit.svg" alt="모스트엑스 로고" /></a></h1>
                 <nav>
                     <ul className="nav">
