@@ -73,7 +73,7 @@ export type assetCreateType = {
 					.then(function(response){
 						console.log(response);
 						alert('자산등록이 되었습니다.');
-						location.href='http://support.mostx.co.kr/assetsList';
+						location.href='//support.mostx.co.kr/assetsList';
 					})
 					.catch(function(error) {
 						console.log(error);

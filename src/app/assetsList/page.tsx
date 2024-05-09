@@ -351,7 +351,7 @@ export type AssetsSearchDataType = {
                             <option value="" selected>
                                 선택
                             </option>
-                            <option value="assetRegistDate">최초등록일자</option>
+                            <option value="assetRegistDate">등록일자</option>
                             <option value="initialStartDate">최초개시일자</option>
                         </select>
                         <input
