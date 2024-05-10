@@ -225,7 +225,7 @@ export type assetCreateType = {
 								<input
 									type="radio"
 									onChange={(e) => setAssetUsage(e.target.value)}
-									value={'폐기'}
+									value={'체험'}
 									name="assetUsage"
 									id="use03"
 								/>
