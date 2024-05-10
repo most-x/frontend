@@ -56,6 +56,11 @@ function assetsDashboard() {
                     <img src="img/exit.svg" alt="모스트엑스 로고" /></a></h1>
                     <nav>
                     <ul className="nav">
+                        <li className="on">
+                            <Link href="/assets" legacyBehavior>
+                                <a className="link">대시보드</a>
+                            </Link>
+                        </li>
                         <li><Link href="/assetsList" legacyBehavior><a className="link">자산 감가상각 현황</a></Link></li>
                         <li><Link href="/assetsCreate" legacyBehavior><a className="link">자산 등록</a></Link></li>
                         <li><Link href="/assetsDiscard" legacyBehavior><a className="link">자산 처분</a></Link></li>

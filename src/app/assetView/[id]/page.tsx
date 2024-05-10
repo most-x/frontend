@@ -148,6 +148,11 @@ function assetView({ params }: AssetViewParamsType) {
                 <nav>
                     <ul className="nav">
                         <li>
+                            <Link href="/assets" legacyBehavior>
+                                <a className="link">대시보드</a>
+                            </Link>
+                        </li>
+                        <li>
                             <Link href="/assetsList" legacyBehavior>
                                 <a className="link">자산 감가상각 현황</a>
                             </Link>
