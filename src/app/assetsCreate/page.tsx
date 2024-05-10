@@ -4,8 +4,7 @@
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import axios from 'axios'
 import Link from 'next/link';
-import { useNavigate } from "react-router-dom";
-import { redirect } from "next/dist/server/api-utils";
+import { useNavigate, redirect } from "react-router-dom";
 
 export type assetCreateType = {
 	wrmsAssetCode : string;
@@ -57,7 +56,7 @@ export type assetCreateType = {
 			alert('내용연수를 입력해 주세요')
 		} else {
 			if(window.confirm('자산등록을 하시겠습니까?')) {
-					axios.post("http://31.152.254.254:9000/api/assets/asset-regist", 
+					axios.post("https://japi.mostx.co.kr/api/assets/asset-regist", 
 					{
 						wrmsAssetCode: wrmsAssetCode,
 						wrmsItemCode: wrmsItemCode,
@@ -76,6 +75,7 @@ export type assetCreateType = {
 						alert('자산등록이 되었습니다.');
 						//location.href='//support.mostx.co.kr/assetsList';
 						//redirect("/assetsList");
+						return redirect("/assetsList")
 					})
 					.catch(function(error) {
 						console.log(error);
