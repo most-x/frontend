@@ -309,12 +309,12 @@ export type AssetsSearchDataType = {
                         <li>
 						<label className="label" htmlFor="">금액</label>
 						<select
-                            name=""
+                            name="priceType"
                             onChange={handleSelectOptionChange}
                             value={assetsSearchForm.priceType}
                             id=""
                         >
-							<option defaultValue="">
+							<option value="" selected>
                                 선택
                             </option>
 							<option value="supplyPrice">공급가</option>
@@ -387,7 +387,13 @@ export type AssetsSearchDataType = {
 				<ul className="search_list_full border_top_none">
 					<li>
 						<label className="label" htmlFor="">상품명</label>
-						<input type="text" className="l_text" id="" />
+						<input 
+                            type="text"
+                            onChange = {handleFormChange}
+                            name={'productName'}
+                            value={assetsSearchForm.productName}
+                            className="l_text"
+                            id="" />
 					</li>
 				</ul>
                     <button className="btn" type="submit">조회하기</button>

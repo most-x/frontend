@@ -379,11 +379,9 @@ function assetsDiscard() {
                                         </fieldset>
                                     </li>
                                     <li>
-                                        <label className="label" htmlFor="">
-                                            금액
-                                        </label>
+                                        <label className="label" htmlFor=""> 금액 </label>
                                         <select
-                                            name="priceType"
+                                            name=""
                                             onChange={handleSelectOptionChange}
                                             value={assetsDiscardSearchForm.priceType}
                                             id=""
