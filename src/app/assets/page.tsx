@@ -74,44 +74,44 @@ function assetsDashboard() {
                 <ul className="num center_flex">
                     <li>
                         <h3>총 자산</h3>
-                        <p>{totalAsset && toComma(String(totalAsset))}</p>
+                        <p>{totalAsset && toComma(String(totalAsset))}<span className="gun">건</span></p>
                     </li>
                     <li>
                         <h3>정상</h3>
-                        <p> { normalAsset } </p>
+                        <p> {normalAsset}<span className="gun">건</span></p>
                         <ul className="center_flex list_btm">
-                            <li>개시<strong> {openingdayAsset && toComma(String(openingdayAsset)) } </strong></li>
+                            <li>개시<strong> {openingdayAsset && toComma(String(openingdayAsset)) }건</strong></li>
                             <li className="blank"><span>|</span></li>
-                            <li>미개시<strong> {nonOpeningdayAsset && toComma(String(nonOpeningdayAsset))} </strong></li>
+                            <li>미개시<strong> {nonOpeningdayAsset && toComma(String(nonOpeningdayAsset))}건</strong></li>
                         </ul>
                     </li>
-                    <li>
+                    <li className="sale">
                         <h3>매각</h3>
-                        <p> {disposalAsset && toComma(String(disposalAsset))} </p>
+                        <p> {disposalAsset && toComma(String(disposalAsset))}<span className="gun">건</span></p>
                     </li>
-                    <li>
+                    <li className="disuse">
                         <h3>폐기</h3>
-                        <p> { disuseAsset && toComma(String(disuseAsset))} </p>
+                        <p> { disuseAsset && toComma(String(disuseAsset))}<span className="gun">건</span></p>
                     </li>
                 </ul>
             </section>
             <section className="list hidden">
                 <ul className="num center_flex gray_back">
-                    <li>
+                    <li className="sale">
                         <h3>매각</h3>
-                        <p>154</p>
+                        <p>154<span className="gun">건</span></p>
                     </li>
-                    <li>
+                    <li className="disuse">
                         <h3>폐기</h3>
-                        <p>109</p>
+                        <p>109<span className="gun">건</span></p>
                     </li>
                     <li>
                         <h3>수리</h3>
-                        <p>1</p>
+                        <p>1<span className="gun">건</span></p>
                     </li>
                     <li>
                         <h3>파손</h3>
-                        <p>0</p>
+                        <p>0<span className="gun">건</span></p>
                     </li>
                 </ul>
             </section>
@@ -119,7 +119,7 @@ function assetsDashboard() {
                 <h3>감가상각</h3>
                 <ul className="btm_num">
                     <li>
-                        <h4>총금액</h4>
+                        <h4>공급총액</h4>
                         <p>{totalPrice && toComma(String(totalPrice))}원</p>
                     </li>
                     <li>

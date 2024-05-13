@@ -395,7 +395,7 @@ function assetsDiscard() {
                                                 선택
                                             </option>
                                             <option value="supplyPrice">공급가</option>
-                                            <option value="depreciationCost">감가상각비(당월)</option>
+                                            {/* <option value="depreciationCost">감가상각비(당월)</option> */}
                                             <option value="depreciationTotalprice">감가상각 누계액</option>
                                             <option value="bookValue">장부가액</option>
                                         </select>

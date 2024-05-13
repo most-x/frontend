@@ -56,30 +56,12 @@ export type AssetsSearchDataType = {
         startDate: '',
         endDate: '',
         assetStatus: '',
-        size: 10,
         assetUsage: '',
         usefulLife: '',
         supplyPrice: '',
-        depreciationCurrent: ''
+        depreciationCurrent: '',
+        size: 10
     });
-    
-    const handleSearchFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        axios
-            .get(`https://japi.mostx.co.kr/api/assets/asset-search`, {
-                params: {
-                    ...assetsSearchForm,
-                    page: 1,
-                },
-            })
-            .then((res) => {
-                console.log(res);
-                setAssetsSearchData(res.data.contents);
-                setTotalCnt(res.data.totalCnt);
-                setTotalPage(res.data.totalPage);
-				setPage(1);
-            });
-    };
 
     console.log(selectAssetsData);
     const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,23 +98,30 @@ export type AssetsSearchDataType = {
             [name]: value,
         });
     };
-
-
-    const handleStatusChange = (event: any) => {
-        console.log(event.target.id);
-        setselectedStatus(event.target.id);
-    };
-
-    const handleKindChage = (event: any) => {
-        console.log(event.target.id);
-        setselectedKind(event.target.id);
+       
+    const handleSearchFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        axios
+            .get(`https://japi.mostx.co.kr/api/assets/asset-search`, {
+                params: {
+                    ...assetsSearchForm,
+                    page: 1,
+                },
+            })
+            .then((res) => {
+                console.log("res", res);
+                setAssetsSearchData(res.data.contents);
+                setTotalCnt(res.data.totalCnt);
+                setTotalPage(res.data.totalPage);
+				setPage(1);
+            });
     };
 
     //이전페이지 이동
 	const handleNextPage = () => {
 		if (page === totalPage) return;
 		setPage(page + 1);
-	}
+	};
 
     //다음페이지 이동
 	const handlePrevPage = () => {
@@ -493,6 +482,6 @@ export type AssetsSearchDataType = {
             </article>
         </div>
     );
-};
+}
 
 export default assetsList;

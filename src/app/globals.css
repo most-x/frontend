@@ -69,6 +69,9 @@ nav{background-color: #eee; margin: auto;}
 .dashboard .btm_num h4{text-align: right; width: 100px; font-weight: 300}
 .dashboard .btm_num p{text-align: right; min-width: 220px; font-weight: 800;}
 .dashboard .btm_txt{margin-top: 40px;opacity: 0.8; font-size: 14px}
+.dashboard .gun{font-size: 28px; margin-left: 5px}
+.dashboard .sale{color:#0067E2}
+.dashboard .disuse{color:#B00000}
 
 /*자산 감가상각 현황*/
 .status{padding: 38px 47px; min-width: 1320px; box-sizing: border-box;position: relative; margin: auto;}
@@ -79,13 +82,12 @@ nav{background-color: #eee; margin: auto;}
 .search .label{background-color: #011E41; color: #fff; padding: 10px 0; width: 120px; text-align: center; display: inline-block; margin-right: 6px; font-weight: 500; font-size: 12px}
 .search input, .search select{height: 24px;box-sizing: border-box; cursor: pointer; padding: 0 5px}
 .search .text{display: inline-block;}
-.search .s_text{min-width: 170px}
-.search .s_text{min-width: 140px}
-.search .m_text{min-width: 340px}
-.search .l_text{min-width: 450px}
-.search select{min-width: 140px; margin-right: 6px}
+.search .s_text{width: 140px}
+.search .m_text{width: 340px}
+.search .l_text{width: 450px}
+.search select{width: 140px; margin-right: 6px}
 .search .input_wrap{display: inline-block; line-height: 24px;margin-top: 6px;}
-.search .input_wrap label{margin-right: 10px; cursor: pointer;}
+.search .input_wrap label{margin-right: 10px; cursor: pointer;margin-left: 2px}
 .search .flex{display: flex; width: 100%}
 .search .search_list{width: 50%;border-top: 1px solid #313F4F;}
 .search .search_list li{border-bottom: 1px solid #313F4F}
@@ -117,12 +119,12 @@ nav{background-color: #eee; margin: auto;}
 .table input{cursor: pointer;}
 
 .table .th_back{background-color:#B00000}
-.sale,.table .sale th,.table .sale td,.table .sale button{color: #0067E2}
-.disuse, .table .disuse th,.table .disuse td,.table .disuse button{color: #B00000}
+.sale,.table .sale th,.table .sale td,.table .sale button,.table .sale a{color: #0067E2}
+.disuse, .table .disuse th,.table .disuse td,.table .disuse button, .table .disuse a{color: #B00000}
 
 .page{margin-top: 24px}
-.page span{font-size: 13px; margin: 0 12px; cursor: pointer;}
-.page span:hover{opacity: 0.7}
+.page a{font-size: 13px; margin: 0 12px; cursor: pointer;}
+.page a:hover{opacity: 0.7}
 .page .on{font-weight: 900}
 
 /*자산 등록*/
@@ -138,10 +140,12 @@ nav{background-color: #eee; margin: auto;}
 .table_select select{padding: 0 5px;cursor: pointer; box-sizing: border-box; height: 24px; min-width: 150px;margin-top: -2px}
 .select_btn{display: inline-block; width: 100px; height: 24px;margin-top: -2px;}
 
-/*팝업*/
+/*자산 상세 정보 팝업*/
 .popup{display: none; width: 1000px; height: 800px; border:1px solid #011E41; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);padding: 30px 50px; box-sizing: border-box; position: fixed; left: 50%; top: 50%; margin-top: -400px; margin-left: -500px; background-color: #fff}
 .popup.on{display: block;}
 .popup .search{max-height: 600px; overflow-y: auto;}
+.popup .search .m_text{width: 200px}
+
 .popup .input_list{margin-bottom: 20px}
 .popup .m_title{font-size: 14px; color: #011E41; margin-bottom: 5px; margin-top: 5px}
 
@@ -150,6 +154,11 @@ nav{background-color: #eee; margin: auto;}
 .popup_save{display: block; width: 220px; height: 35px; margin: 20px auto 0;}
 .popup_on{text-decoration: underline;}
 .popup_on:hover{opacity: 0.7}
+
+.popup .btn_wrap{margin-bottom: 20px; display: block; height: 35px}
+.popup .sale_btn,.popup .disuse_btn{font-size: 12px; font-weight: 400; height: 35px;line-height: 1; cursor: pointer; margin-top: 0; float: left; width: 120px}
+.popup .sale_btn{background-color: #0067E2; margin-right: 10px}
+.popup .disuse_btn{background-color: #B00000}
 
 /*건별 월감가상각 조회*/
 .h3_info{font-size: 16px; font-weight: 400; margin-left: 10px}

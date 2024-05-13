@@ -173,7 +173,7 @@ export default function DiscardEditPopup({
                                 <p className="text">{editData.productName}</p>
                             </li>
                             <li>
-                                <h5 className="label">최초 등록일자</h5>
+                                <h5 className="label">등록일자</h5>
                                 <p className="text">{editData.assetRegistDate}</p>
                             </li>
                             <li>

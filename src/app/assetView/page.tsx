@@ -139,7 +139,7 @@ import { useParams } from 'react-router-dom';
 								<p className="text">2023-02-01</p>
 							</li>
 							<li>
-								<h5 className="label">최초등록일자</h5>
+								<h5 className="label">등록일자</h5>
 								<p className="text">2023-01-01</p>
 							</li>
 							<li>
@@ -736,7 +736,7 @@ import { useParams } from 'react-router-dom';
 								<p className="text">루킨스 Premium 특별패키지(체험용)</p>
 							</li>
 							<li>
-								<h5 className="label">최초 등록일자</h5>
+								<h5 className="label">등록일자</h5>
 								<p className="text">2023-01-01</p>
 							</li>
 							<li>
