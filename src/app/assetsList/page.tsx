@@ -466,13 +466,13 @@ export type AssetsSearchDataType = {
                                     <td>{data.ilsangProductCode}</td>
                                     <td>{data.serialNumber}</td>
                                     <td className="left">
-                                        <button
+                                        {/* <button
                                             type="button"
                                             onClick={handleEditOpenPopup}
                                                 style={{ cursor: 'pointer' }}
-                                        >
+                                        > */}
                                             {data.productName}
-                                        </button>
+                                        {/* </button> */}
                                     </td>
                                     {/* <td>{asset.warehouseNumber}</td> */}
                                     <td className="right">{data.supplyPrice && toComma(String(data.supplyPrice))}</td>
@@ -511,7 +511,6 @@ export type AssetsSearchDataType = {
                 </div>
             </section>
             )}
-
             </article>
         </div>
     );

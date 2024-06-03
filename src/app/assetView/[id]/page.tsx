@@ -355,21 +355,21 @@ function assetView({ params }: AssetViewParamsType) {
                                 </p>
                             </li>
                             {(assetData?.assetStatus === '매각' || assetData?.assetStatus === '폐기') && (
-                                    <li className={
-                                        assetData.assetStatus === '매각'
-                                        ? 'sale'
-                                        :assetData.assetStatus === '폐기'
-                                        ? 'disuse'
-                                        : ''
-                                    }>
-                                    <h5 className="label">
-                                        {assetData?.assetStatus === '매각' ? '매각금액' : '폐기금액'}
-                                    </h5>
-                                    <p className="text">
-                                        {assetData?.assetStatus === '매각'
-                                            ? toComma(String(assetData.saleAmount))
-                                            : toComma(String(assetData?.disposalAmount))}
-                                    </p>
+                                <li className={
+                                    assetData.assetStatus === '매각'
+                                    ? 'sale'
+                                    :assetData.assetStatus === '폐기'
+                                    ? 'disuse'
+                                    : ''
+                                }>
+                                <h5 className="label">
+                                    {assetData?.assetStatus === '매각' ? '매각금액' : '폐기금액'}
+                                </h5>
+                                <p className="text">
+                                    {assetData?.assetStatus === '매각'
+                                        ? toComma(String(assetData.saleAmount))
+                                        : toComma(String(assetData?.disposalAmount))}
+                                </p>
                                 </li>
                             )}
                         </ul>
