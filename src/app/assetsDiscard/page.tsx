@@ -75,7 +75,9 @@ function assetsDiscard() {
                 name === 'endPrice' ||
                 name === 'depreciationCost' ||
                 name === 'accumlatedDepreciation' ||
-                name === 'bookValue') &&
+                //name === 'bookValue') &&
+                name === 'saleAmount' || 
+                name === 'disposalAmount' ) &&
             value !== ''
         ) {
             if (isNaN(Number(value))) {
@@ -412,8 +414,8 @@ function assetsDiscard() {
                                             {/* <option value="depreciationCost">감가상각비(당월)</option> */}
                                             <option value="depreciationTotalprice">감가상각 누계액</option>
                                             <option value="bookValue">장부가액</option>
-                                            {/* <option value="saleAmount">매각/폐기금액</option> */}
-                                            {/* <option value="disposalAmount">매각/폐기금액</option> */}
+                                            <option value="saleAmount">매각금액</option>
+                                            <option value="disposalAmount">폐기금액</option>
                                         </select>
                                         <input
                                             type="text"
