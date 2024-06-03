@@ -297,7 +297,13 @@ function assetView({ params }: AssetViewParamsType) {
                                 <p className="text">{assetData?.serialNumber || '-'}</p>
                             </li>
                             {(assetData?.assetStatus === '매각' || assetData?.assetStatus === '폐기') && (
-                                <li>
+                                <li className={
+                                    assetData.assetStatus === '매각'
+                                    ? 'sale'
+                                    :assetData.assetStatus === '폐기'
+                                    ? 'disuse'
+                                    : ''
+                                }>
                                     <h5 className="label">
                                         {assetData?.assetStatus === '매각' ? '매각일자' : '폐기일자'}
                                     </h5>
@@ -349,14 +355,20 @@ function assetView({ params }: AssetViewParamsType) {
                                 </p>
                             </li>
                             {(assetData?.assetStatus === '매각' || assetData?.assetStatus === '폐기') && (
-                                <li>
+                                    <li className={
+                                        assetData.assetStatus === '매각'
+                                        ? 'sale'
+                                        :assetData.assetStatus === '폐기'
+                                        ? 'disuse'
+                                        : ''
+                                    }>
                                     <h5 className="label">
                                         {assetData?.assetStatus === '매각' ? '매각금액' : '폐기금액'}
                                     </h5>
                                     <p className="text">
                                         {assetData?.assetStatus === '매각'
-                                            ? assetData.saleAmount
-                                            : assetData?.disposalAmount}
+                                            ? toComma(String(assetData.saleAmount))
+                                            : toComma(String(assetData?.disposalAmount))}
                                     </p>
                                 </li>
                             )}
