@@ -583,6 +583,7 @@ function assetsDiscard() {
                                             <td className="left">
                                                 <button
                                                     type="button"
+                                                    className="popup_on"
                                                     onClick={handleEditOpenPopup}
                                                      style={{ cursor: 'pointer' }}
                                                 >
