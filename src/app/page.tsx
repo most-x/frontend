@@ -12,11 +12,8 @@ function Home() {
 		<section>
 			<div>
 				<h2 className="title">사내 정보 관리 시스템</h2>
-			    {/* <Link href="/dashboard" legacyBehavior>
+			    <Link href="/assets" legacyBehavior>
 					<a className='btn blue_back'>자산 감가상각 관리</a>
-				</Link> */}
-				<Link href="" legacyBehavior>
-					<a className='btn btn_off'>자산 감가상각 관리</a>
 				</Link>
 				{/* <Link href="/script" legacyBehavior>
 					<a className='btn blue_back'>상품 스크립트 관리</a>

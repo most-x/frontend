@@ -132,7 +132,7 @@ function assetsDashboard() {
                     </li>
                 </ul>
             </section>
-            <p className="btm_txt">기준일시 {formattedDate} 15:00:00</p>
+            <p className="btm_txt">기준일시 {formattedDate} 05:00:00</p>
         </article>
     </div>
         );

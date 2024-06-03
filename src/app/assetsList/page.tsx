@@ -5,7 +5,7 @@ import React, { useEffect, useState, useContext } from "react";
 import axios from 'axios'
 import Link from 'next/link';
 import { toComma } from '@/utils/util';
-import { KIND, STATUS } from '@/utils/constants';
+import DiscardEditPopup from '@/components/assetsDiscard/DiscardEditPopup';
 
 export type AssetsSearchDataType = {
     assetRegistDate: string;
@@ -36,8 +36,12 @@ export type AssetsSearchDataType = {
     const [assetsDatas, setAssetsDatas] = useState<any[]>([]);
     const [assetTotalCount, setAssetTotalCount] = useState(0);
 
+    const [assetsEditId, setAssetsEditDataId] = useState<number>();
+
     const [selectedStatus, setselectedStatus] = useState("status01");
     const [selectedKind, setselectedKind] = useState("use01");
+
+    const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
 
     const [totalCnt, setTotalCnt] = useState<number>(0);
     const [totalPage, setTotalPage] = useState<number>(0);
@@ -131,7 +135,7 @@ export type AssetsSearchDataType = {
 
     useEffect(() => {
         axios
-            .get(`https://japi.mostx.co.kr/api/assets`, {
+            .get(`https://japi.mostx.co.kr/api/assets/asset-search`, {
                 params: {
                     ...assetsSearchForm,
                     page,
@@ -144,6 +148,17 @@ export type AssetsSearchDataType = {
                 setTotalPage(res.data.totalPage);
             });
     }, [page]);
+
+    const handleEditOpenPopup = () => {
+        setIsEditPopupOpen(true);
+    };
+    const handleEditClosePopup = () => {
+        setIsEditPopupOpen(false);
+    };
+
+    {isEditPopupOpen && assetsEditId && (
+        <DiscardEditPopup id={assetsEditId} handleEditClosePopup={handleEditClosePopup} />
+    )}
    
     return (                                            
         <div>
@@ -360,6 +375,7 @@ export type AssetsSearchDataType = {
                             value={assetsSearchForm.startDate}
                             className="s_text"
                             placeholder="시작일"
+                            max="9999-12-31"
                         />
                         <span>-</span>
                         <input
@@ -370,6 +386,7 @@ export type AssetsSearchDataType = {
                             value={assetsSearchForm.endDate}
                             className="s_text"
                             placeholder="종료일"
+                            max="9999-12-31"
                         />
                     </li>
 					<li className="hidden">
@@ -429,18 +446,34 @@ export type AssetsSearchDataType = {
                         </tr>
                         {assetsSearchData.map((data, index) => {
                             return(
-                                <tr key={data.sno}>
+                                <tr 
+                                    key={data.sno}
+                                    className={
+                                        data.assetStatus === '매각'
+                                        ? 'sale'
+                                        :data.assetStatus === '폐기'
+                                        ? 'disuse'
+                                        : ''
+                                    }    
+                                >
                                     <td>{data.no}</td>
                                     <td>{data.assetStatus}</td>
                                     <td>{data.assetUsage}</td>
                                     <td>
-                                        {/* <Link href={`/assetView/${asset.sno}`}>{asset.wrmsAssetCode}</Link> */}
                                         <Link href={`/assetView/${data.sno}`}>{data.wrmsAssetCode}</Link>
                                     </td>
                                     <td>{data.wrmsItemCode}</td>
                                     <td>{data.ilsangProductCode}</td>
                                     <td>{data.serialNumber}</td>
-                                    <td className="left">{data.productName}</td>
+                                    <td className="left">
+                                        {/* <button
+                                            type="button"
+                                            onClick={handleEditOpenPopup}
+                                                style={{ cursor: 'pointer' }}
+                                        > */}
+                                            {data.productName}
+                                        {/* </button> */}
+                                    </td>
                                     {/* <td>{asset.warehouseNumber}</td> */}
                                     <td className="right">{data.supplyPrice && toComma(String(data.supplyPrice))}</td>
                                     {/* <td>{ toComma(asset.vat) }</td> */}
@@ -456,26 +489,26 @@ export type AssetsSearchDataType = {
                     </thead>
                 </table>
                 <div className="center_flex page">
-                            <span onClick={() => setPage(1)}>처음</span>
-                            <span onClick={handlePrevPage}>&nbsp;〈&nbsp;&nbsp;&nbsp;</span>
-                            {
-                                // total 페이지로 페이지네이션 뷰 구현해줘
-                                new Array(totalPage).fill(0).map((_, index) => {
-                                    return (
-                                        <span
-                                            className={page === index + 1 ? 'on' : ''}
-                                            onClick={() => setPage(index + 1)}
-                                            key={index}
-                                        >
-                                            {index + 1}
-                                        </span>
-                                    );
-                                })
-                            }
-                            <span onClick={handleNextPage}>&nbsp;&nbsp;&nbsp;〉&nbsp;</span>
-                            <span onClick={() => setPage(totalPage)}>끝</span>
-                        </div>
-
+                    <a href="#" onClick={() => setPage(1)}>처음</a>
+                    <a href="#" onClick={handlePrevPage}>&nbsp;〈&nbsp;&nbsp;&nbsp;</a>
+                    {
+                        // total 페이지로 페이지네이션 뷰 구현해줘
+                        new Array(totalPage).fill(0).map((_, index) => {
+                            return (
+                                <a
+                                    href="#"
+                                    className={page === index + 1 ? 'on' : ''}
+                                    onClick={() => setPage(index + 1)}
+                                    key={index}
+                                >
+                                    {index + 1}
+                                </a>
+                            );
+                        })
+                    }
+                    <a href="#" onClick={handleNextPage}>&nbsp;&nbsp;&nbsp;〉&nbsp;</a>
+                    <a href="#" onClick={() => setPage(totalPage)}>끝</a>
+                </div>
             </section>
             )}
 

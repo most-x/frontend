@@ -2,6 +2,7 @@ import { AssetDataType } from '@/app/assetView/[id]/page';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { EditPopupFormDataType } from '../assetView/EditPopup';
+import { toComma } from '@/utils/util';
 
 export default function DiscardEditPopup({
     id,
@@ -25,14 +26,28 @@ export default function DiscardEditPopup({
     const handleEditPopupChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         if ((name === 'salesRecognitionAmount' || name === 'saleAmount' || name === 'disposalAmount') && value !== '') {
-            if (isNaN(Number(value))) {
-                window.alert('숫자만 입력해주세요');
-                return;
+            console.log(value);
+            if (value.includes(',')) {
+                const newValue = value.replaceAll(',', '');
+                console.log(Number(newValue));
+                if (isNaN(Number(newValue))) {
+                    window.alert('숫자만 입력해주세요');
+                    return;
+                }
+                setEditPopupFormData({
+                    ...editPopupFormData,
+                    [name]: Number(newValue),
+                });
+            } else {
+                if (isNaN(Number(value))) {
+                    window.alert('숫자만 입력해주세요');
+                    return;
+                }
+                setEditPopupFormData({
+                    ...editPopupFormData,
+                    [name]: Number(value),
+                });
             }
-            setEditPopupFormData({
-                ...editPopupFormData,
-                [name]: Number(value),
-            });
             return;
         }
         setEditPopupFormData({
@@ -199,6 +214,7 @@ export default function DiscardEditPopup({
                                 <label className="label" htmlFor="">
                                     최초개시일자
                                 </label>
+                                {/* 감가 상각 진행 전 */}
                                 <input
                                     type="date"
                                     className="m_text"
@@ -206,9 +222,19 @@ export default function DiscardEditPopup({
                                     name="initialStartDate"
                                     value={editPopupFormData.initialStartDate || ''}
                                     onChange={handleEditPopupChange}
+                                    disabled={
+                                        editData.modifiedYn === 'Y'
+                                            ? false
+                                            : editData.assetStatus === '정상'
+                                            ? false
+                                            : true
+                                    }
                                 />
+                                <span>&nbsp;감가 상가 진행 전까지 일자 변경이 가능 합니다.</span>
+                                {/* 감가 상각 진행 중일 때
+							<p className="text">2023-02-01</p> */}
                             </li>
-                            <li>
+                            {/* <li>
                                 <h5 className="label">상태</h5>
                                 <fieldset className="input_wrap">
                                     <input
@@ -237,9 +263,15 @@ export default function DiscardEditPopup({
                                         폐기
                                     </label>
                                 </fieldset>
+                            </li> */}
+                            <li>
+                                <h5 className="label">상태</h5>
+                                <p className="text">{editData.assetStatus}</p>
+                                {/* <p className="text sale">매각</p>
+							<p className="text disuse">폐기</p> */}
                             </li>
                         </ul>
-                        {status === '매각' && (
+                        {/* {status === '매각' && (
                             <>
                                 <h4 className="m_title">매각 정보</h4>
                                 <ul className="input_list">
@@ -320,7 +352,185 @@ export default function DiscardEditPopup({
                     </div>
                     <button className="btn blue_back popup_save" type="submit">
                         저장
-                    </button>
+                    </button> */}
+                        {/* 매각 또는 폐기 처리 전 */}
+                        {editData.assetStatus === '정상' && (
+                            <>
+                                <div className="btn_wrap">
+                                    <button onClick={() => setStatus('매각')} className="btn sale_btn" type="button">
+                                        매각 처리
+                                    </button>
+                                    <button onClick={() => setStatus('폐기')} className="btn disuse_btn" type="button">
+                                        폐기 처리
+                                    </button>
+                                </div>
+                                {status === '매각' && (
+                                    <>
+                                        <h4 className="m_title">매각 정보</h4>
+                                        <ul className="input_list">
+                                            <li>
+                                                <label className="label" htmlFor="">
+                                                    장부가액
+                                                </label>
+                                                <p className="text">{`${toComma(String(editData.bookValue))}원`}</p>
+                                            </li>
+                                            <li>
+                                                <label className="label" htmlFor="">
+                                                    실제판매일자
+                                                </label>
+                                                <input
+                                                    type="date"
+                                                    name="saleDate"
+                                                    value={editPopupFormData.saleDate}
+                                                    className="m_text"
+                                                    id=""
+                                                    onChange={handleEditPopupChange}
+                                                />
+                                            </li>
+                                            <li>
+                                                <label className="label" htmlFor="">
+                                                    실제판매금액
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    name="saleAmount"
+                                                    value={
+                                                        editPopupFormData.saleAmount &&
+                                                        toComma(String(editPopupFormData.saleAmount))
+                                                    }
+                                                    className="m_text"
+                                                    id=""
+                                                    onChange={handleEditPopupChange}
+                                                />
+                                            </li>
+                                        </ul>
+                                    </>
+                                )}
+                                {status === '폐기' && (
+                                    <>
+                                        <h4 className="m_title">폐기 정보</h4>
+                                        <ul className="input_list">
+                                            <li>
+                                                <label className="label" htmlFor="">
+                                                    장부가액
+                                                </label>
+                                                <p className="text">{`${toComma(String(editData.bookValue))}원`}</p>
+                                            </li>
+                                            <li>
+                                                <label className="label" htmlFor="">
+                                                    실제폐기일자
+                                                </label>
+                                                <input
+                                                    type="date"
+                                                    name="disposalDate"
+                                                    value={editPopupFormData.disposalDate}
+                                                    className="m_text"
+                                                    id=""
+                                                    onChange={handleEditPopupChange}
+                                                />
+                                            </li>
+                                            <li>
+                                                <label className="label" htmlFor="">
+                                                    실제폐기금액
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    name="disposalAmount"
+                                                    value={
+                                                        editPopupFormData.disposalAmount &&
+                                                        toComma(String(editPopupFormData.disposalAmount))
+                                                    }
+                                                    className="m_text"
+                                                    id=""
+                                                    onChange={handleEditPopupChange}
+                                                />
+                                            </li>
+                                        </ul>
+                                    </>
+                                )}
+                                {/* //매각 또는 폐기 처리 전 */}
+                            </>
+                        )}
+                        {editData.assetStatus === '매각' && (
+                            <>
+                                <h4 className="m_title">매각 정보</h4>
+                                <ul className="input_list">
+                                    <li>
+                                        <label className="label" htmlFor="">
+                                            장부가액
+                                        </label>
+                                        <p className="text sale">
+                                            {editData.bookValue && toComma(String(editData.bookValue))}
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <label className="label" htmlFor="">
+                                            실제판매일자
+                                        </label>
+                                        {/* 매각 또는 폐기 전 */}
+                                        {/* <input type="date" className="m_text" id="" /> */}
+                                        {/* 이미 매각 된 경우 */}
+                                        <p className="text sale">{editData.saleDate}</p>
+                                    </li>
+                                    <li>
+                                        <label className="label" htmlFor="">
+                                            실제판매금액
+                                        </label>
+                                        {/* 매각 또는 폐기 전 */}
+                                        {/* <input type="text" className="m_text" id="" /> */}
+                                        {/* 이미 매각 된 경우 */}
+                                        <p className="text sale">
+                                            {editData.saleAmount && toComma(String(editData.saleAmount))}
+                                        </p>
+                                    </li>
+                                </ul>
+                            </>
+                        )}
+                        {editData.assetStatus === '폐기' && (
+                            <>
+                                <h4 className="m_title">폐기 정보</h4>
+                                <ul className="input_list">
+                                    <li>
+                                        <label className="label" htmlFor="">
+                                            장부가액
+                                        </label>
+                                        <p className="text disuse">
+                                            {editData.bookValue && toComma(String(editData.bookValue))}
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <label className="label" htmlFor="">
+                                            실제폐기일자
+                                        </label>
+                                        {/* 매각 또는 폐기 전 */}
+                                        {/* <input type="date" className="m_text" id="" /> */}
+                                        {/* 이미 폐기 된 경우							 */}
+                                        <p className="text disuse">{editData.disposalDate}</p>
+                                    </li>
+                                    <li>
+                                        <label className="label" htmlFor="">
+                                            실제폐기금액
+                                        </label>
+                                        {/* 매각 또는 폐기 전 */}
+                                        {/* <input type="date" className="m_text" id="" /> */}
+                                        {/* 이미 폐기 된 경우 */}
+                                        <p className="text disuse">
+                                            {editData.disposalAmount && toComma(String(editData.disposalAmount))}
+                                        </p>
+                                    </li>
+                                </ul>
+                            </>
+                        )}
+                    </div>
+                    {editData.assetStatus === '정상' ? (
+                        <button className="btn blue_back popup_save" type="submit">
+                            저장
+                        </button>
+                    ) : (
+                        <button onClick={handleEditClosePopup} className="btn blue_back popup_save" type="button">
+                            닫기
+                        </button>
+                    )}
                 </form>
             </section>
         )

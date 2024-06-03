@@ -6,6 +6,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import { toComma } from '@/utils/util';
 import DiscardEditPopup from '@/components/assetsDiscard/DiscardEditPopup';
+import { useRouter } from 'next/navigation';
 
 export type AssetsDiscardSearchDataType = {
     assetRegistDate: string;
@@ -56,12 +57,17 @@ function assetsDiscard() {
         size: 10,
     });
 
-	const [discardForm, setDiscardForm] = useState({
-		disposalDate: '',
-		disposalAmount: '',
-	})
-
+    const [discardForm, setDiscardForm] = useState({
+        disposalDate: '',
+        disposalAmount: '',
+    });
+    const navigate = useRouter();
     console.log(selectDiscardData);
+
+    const handleNavigate = (sno: number) => {
+        navigate.push(`/assetView/${sno}`);
+    };
+
     const handleDiscardFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         if (
@@ -104,7 +110,7 @@ function assetsDiscard() {
                 window.alert('숫자만 입력해주세요');
                 return;
             } else {
-				setDiscardForm((prev) => ({...prev, [name]: value}));
+                setDiscardForm((prev) => ({ ...prev, [name]: value }));
                 setSelectDiscardData(
                     selectDiscardData.map((item) => {
                         return {
@@ -116,7 +122,7 @@ function assetsDiscard() {
                 return;
             }
         } else {
-			setDiscardForm((prev) => ({...prev, [name]: value}));
+            setDiscardForm((prev) => ({ ...prev, [name]: value }));
             setSelectDiscardData(
                 selectDiscardData.map((item) => {
                     return {
@@ -183,19 +189,19 @@ function assetsDiscard() {
                 setAssetsSearchData(res.data.contents);
                 setTotalCnt(res.data.totalCnt);
                 setTotalPage(res.data.totalPage);
-				setPage(1);
+                setPage(1);
             });
     };
 
-	const handleNextPage = () => {
-		if (page === totalPage) return;
-		setPage(page + 1);
-	}
+    const handleNextPage = () => {
+        if (page === totalPage) return;
+        setPage(page + 1);
+    };
 
-	const handlePrevPage = () => {
-		if (page === 1) return;
-		setPage(page - 1);
-	}
+    const handlePrevPage = () => {
+        if (page === 1) return;
+        setPage(page - 1);
+    };
 
     const handleEditOpenPopup = () => {
         setIsEditPopupOpen(true);
@@ -228,14 +234,19 @@ function assetsDiscard() {
                 setTotalPage(res.data.totalPage);
             });
     }, [page, isEditPopupOpen, isDiscardPopupOpen]);
-
+    console.log(assetsSearchData);
     return (
         <div>
             <header>
-            <h1><a href="/" className="logo">
-                <img src="img/logo_w.svg" alt="모스트엑스 로고" /></a>자산 감가상각 관리
-                <a href="/" className="exit">
-                    <img src="img/exit.svg" alt="모스트엑스 로고" /></a></h1>
+                <h1>
+                    <a href="/" className="logo">
+                        <img src="img/logo_w.svg" alt="모스트엑스 로고" />
+                    </a>
+                    자산 감가상각 관리
+                    <a href="/" className="exit">
+                        <img src="img/exit.svg" alt="모스트엑스 로고" />
+                    </a>
+                </h1>
                 <nav>
                     <ul className="nav">
                         <li>
@@ -384,7 +395,10 @@ function assetsDiscard() {
                                         </fieldset>
                                     </li>
                                     <li>
-                                        <label className="label" htmlFor=""> 금액 </label>
+                                        <label className="label" htmlFor="">
+                                            {' '}
+                                            금액{' '}
+                                        </label>
                                         <select
                                             name="priceType"
                                             onChange={handleSelectOptionChange}
@@ -398,6 +412,8 @@ function assetsDiscard() {
                                             {/* <option value="depreciationCost">감가상각비(당월)</option> */}
                                             <option value="depreciationTotalprice">감가상각 누계액</option>
                                             <option value="bookValue">장부가액</option>
+                                            {/* <option value="saleAmount">매각/폐기금액</option> */}
+                                            {/* <option value="disposalAmount">매각/폐기금액</option> */}
                                         </select>
                                         <input
                                             type="text"
@@ -533,7 +549,17 @@ function assetsDiscard() {
                                 {assetsSearchData.map((data, index) => {
                                     const isChecked = selectDiscardData.some((item) => item.sno === data.sno);
                                     return (
-                                        <tr key={data.sno} onClick={() => setAssetsEditDataId(data.sno)}>
+                                        <tr
+                                            key={data.sno}
+                                            className={
+                                                data.assetStatus === '매각'
+                                                    ? 'sale'
+                                                    : data.assetStatus === '폐기'
+                                                    ? 'disuse'
+                                                    : ''
+                                            }
+                                            onClick={() => setAssetsEditDataId(data.sno)}
+                                        >
                                             <td>
                                                 <input
                                                     type="checkbox"
@@ -546,25 +572,49 @@ function assetsDiscard() {
                                                 <button
                                                     type="button"
                                                     className="popup_on"
-                                                    onClick={handleEditOpenPopup}
-                                                >
+                                                    onClick={() => handleNavigate(data.sno)}
+                                                 >
                                                     {data.wrmsAssetCode}
                                                 </button>
                                             </td>
                                             <td>{data.wrmsItemCode}</td>
                                             <td>{data.ilsangProductCode}</td>
                                             <td>{data.serialNumber}</td>
-                                            <td className="left">{data.productName}</td>
+                                            <td className="left">
+                                                <button
+                                                    type="button"
+                                                    onClick={handleEditOpenPopup}
+                                                     style={{ cursor: 'pointer' }}
+                                                >
+                                                    {data.productName}
+                                                </button>
+                                            </td>
                                             <td>{data.assetRegistDate}</td>
                                             <td>{data.initialStartDate}</td>
-                                            <td className="right">{data.bookValue && toComma(String(data.bookValue))}</td>
+                                            <td className="right">
+                                                {data.bookValue && toComma(String(data.bookValue))}
+                                            </td>
                                             <td className="right">
                                                 {data.depreciationTotalprice &&
                                                     toComma(String(data.depreciationTotalprice))}
                                             </td>
-                                            <td className="right">{data.disposalAmount && toComma(String(data.disposalAmount))}</td>
-                                            <td>{data.disposalDate}</td>
-                                            <td className="right">{data.saleMargin && toComma(String(data.saleMargin))}</td>
+                                            <td className="right">
+                                                {data.saleAmount || data.saleAmount === 0
+                                                    ? toComma(String(data.saleAmount))
+                                                    : data.disposalAmount || data.disposalAmount === 0
+                                                    ? toComma(String(data.disposalAmount))
+                                                    : ''}
+                                            </td>
+                                            <td>
+                                                {data.disposalDate
+                                                    ? data.disposalDate
+                                                    : data.saleDate
+                                                    ? data.saleDate
+                                                    : ''}
+                                            </td>
+                                            <td className="right">
+                                                {data.saleMargin && toComma(String(data.saleMargin))}
+                                            </td>
                                             <td>{data.saleMarginRate}</td>
                                         </tr>
                                     );
@@ -572,25 +622,26 @@ function assetsDiscard() {
                             </thead>
                         </table>
                         <div className="center_flex page">
-                            <span onClick={() => setPage(1)}>처음</span>
-                            <span onClick={handlePrevPage}>&nbsp;〈&nbsp;&nbsp;&nbsp;</span>
-                            {
-                                // total 페이지로 페이지네이션 뷰 구현해줘
-                                new Array(totalPage).fill(0).map((_, index) => {
-                                    return (
-                                        <span
-                                            className={page === index + 1 ? 'on' : ''}
-                                            onClick={() => setPage(index + 1)}
-                                            key={index}
-                                        >
-                                            {index + 1}
-                                        </span>
-                                    );
-                                })
-                            }
-                            <span onClick={handleNextPage}>&nbsp;&nbsp;&nbsp;〉&nbsp;</span>
-                            <span onClick={() => setPage(totalPage)}>끝</span>
-                        </div>
+                        <a href="#" onClick={() => setPage(1)}>처음</a>
+                        <a href="#" onClick={handlePrevPage}>&nbsp;〈&nbsp;&nbsp;&nbsp;</a>
+                        {
+                            // total 페이지로 페이지네이션 뷰 구현해줘
+                            new Array(totalPage).fill(0).map((_, index) => {
+                                return (
+                                    <a
+                                        href="#"
+                                        className={page === index + 1 ? 'on' : ''}
+                                        onClick={() => setPage(index + 1)}
+                                        key={index}
+                                    >
+                                        {index + 1}
+                                    </a>
+                                );
+                            })
+                        }
+                        <a href="#" onClick={handleNextPage}>&nbsp;&nbsp;&nbsp;〉&nbsp;</a>
+                        <a href="#" onClick={() => setPage(totalPage)}>끝</a>
+                    </div>
                     </section>
                 )}
 
@@ -620,7 +671,7 @@ function assetsDiscard() {
                                             type="date"
                                             name="disposalDate"
                                             onChange={handleDiscardInputChange}
-											value={discardForm.disposalDate}
+                                            value={discardForm.disposalDate}
                                             className="m_text"
                                             id=""
                                         />
@@ -633,7 +684,7 @@ function assetsDiscard() {
                                             type="text"
                                             name="disposalAmount"
                                             onChange={handleDiscardInputChange}
-											value={discardForm.disposalAmount}
+                                            value={discardForm.disposalAmount}
                                             className="m_text"
                                             id=""
                                         />

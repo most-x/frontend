@@ -34,6 +34,7 @@ export default function EditPopup({ assetData, handleSetAssetData, handleEditPop
         usefulLife,
         assetUsage,
         sno,
+        modifiedYn,
     } = assetData && assetData;
 
     const [editPopupFormData, setEditPopupFormData] = useState<EditPopupFormDataType>({

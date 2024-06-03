@@ -265,6 +265,7 @@ export type assetCreateType = {
 								className="s_text"
 								placeholder="최초개시일자"
 							/>
+							<span>&nbsp;감가 상가 진행 전까지 일자 변경이 가능 합니다.</span>
 						</li>
 					</ul>
 					</div>

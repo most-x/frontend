@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import { deprecate } from 'util';
 import EditPopup from '@/components/assetView/EditPopup';
 import { toComma } from '@/utils/util';
+import DiscardEditPopup from '@/components/assetsDiscard/DiscardEditPopup';
 
 type AssetViewParamsType = {
     params: {
@@ -41,6 +42,7 @@ export interface AssetDataType {
     usefulLife: number;
     wrmsAssetCode: string;
     wrmsItemCode: string;
+    modifiedYn: string;
 }
 
 type AssetDepreciationType = {
@@ -141,10 +143,15 @@ function assetView({ params }: AssetViewParamsType) {
     return (
         <div>
             <header>
-            <h1><a href="/" className="logo">
-            <img src="../img/logo_w.svg" alt="모스트엑스 로고" /></a>자산 감가상각 관리
-            <a href="/" className="exit">
-            <img src="../img/exit.svg" alt="모스트엑스 로고" /></a></h1>
+                <h1>
+                    <a href="/" className="logo">
+                        <img src="../img/logo_w.svg" alt="모스트엑스 로고" />
+                    </a>
+                    자산 감가상각 관리
+                    <a href="/" className="exit">
+                        <img src="../img/exit.svg" alt="모스트엑스 로고" />
+                    </a>
+                </h1>
                 <nav>
                     <ul className="nav">
                         <li>
@@ -289,6 +296,18 @@ function assetView({ params }: AssetViewParamsType) {
                                 <h5 className="label">시리얼 번호</h5>
                                 <p className="text">{assetData?.serialNumber || '-'}</p>
                             </li>
+                            {(assetData?.assetStatus === '매각' || assetData?.assetStatus === '폐기') && (
+                                <li>
+                                    <h5 className="label">
+                                        {assetData?.assetStatus === '매각' ? '매각일자' : '폐기일자'}
+                                    </h5>
+                                    <p className="text">
+                                        {assetData?.assetStatus === '매각'
+                                            ? assetData.saleDate
+                                            : assetData?.disposalDate}
+                                    </p>
+                                </li>
+                            )}
                             {/* <li>
 								<h5 className="label">WRMS 구매오더번호 </h5>
 								<p className="text">PO00000000891</p>
@@ -305,11 +324,15 @@ function assetView({ params }: AssetViewParamsType) {
                             </li>
                             <li>
                                 <h5 className="label">공급가</h5>
-                                <p className="text">{assetData?.supplyPrice && toComma(String(assetData?.supplyPrice)) || '-'}</p>
+                                <p className="text">
+                                    {(assetData?.supplyPrice && toComma(String(assetData?.supplyPrice))) || '-'}
+                                </p>
                             </li>
                             <li>
                                 <h5 className="label">장부가액</h5>
-                                <p className="text">{assetData?.bookValue && toComma(String(assetData?.bookValue)) || '-'}</p>
+                                <p className="text">
+                                    {(assetData?.bookValue && toComma(String(assetData?.bookValue))) || '-'}
+                                </p>
                             </li>
                             <li>
                                 <h5 className="label">최초개시일자</h5>
@@ -325,6 +348,18 @@ function assetView({ params }: AssetViewParamsType) {
                                     {assetData?.registName} {assetData?.registDepartment || '-'}
                                 </p>
                             </li>
+                            {(assetData?.assetStatus === '매각' || assetData?.assetStatus === '폐기') && (
+                                <li>
+                                    <h5 className="label">
+                                        {assetData?.assetStatus === '매각' ? '매각금액' : '폐기금액'}
+                                    </h5>
+                                    <p className="text">
+                                        {assetData?.assetStatus === '매각'
+                                            ? assetData.saleAmount
+                                            : assetData?.disposalAmount}
+                                    </p>
+                                </li>
+                            )}
                         </ul>
                     </div>
                     <ul className="search_list_full border_s">
@@ -365,10 +400,20 @@ function assetView({ params }: AssetViewParamsType) {
                                         <tr key={depreciation?.sno}>
                                             <td>{depreciation?.no}</td>
                                             <td>{depreciation?.depreciationDate}</td>
-                                            <td className='right'>{assetData?.supplyPrice && toComma(String(assetData.supplyPrice))}</td>
-                                            <td className="right">{depreciation?.depreciationCost && toComma(String(depreciation.depreciationCost))}</td>
-                                            <td className="right">{depreciation?.accumlatedDepreciation && toComma(String(depreciation.accumlatedDepreciation))}</td>
-                                            <td className="right">{depreciation?.bookValue && toComma(String(depreciation.bookValue))}</td>
+                                            <td className="right">
+                                                {assetData?.supplyPrice && toComma(String(assetData.supplyPrice))}
+                                            </td>
+                                            <td className="right">
+                                                {depreciation?.depreciationCost &&
+                                                    toComma(String(depreciation.depreciationCost))}
+                                            </td>
+                                            <td className="right">
+                                                {depreciation?.accumlatedDepreciation &&
+                                                    toComma(String(depreciation.accumlatedDepreciation))}
+                                            </td>
+                                            <td className="right">
+                                                {depreciation?.bookValue && toComma(String(depreciation.bookValue))}
+                                            </td>
                                         </tr>
                                     );
                                 })}
@@ -421,12 +466,14 @@ function assetView({ params }: AssetViewParamsType) {
                         </table>
                     </section>
                 )}
-                {isEditPopupOpen && (
-                    <EditPopup
-                        assetData={assetData as AssetDataType}
-                        handleSetAssetData={handleSetAssetData}
-                        handleEditPopupClose={handleEditPopupClose}
-                    />
+                {isEditPopupOpen && assetData && (
+                    <DiscardEditPopup id={assetData.sno} handleEditClosePopup={handleEditPopupClose} />
+
+                    // <EditPopup
+                    //     assetData={assetData as AssetDataType}
+                    //     handleSetAssetData={handleSetAssetData}
+                    //     handleEditPopupClose={handleEditPopupClose}
+                    // />
                 )}
             </article>
         </div>
