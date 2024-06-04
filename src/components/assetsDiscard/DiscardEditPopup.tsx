@@ -224,10 +224,10 @@ export default function DiscardEditPopup({
                                     onChange={handleEditPopupChange}
                                     disabled={
                                         editData.modifiedYn === 'Y'
-                                            ? true
+                                            ? false
                                             : editData.assetStatus === '정상'
                                             ? true
-                                            : false
+                                            : true
                                     }
                                 />
                                 <span>&nbsp;감가 상가 진행 전까지 일자 변경이 가능 합니다.</span>
