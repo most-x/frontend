@@ -33,15 +33,8 @@ export type AssetsSearchDataType = {
     const [assetsSearchData, setAssetsSearchData] = useState<AssetsSearchDataType[]>([]);
     const [selectAssetsData, setSelectAssetsData] = useState<AssetsSearchDataType[]>([]);
 
-    const [assetsDatas, setAssetsDatas] = useState<any[]>([]);
-    const [assetTotalCount, setAssetTotalCount] = useState(0);
-
-    const [assetsEditId, setAssetsEditDataId] = useState<number>();
-
-    const [selectedStatus, setselectedStatus] = useState("status01");
-    const [selectedKind, setselectedKind] = useState("use01");
-
     const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const [totalCnt, setTotalCnt] = useState<number>(0);
     const [totalPage, setTotalPage] = useState<number>(0);
@@ -134,6 +127,7 @@ export type AssetsSearchDataType = {
 	}
 
     useEffect(() => {
+        if (isEditPopupOpen || isPopupOpen) return;
         axios
             .get(`https://japi.mostx.co.kr/api/assets/asset-search`, {
                 params: {
@@ -142,23 +136,16 @@ export type AssetsSearchDataType = {
                 },
             })
             .then((res) => {
-                console.log(res);
+                console.log("res", res);
                 setAssetsSearchData(res.data.contents);
                 setTotalCnt(res.data.totalCnt);
                 setTotalPage(res.data.totalPage);
             });
-    }, [page]);
+    }, [page, isEditPopupOpen, isPopupOpen]);
 
-    const handleEditOpenPopup = () => {
-        setIsEditPopupOpen(true);
-    };
     const handleEditClosePopup = () => {
         setIsEditPopupOpen(false);
     };
-
-    {isEditPopupOpen && assetsEditId && (
-        <DiscardEditPopup id={assetsEditId} handleEditClosePopup={handleEditClosePopup} />
-    )}
    
     return (                                            
         <div>
@@ -466,13 +453,14 @@ export type AssetsSearchDataType = {
                                     <td>{data.ilsangProductCode}</td>
                                     <td>{data.serialNumber}</td>
                                     <td className="left">
-                                        {/* <button
+                                        <button
                                             type="button"
-                                            onClick={handleEditOpenPopup}
-                                                style={{ cursor: 'pointer' }}
-                                        > */}
+                                            //onClick={handleEditOpenPopup}
+                                            onClick={() => setIsEditPopupOpen(true)}
+                                            style={{ cursor: 'pointer' }}
+                                        >
                                             {data.productName}
-                                        {/* </button> */}
+                                        </button>
                                     </td>
                                     {/* <td>{asset.warehouseNumber}</td> */}
                                     <td className="right">{data.supplyPrice && toComma(String(data.supplyPrice))}</td>
@@ -511,6 +499,7 @@ export type AssetsSearchDataType = {
                 </div>
             </section>
             )}
+
             </article>
         </div>
     );

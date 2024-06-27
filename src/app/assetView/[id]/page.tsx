@@ -381,7 +381,10 @@ function assetView({ params }: AssetViewParamsType) {
                         </li>
                     </ul>
                     {assetData && (
-                        <button className="popup_on right_btn" type="button" onClick={() => setIsEditPopupOpen(true)}>
+                        <button 
+                            className="popup_on right_btn"
+                            type="button"
+                            onClick={() => setIsEditPopupOpen(true)}>
                             수정하기
                         </button>
                     )}
