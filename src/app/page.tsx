@@ -18,8 +18,9 @@ function Home() {
 				{/* <Link href="/script" legacyBehavior>
 					<a className='btn blue_back'>상품 스크립트 관리</a>
 				</Link> */}
-				<Link href="https://mostx.softr.app/" legacyBehavior>
-					<a className='btn blue_back'>상품 스크립트 관리</a>
+				<Link href="https://mostx.softr.app/"
+					  rel="noopener noreferrer" legacyBehavior>
+					<a target="_blank" className='btn blue_back'>상품 스크립트 관리</a>
 				</Link>
 				{/* <Link href="/" legacyBehavior>
 					<a className='btn blue_back'>상담 스크립트 관리</a>
