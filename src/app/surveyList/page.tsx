@@ -157,28 +157,28 @@ function surveyList() {
 
     const [selectedDate, setSelectDate] = useState(getToday());
 
-    const handleChange = (event) => {
-        const value = event.target.value;
-        let date;
+    // const handleChange = (event) => {
+    //     const value = event.target.value;
+    //     let date;
 
-        switch(value) {
-            case 'today':
-                date = getToday();
-                break;
-            case 'oneWeek':
-                date = getOneWeekAgo();
-                break;
-            case 'oneMonth':
-                date = getOneMonthAgo();
-                break;
-            case 'oneYear':
-                date =getOneYearAgo();
-                break;
-            default:
-                date = getToday();
-        }
-        setSelectDate(date);
-    };
+    //     switch(value) {
+    //         case 'today':
+    //             date = getToday();
+    //             break;
+    //         case 'oneWeek':
+    //             date = getOneWeekAgo();
+    //             break;
+    //         case 'oneMonth':
+    //             date = getOneMonthAgo();
+    //             break;
+    //         case 'oneYear':
+    //             date =getOneYearAgo();
+    //             break;
+    //         default:
+    //             date = getToday();
+    //     }
+    //     setSelectDate(date);
+    // };
 
 
 
@@ -207,7 +207,7 @@ function surveyList() {
                                 <input
                                     type="date"
                                     id="startDate"
-                                    onChange = {(e) => setStartDate(e.target.value)}
+                                    //onChange = {(e) => setStartDate(e.target.value)}
                                     name={startDate}
                                     defaultValue={today}
                                     className="s_text"
@@ -226,14 +226,14 @@ function surveyList() {
 
                                 {/* SURVEYDATES */}
                                 <fieldset className="date_radio">
-                                    {/* <input type="radio" id="radio_today" name="date_radio" defaultChecked />
+                                    <input type="radio" id="radio_today" name="date_radio" defaultChecked />
                                     <label htmlFor="radio_today">오늘</label>
                                     <input type="radio" id="radio_week" name="date_radio" />
                                     <label htmlFor="radio_week">1주일</label>
                                     <input type="radio" id="radio_month" name="date_radio" />
                                     <label htmlFor="radio_month">1개월</label>
                                     <input type="radio" id="radio_year" name="date_radio" />
-                                    <label htmlFor="radio_year">1년</label> */}
+                                    <label htmlFor="radio_year">1년</label>
                                     {/* {SURVEYDATES.map((data) => (
                                         <div key={data.id}>
                                             <input
@@ -247,8 +247,8 @@ function surveyList() {
                                             <label htmlFor={data.id}>{data.label}</label>
                                         </div>
                                     ))
-                                    } */}
-                                    <input
+                                    }
+                                    {/* <input
                                         type="radio"
                                         value="today"
                                         checked = {selectedDate.toDateString() === getToday().toDateString()}
@@ -275,7 +275,7 @@ function surveyList() {
                                         checked = {selectedDate.toDateString() === getOneYearAgo().toDateString()}
                                         onChange = {handleChange}
                                     />
-                                    <label htmlFor="radio_tody">1개월</label>
+                                    <label htmlFor="radio_tody">1개월</label> */}
                                 </fieldset>
                                 </div>
                             </li>					
