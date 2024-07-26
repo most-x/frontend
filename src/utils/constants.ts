@@ -6,6 +6,13 @@ export const DATES = [
     { id: "2024년", label: "2024년" },
 ];
 
+export const SURVEYDATES = [
+    {id : "radio_today", label: "오늘"},
+    {id : "radio_week", label: "1주일"},
+    {id : "radio_month", label: "1개월"},
+    {id : "radio_year", label: "1년"},
+]
+
 export const CATEGORYS = [
     { id: "전체", label: "전체" },
     { id: "가전·디지털", label: "가전·디지털" },

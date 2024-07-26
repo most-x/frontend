@@ -15,6 +15,9 @@ function Home() {
 			    <Link href="/assets" legacyBehavior>
 					<a className='btn blue_back'>자산 감가상각 관리</a>
 				</Link>
+				<Link href="/surveyList" legacyBehavior>
+					<a className='btn blue_back'>만족도 조사 관리</a>
+				</Link>
 				{/* <Link href="/script" legacyBehavior>
 					<a className='btn blue_back'>상품 스크립트 관리</a>
 				</Link> */}
