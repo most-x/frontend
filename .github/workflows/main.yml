@@ -10,6 +10,7 @@ env:
   DOCKER_IMAGE: ghcr.io/${{ github.actor }}/mostx_frontend
   VERSION: ${{ github.sha }}
   NAME: react-front
+  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
 
 jobs:
   # 빌드 Job
