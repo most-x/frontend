@@ -159,7 +159,7 @@ function surveyList() {
                 <nav>
                     <ul className="nav">
                         <li className="on"><a className="link" href="survey.html">만족도 조사 현황</a></li>
-                        <li><a className="link" href="survey_statistics.html">만족도 조사 통계</a></li>
+                        {/* <li><a className="link" href="survey_statistics.html">만족도 조사 통계</a></li> */}
                     </ul>
                 </nav>			
             </header>
