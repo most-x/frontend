@@ -31,7 +31,13 @@ function surveyList() {
     const [totalCnt, setTotalCnt] = useState<number>(0);
     const [pageNumber, setPageNumber] = useState<number>(1);
     const [totalPage, setTotalPage] = useState<number>(0);
-    
+
+    const today = new Date().toISOString().split('T')[0];
+    const [startDate, setStartDate] = useState<string>(today);
+    const [endDate, setEndDate] = useState<string>(today);
+    const [selectedOption, setSelectedOption] = useState<string>('');
+    const [searchWord, setSearchWord] = useState<string>('');
+   
     const [limit, setLimit] = useState(10);
     const pageLimit = 10;
 
@@ -41,7 +47,16 @@ function surveyList() {
         totalScore: '',
         startDate: '',
         endDate: '',
-        size:10
+        //minScore: '',
+        //maxScore: '',
+        selectedOption:'',
+        size:10,
+    });
+
+    const [checkedItems, setCheckedItems] = useState({
+        all : true,
+        wrms : false,
+        dailySubscription: false,
     });
 
     console.log(surveyData);
@@ -49,22 +64,7 @@ function surveyList() {
         const {name, value} = e.target;
     
         console.log("name", value);
-        
-        if ((name === 'userPhone' ||
-            name === 'totalScore' ||
-            name === 'avgScore') &&
-             value !== ''
-        ) {
-            if (isNaN(Number(value))) {
-                window.alert('숫자만 입력해주세요');
-                return;
-            }
-            setSurveySearchForm({
-                ...surveySearchForm,
-                [name]: Number(value),
-            });
-            return;
-        }
+    
         setSurveySearchForm({
             ...surveySearchForm,
             [name]: value,
@@ -127,60 +127,30 @@ function surveyList() {
             })
     }
 
-    const now = new Date();
-    const today = now.toISOString().slice(0, 10)
-    const [startDate, setStartDate] = useState(today);
-    const [endDate, setEndDate] = useState(today);
+    const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
-    const getToday = () => {
-        return new Date;
-    }
-
-    const getOneWeekAgo = () => {
-        const date = new Date();
-
-        date.setDate(date.getDate() - 7);
-        return date;
-    }
-
-    const getOneMonthAgo = () => {
-        const date = new Date();
-        date.setMonth(date.getMonth() - 1);
-        return date;
-    }
-
-    const getOneYearAgo = () => {
-        const date = new Date();
-        date.setFullYear(date.getFullYear() - 1);
-        return date;
-    }
-
-    const [selectedDate, setSelectDate] = useState(getToday());
-
-    // const handleChange = (event) => {
-    //     const value = event.target.value;
-    //     let date;
-
-    //     switch(value) {
-    //         case 'today':
-    //             date = getToday();
-    //             break;
-    //         case 'oneWeek':
-    //             date = getOneWeekAgo();
-    //             break;
-    //         case 'oneMonth':
-    //             date = getOneMonthAgo();
-    //             break;
-    //         case 'oneYear':
-    //             date =getOneYearAgo();
-    //             break;
-    //         default:
-    //             date = getToday();
-    //     }
-    //     setSelectDate(date);
-    // };
-
-
+        const { id } = e.target;
+        if (id === 'radio_today') {
+            setStartDate(today);
+            setEndDate(today);
+        } else if (id === 'radio_week') {
+            const weekAgo = new Date();
+            weekAgo.setDate(weekAgo.getDate() - 7);
+            setStartDate(weekAgo.toISOString().split('T')[0]);
+            setEndDate(today);
+        } else if (id === 'radio_month') {
+            const monthAgo = new Date();
+            monthAgo.setMonth(monthAgo.getMonth() - 1);
+            setStartDate(monthAgo.toISOString().split('T')[0]);
+            setEndDate(today);
+        } else if (id === 'radio_year') {
+            const yearAgo = new Date();
+            yearAgo.setFullYear(yearAgo.getFullYear() - 1);
+            setStartDate(yearAgo.toISOString().split('T')[0]);
+            setEndDate(today);
+        }
+    };
+ 
 
     return (
         <div>
@@ -203,88 +173,64 @@ function surveyList() {
                         <ul className="search_list_full">
                             <li>
                                 <div className="flex_center">
-                                <label className="label" htmlFor="">검색기간</label>
+                                <label className="label">검색기간</label>
                                 <input
                                     type="date"
                                     id="startDate"
-                                    //onChange = {(e) => setStartDate(e.target.value)}
-                                    name={startDate}
-                                    defaultValue={today}
+                                    onChange={(e) => setStartDate(e.target.value)}
+                                    value={startDate}
                                     className="s_text"
                                     max="9999-12-31"
                                 />
                                 <span className="date_blank">-</span>
-                                <input 
+                                <input
                                     type="date"
                                     id="endDate"
-                                    onChange= {(e) => setEndDate(e.target.value)}
-                                    name={endDate}
-                                    defaultValue={today}
+                                    onChange={(e) => setEndDate(e.target.value)}
+                                    value={endDate}
                                     className="s_text"
-                                    max='9999-12-31'
+                                    max="9999-12-31"
                                 />
-
                                 {/* SURVEYDATES */}
                                 <fieldset className="date_radio">
-                                    <input type="radio" id="radio_today" name="date_radio" defaultChecked />
+                                    <input 
+                                        type="radio"
+                                        id="radio_today"
+                                        name="date_radio"
+                                        onChange={handleRadioChange}
+                                        defaultChecked
+                                    />
                                     <label htmlFor="radio_today">오늘</label>
-                                    <input type="radio" id="radio_week" name="date_radio" />
+                                    <input 
+                                        type="radio"
+                                        id="radio_week"
+                                        name="date_radio"
+                                        onChange={handleRadioChange}
+                                    />
                                     <label htmlFor="radio_week">1주일</label>
-                                    <input type="radio" id="radio_month" name="date_radio" />
+                                    <input 
+                                        type="radio"
+                                        id="radio_month"
+                                        name="date_radio"
+                                        onChange={handleRadioChange}
+                                    />
                                     <label htmlFor="radio_month">1개월</label>
-                                    <input type="radio" id="radio_year" name="date_radio" />
+                                    <input 
+                                        type="radio"
+                                        id="radio_year"
+                                        name="date_radio"
+                                        onChange={handleRadioChange}
+                                    />
                                     <label htmlFor="radio_year">1년</label>
-                                    {/* {SURVEYDATES.map((data) => (
-                                        <div key={data.id}>
-                                            <input
-                                                type='radio'
-                                                id={data.id}
-                                                name='date_radio'
-                                                checked={selectedDate === data.id}
-                                                onChange={handleDateChange}
-                                                value={data.id}
-                                            />
-                                            <label htmlFor={data.id}>{data.label}</label>
-                                        </div>
-                                    ))
-                                    }
-                                    {/* <input
-                                        type="radio"
-                                        value="today"
-                                        checked = {selectedDate.toDateString() === getToday().toDateString()}
-                                        onChange = {handleChange}
-                                    />
-                                    <label htmlFor="radio_tody">오늘</label>
-                                    <input
-                                        type="radio"
-                                        value="today"
-                                        checked = {selectedDate.toDateString() === getOneWeekAgo().toDateString()}
-                                        onChange = {handleChange}
-                                    />
-                                    <label htmlFor="radio_tody">1주일</label>
-                                    <input
-                                        type="radio"
-                                        value="today"
-                                        checked = {selectedDate.toDateString() === getOneMonthAgo().toDateString()}
-                                        onChange = {handleChange}
-                                    />
-                                    <label htmlFor="radio_tody">1개월</label>
-                                    <input
-                                        type="radio"
-                                        value="today"
-                                        checked = {selectedDate.toDateString() === getOneYearAgo().toDateString()}
-                                        onChange = {handleChange}
-                                    />
-                                    <label htmlFor="radio_tody">1개월</label> */}
                                 </fieldset>
                                 </div>
                             </li>					
                             <li>
                                 <label className="label" htmlFor="">검색어</label>
                                 <select
-                                    name=""
-                                    // onChange={}
-                                    // value={}
+                                    name="searchType"
+                                    //onChange={(e) => setSelectOption(e.target.value)}
+                                    value={selectedOption}
                                     id=""
                                 >
                                     <option value="" selected>
@@ -307,7 +253,12 @@ function surveyList() {
                             <li className="flex">
                                 <label className="label" htmlFor="">인입경로</label>
                                 <fieldset className="date_radio checkbox">
-                                        <input type="checkbox" id="cateall" checked />
+                                        <input 
+                                            type="checkbox"
+                                            id="cateall"
+                                            checked={checkedItems.all}
+                                            defaultChecked
+                                        />
                                         <label htmlFor="cateall">전체</label>							
                                         <input type="checkbox" id="cate01" />
                                         <label htmlFor="cate01">WRMS</label>
@@ -329,9 +280,25 @@ function surveyList() {
                                     <option value="totalScore">총점</option>
                                     <option value="avgScore">평균</option>
                                 </select>
-                                <input type="text" id="" className="s_text" placeholder="최소" />
+                                <input 
+                                    type="text"
+                                    id=""
+                                    onChange={handleFormChange}
+                                    name={'minScore'}
+                                    //value={surveySearchForm.minScore}
+                                    className="s_text"
+                                    placeholder="최소"
+                                />
                                 <span>-</span>
-                                <input type="text" id="" className="s_text" placeholder="최대" />
+                                <input
+                                    type="text"
+                                    id=""
+                                    onChange={handleFormChange}
+                                    name={'maxScore'}
+                                    //value={surveySearchForm.maxScore}
+                                    className="s_text"
+                                    placeholder="최대"
+                                />
                                 <span className="redtxt">&nbsp;※ 매우만족 5점, 만족 4점, 보통 3점, 불만 2점, 매우불만 1점</span>
                             </li>
                         </ul>
@@ -402,8 +369,8 @@ function surveyList() {
                                     <td> {data.serveyThree} </td>
                                     <td> {data.serveyFour} </td>
                                     <td> {data.serveyFive} </td>
-                                    <td> {data.avgScore} </td>
-                                    <td> {data.totalScore} </td>
+                                    <td className='text-blue-bold'> {data.avgScore} </td>
+                                    <td className='text-blue-bold'> {data.totalScore} </td>
                                     <td> {data.createdDate} </td>
                                 </tr>
                                 );
